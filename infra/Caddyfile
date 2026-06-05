@@ -1,0 +1,36 @@
+{
+	auto_https on
+}
+
+dadikapida.com, www.dadikapida.com {
+	encode zstd gzip
+
+	handle /api/v1/* {
+		reverse_proxy api:3001
+	}
+
+	handle {
+		reverse_proxy website:3002
+	}
+}
+
+crm.dadikapida.com {
+	encode zstd gzip
+
+	handle_path /crm-api/* {
+		reverse_proxy api:3001
+	}
+
+	handle /api/v1/* {
+		reverse_proxy api:3001
+	}
+
+	handle {
+		reverse_proxy web:3000
+	}
+}
+
+api.dadikapida.com {
+	encode zstd gzip
+	reverse_proxy api:3001
+}

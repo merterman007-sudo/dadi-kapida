@@ -8,7 +8,14 @@ import { ApiResponseInterceptor } from "./common/interceptors/api-response.inter
 import { requestContextMiddleware } from "./common/middleware/request-context.middleware";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const allowedOrigins = (process.env.CORS_ORIGIN ?? "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  const app = await NestFactory.create(AppModule, {
+    cors: allowedOrigins.length > 0 ? { origin: allowedOrigins, credentials: true } : true
+  });
 
   app.use(requestContextMiddleware);
   app.use(helmet());

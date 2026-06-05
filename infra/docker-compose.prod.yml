@@ -1,0 +1,111 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dadi-kapida-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dadi_kapida_crm
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dadi_kapida_crm"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: dadi-kapida-redis
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    container_name: dadi-kapida-api
+    env_file:
+      - ../.env.production
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/dadi_kapida_crm?schema=public
+      REDIS_URL: redis://redis:6379
+      API_PORT: 3001
+      CORS_ORIGIN: https://dadikapida.com,https://www.dadikapida.com,https://crm.dadikapida.com,https://api.dadikapida.com
+      NODE_ENV: production
+    command: sh -c "pnpm --filter @dadi-kapida/database db:deploy && pnpm --filter @dadi-kapida/api start"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ..
+      dockerfile: apps/worker/Dockerfile
+    container_name: dadi-kapida-worker
+    env_file:
+      - ../.env.production
+    environment:
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: production
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    container_name: dadi-kapida-web
+    env_file:
+      - ../.env.production
+    environment:
+      API_INTERNAL_URL: http://api:3001
+      WEB_PORT: 3000
+      NODE_ENV: production
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  website:
+    build:
+      context: ..
+      dockerfile: website/Dockerfile
+    container_name: dadi-kapida-website
+    env_file:
+      - ../.env.production
+    environment:
+      API_BASE_URL: http://api:3001
+      WEBSITE_PUBLIC_URL: https://dadikapida.com
+      API_INTERNAL_URL: http://api:3001
+      NODE_ENV: production
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: dadi-kapida-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - website
+      - web
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  caddy_data:
+  caddy_config:

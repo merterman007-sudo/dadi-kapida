@@ -1,6 +1,4 @@
-﻿"use client";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
+"use client";
 
 type ApiEnvelope<T> = {
   data: T;
@@ -15,6 +13,16 @@ function forceLogoutForAuthError() {
   }
 }
 
+function normalizeApiPath(path: string) {
+  if (path.startsWith("/api/") || path === "/api") {
+    return path;
+  }
+  if (path.startsWith("/crm-api/") || path === "/crm-api") {
+    return path;
+  }
+  return path.startsWith("/") ? `/crm-api${path}` : `/crm-api/${path}`;
+}
+
 export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
   const token = window.localStorage.getItem("crm_access_token");
   const headers = new Headers(init?.headers);
@@ -26,7 +34,7 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(normalizeApiPath(path), {
     ...init,
     headers
   });

@@ -26,14 +26,11 @@ export default function LoginPage() {
   });
 
   const onSubmit = async (values: FormValues) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001"}/auth/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values)
-      }
-    );
+    const response = await fetch("/crm-api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values)
+    });
 
     const payload = await response.json();
     const accessToken = payload?.data?.accessToken;
