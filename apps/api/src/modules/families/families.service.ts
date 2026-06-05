@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import type { Prisma } from "@prisma/client";
+import { FamilyStatus, type Prisma } from "@prisma/client";
 import { PrismaService } from "../../prisma/prisma.service";
 import { CreateFamilyDto } from "./dto/create-family.dto";
 import { UpdateFamilyDto } from "./dto/update-family.dto";
@@ -11,7 +11,7 @@ export class FamiliesService {
   findAll(page = 1, limit = 20, q?: string, status?: string) {
     const where: Prisma.FamilyWhereInput = {
       deleted_at: null,
-      ...(status ? { status } : {}),
+      ...(status ? { status: status as FamilyStatus } : {}),
       ...(q
         ? {
             OR: [
