@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { WebsiteRequestForm } from "../../components/website-request-form";
 import { fetchPublic } from "../../lib/api";
 import { faqs, genericPageData, locations, services } from "../../lib/content";
+import { legalContent } from "../../lib/legal-content";
 import { resolveSiteImages, type WebsiteSettingsWithImages } from "../../lib/images";
 
 type CmsPage = {
@@ -269,15 +270,26 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
       {/* İletişim formu */}
       {requestFormKind ? <WebsiteRequestForm kind={requestFormKind} /> : null}
 
-      {/* Legal placeholder */}
+      {/* Legal content */}
       {isLegalPage ? (
-        <div className="mt-8 rounded-[20px] border border-line bg-white p-8">
-          <p className="text-sm leading-8 text-muted">
-            Bu sayfa yasal içerik alanı olarak ayrılmıştır. İçerik, yetkili bir hukuk danışmanı tarafından hazırlanmalı ve güncellenmelidir.
-            Şirket bilgileri, hizmet kapsamı ve veri işleme süreçlerine ilişkin güncel ve doğru hukuki metin için hukuki danışmanlık almanız önerilir.
-          </p>
-          <div className="mt-6 rounded-2xl bg-[#FDFAF5] p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-trust mb-2">Daha Fazla Bilgi</p>
+        <div className="mt-8 space-y-4">
+          {legalContent[key]?.sections.map((section) => (
+            <div key={section.heading} className="rounded-[20px] border border-line bg-white p-8">
+              <h2 className="mb-3 font-heading text-base font-semibold text-navy">{section.heading}</h2>
+              <p className="whitespace-pre-line text-sm leading-8 text-muted">{section.body}</p>
+            </div>
+          )) ?? (
+            <div className="rounded-[20px] border border-line bg-white p-8">
+              <p className="text-sm leading-8 text-muted">
+                Bu sayfa içeriği yakında güncellenecektir.
+              </p>
+            </div>
+          )}
+          {legalContent[key] && (
+            <p className="text-xs text-muted/60 px-2">Son güncelleme: {legalContent[key].lastUpdated}</p>
+          )}
+          <div className="rounded-[20px] bg-[#FDFAF5] p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-trust mb-2">Sorularınız mı var?</p>
             <Link href="/iletisim" className="text-sm font-medium text-navy underline underline-offset-2 hover:text-trust">
               Danışmanlarımızla iletişime geçin →
             </Link>

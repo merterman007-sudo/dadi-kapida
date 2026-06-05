@@ -8,9 +8,10 @@ import { UpdateFamilyDto } from "./dto/update-family.dto";
 export class FamiliesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(page = 1, limit = 20, q?: string) {
+  findAll(page = 1, limit = 20, q?: string, status?: string) {
     const where: Prisma.FamilyWhereInput = {
       deleted_at: null,
+      ...(status ? { status } : {}),
       ...(q
         ? {
             OR: [

@@ -16,9 +16,10 @@ export class FamiliesController {
   findAll(
     @Query("page") page?: string,
     @Query("limit") limit?: string,
-    @Query("q") q?: string
+    @Query("q") q?: string,
+    @Query("status") status?: string
   ) {
-    return this.service.findAll(Number(page ?? 1), Number(limit ?? 20), q);
+    return this.service.findAll(Number(page ?? 1), Number(limit ?? 20), q, status);
   }
 
   @Get(":id")

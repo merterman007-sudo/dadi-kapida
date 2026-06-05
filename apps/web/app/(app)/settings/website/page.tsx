@@ -205,6 +205,8 @@ export default function WebsiteSettingsPage() {
   const [uploadingMedia, setUploadingMedia] = useState<MediaUploadTarget | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showPagePayload, setShowPagePayload] = useState(false);
 
   const selectedPage = useMemo(
     () => pages.find((page) => page.id === selectedPageId) ?? null,
@@ -663,217 +665,191 @@ export default function WebsiteSettingsPage() {
         </form>
       </section>
 
-      <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
-        <section className="surface rounded-2xl p-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h3 className="text-lg font-semibold">Sayfalar</h3>
-              <p className="text-sm text-[var(--muted)]">Sayfa içeriğini, SEO alanlarını ve yayın durumunu düzenle.</p>
-            </div>
-            <button
-              type="button"
-              className="rounded-xl border border-[var(--line)] bg-white px-4 py-2 text-sm font-medium text-[var(--ink)]"
-              onClick={() => {
-                setSelectedPageId(null);
-                setPageForm(buildPageForm());
-              }}
-            >
-              Yeni Sayfa
-            </button>
+      <section className="surface rounded-2xl p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="text-lg font-semibold">Sayfalar</h3>
+            <p className="text-sm text-[var(--muted)]">Sayfa başlığı, SEO ve yayın durumunu düzenle.</p>
           </div>
+          <button
+            type="button"
+            className="rounded-xl border border-[var(--line)] bg-white px-4 py-2 text-sm font-medium text-[var(--ink)]"
+            onClick={() => { setSelectedPageId(null); setPageForm(buildPageForm()); setShowPagePayload(false); }}
+          >
+            + Yeni Sayfa
+          </button>
+        </div>
 
-          <div className="mt-4 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-            <div className="space-y-2">
-              {pages.map((page) => (
-                <button
-                  key={page.id}
-                  type="button"
-                  onClick={() => setSelectedPageId(page.id)}
-                  className={`w-full rounded-xl border px-3 py-3 text-left transition ${
-                    selectedPageId === page.id
-                      ? "border-[var(--brand)] bg-[#eef5ff]"
-                      : "border-[var(--line)] bg-white hover:border-[#9dc3ec]"
-                  }`}
-                >
-                  <span className="block text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{page.type}</span>
-                  <span className="mt-1 block text-sm font-semibold text-[var(--ink)]">{page.title}</span>
-                  <span className="mt-1 block text-xs text-[var(--muted)]">{page.slug ?? "slug yok"} · {page.status}</span>
-                </button>
-              ))}
-              {pages.length === 0 ? <p className="text-sm text-[var(--muted)]">Henüz sayfa yok.</p> : null}
-            </div>
-
-            <form onSubmit={savePage} className="space-y-3 rounded-2xl border border-[var(--line)] bg-white p-4">
-              <div className="grid gap-3 sm:grid-cols-2">
-                <label className="space-y-1 text-sm">
-                  <span className="font-medium">Tür</span>
-                  <select
-                    value={pageForm.type}
-                    onChange={(e) => setPageForm((prev) => ({ ...prev, type: e.target.value }))}
-                    className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5"
-                  >
-                    {pageTypes.map((type) => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
-                </label>
-                <label className="space-y-1 text-sm">
-                  <span className="font-medium">Durum</span>
-                  <select
-                    value={pageForm.status}
-                    onChange={(e) => setPageForm((prev) => ({ ...prev, status: e.target.value }))}
-                    className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5"
-                  >
-                    {pageStatuses.map((status) => (
-                      <option key={status} value={status}>{status}</option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">Slug</span>
-                <input value={pageForm.slug} onChange={(e) => setPageForm((prev) => ({ ...prev, slug: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" placeholder="iletisim" />
-              </label>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">Başlık</span>
-                <input value={pageForm.title} onChange={(e) => setPageForm((prev) => ({ ...prev, title: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" placeholder="İletişim" />
-              </label>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">Hero Başlık</span>
-                <input value={pageForm.hero_title} onChange={(e) => setPageForm((prev) => ({ ...prev, hero_title: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
-              </label>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">Hero Alt Başlık</span>
-                <textarea value={pageForm.hero_subtitle} onChange={(e) => setPageForm((prev) => ({ ...prev, hero_subtitle: e.target.value }))} className="min-h-20 w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
-              </label>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">SEO Başlık</span>
-                <input value={pageForm.seo_title} onChange={(e) => setPageForm((prev) => ({ ...prev, seo_title: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
-              </label>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">Meta Açıklama</span>
-                <textarea value={pageForm.meta_description} onChange={(e) => setPageForm((prev) => ({ ...prev, meta_description: e.target.value }))} className="min-h-20 w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
-              </label>
-
-              <label className="block space-y-1 text-sm">
-                <span className="font-medium">Payload JSON</span>
-                <textarea value={pageForm.payload} onChange={(e) => setPageForm((prev) => ({ ...prev, payload: e.target.value }))} className="min-h-40 w-full rounded-xl border border-[var(--line)] px-3 py-2.5 font-mono text-xs" />
-              </label>
-
-              <div className="flex flex-wrap gap-3">
-                <button type="submit" disabled={saving} className="rounded-xl bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white">
-                  {saving ? "Kaydediliyor..." : selectedPage ? "Sayfayı Güncelle" : "Sayfa Oluştur"}
-                </button>
-                {selectedPage ? (
-                  <button type="button" onClick={deletePage} disabled={saving} className="rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-700">
-                    Sil
-                  </button>
-                ) : null}
-              </div>
-            </form>
-          </div>
-        </section>
-
-        <section className="surface rounded-2xl p-4">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h3 className="text-lg font-semibold">Site Ayarları</h3>
-              <p className="text-sm text-[var(--muted)]">İletişim ve ana içerik ayarlarını güncelle.</p>
-            </div>
-          </div>
-
-          <form onSubmit={saveSetting} className="mt-4 space-y-3 rounded-2xl border border-[var(--line)] bg-white p-4">
-            <label className="block space-y-1 text-sm">
-              <span className="font-medium">Ayar Anahtarı</span>
-              <input value={settingForm.key} onChange={(e) => setSettingForm((prev) => ({ ...prev, key: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" placeholder="global.contact" />
-            </label>
-            <label className="block space-y-1 text-sm">
-              <span className="font-medium">Grup</span>
-              <input value={settingForm.group} onChange={(e) => setSettingForm((prev) => ({ ...prev, group: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" placeholder="global" />
-            </label>
-            <label className="block space-y-1 text-sm">
-              <span className="font-medium">JSON Değer</span>
-              <textarea value={settingForm.value} onChange={(e) => setSettingForm((prev) => ({ ...prev, value: e.target.value }))} className="min-h-44 w-full rounded-xl border border-[var(--line)] px-3 py-2.5 font-mono text-xs" />
-            </label>
-            <div className="flex flex-wrap gap-3">
-              <button type="submit" disabled={saving} className="rounded-xl bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white">
-                {saving ? "Kaydediliyor..." : "Ayarı Kaydet"}
-              </button>
+        <div className="mt-4 grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="space-y-2">
+            {pages.map((page) => (
               <button
+                key={page.id}
                 type="button"
-                onClick={() => {
-                  setSelectedSettingKey(null);
-                  setSettingForm(buildSettingForm());
-                }}
-                className="rounded-xl border border-[var(--line)] bg-white px-4 py-2.5 text-sm font-semibold text-[var(--ink)]"
-              >
-                Temizle
-              </button>
-            </div>
-          </form>
-
-          <div className="mt-4 space-y-2">
-            {settings.map((setting) => (
-              <button
-                key={setting.id}
-                type="button"
-                onClick={() => setSelectedSettingKey(setting.key)}
+                onClick={() => { setSelectedPageId(page.id); setShowPagePayload(false); }}
                 className={`w-full rounded-xl border px-3 py-3 text-left transition ${
-                  selectedSettingKey === setting.key
-                    ? "border-[var(--brand)] bg-[#eef5ff]"
-                    : "border-[var(--line)] bg-white hover:border-[#9dc3ec]"
+                  selectedPageId === page.id ? "border-[var(--brand)] bg-[#eef5ff]" : "border-[var(--line)] bg-white hover:border-[#9dc3ec]"
                 }`}
               >
-                <span className="block text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{setting.group}</span>
-                <span className="mt-1 block text-sm font-semibold text-[var(--ink)]">{setting.key}</span>
+                <span className="block text-xs text-[var(--muted)]">{page.status === "PUBLISHED" ? "✓ Yayında" : "Taslak"}</span>
+                <span className="mt-1 block text-sm font-semibold text-[var(--ink)]">{page.title}</span>
+                <span className="mt-1 block text-xs text-[var(--muted)]">/{page.slug ?? "—"}</span>
               </button>
             ))}
+            {pages.length === 0 ? <p className="text-sm text-[var(--muted)]">Henüz sayfa yok.</p> : null}
           </div>
-        </section>
-      </div>
 
-      <div className="grid gap-5 xl:grid-cols-2">
-        <section className="surface rounded-2xl p-4">
-          <h3 className="text-lg font-semibold">Form Başvuruları</h3>
-          <div className="mt-4 space-y-3">
-            {submissions.slice(0, 8).map((item) => (
-              <div key={item.id} className="rounded-xl border border-[var(--line)] bg-white p-3">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-[var(--ink)]">{item.form_type}</p>
-                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{item.status}</p>
-                </div>
-                <p className="mt-2 text-xs text-[var(--muted)]">
-                  {item.source ?? "source yok"} · {item.crm_entity_type ?? "CRM eşleşmesi yok"}
-                </p>
-              </div>
-            ))}
-            {submissions.length === 0 ? <p className="text-sm text-[var(--muted)]">Başvuru kaydı yok.</p> : null}
-          </div>
-        </section>
+          <form onSubmit={savePage} className="space-y-3 rounded-2xl border border-[var(--line)] bg-white p-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="space-y-1 text-sm">
+                <span className="font-medium">Durum</span>
+                <select value={pageForm.status} onChange={(e) => setPageForm((prev) => ({ ...prev, status: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5">
+                  <option value="DRAFT">Taslak</option>
+                  <option value="PUBLISHED">Yayında</option>
+                  <option value="SCHEDULED">Zamanlanmış</option>
+                </select>
+              </label>
+              <label className="space-y-1 text-sm">
+                <span className="font-medium">URL (slug)</span>
+                <input value={pageForm.slug} onChange={(e) => setPageForm((prev) => ({ ...prev, slug: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" placeholder="iletisim" />
+              </label>
+            </div>
+            <label className="block space-y-1 text-sm">
+              <span className="font-medium">Sayfa Başlığı</span>
+              <input value={pageForm.title} onChange={(e) => setPageForm((prev) => ({ ...prev, title: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" placeholder="İletişim" />
+            </label>
+            <label className="block space-y-1 text-sm">
+              <span className="font-medium">Üst Bölüm Başlığı</span>
+              <input value={pageForm.hero_title} onChange={(e) => setPageForm((prev) => ({ ...prev, hero_title: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
+            </label>
+            <label className="block space-y-1 text-sm">
+              <span className="font-medium">Üst Bölüm Açıklaması</span>
+              <textarea value={pageForm.hero_subtitle} onChange={(e) => setPageForm((prev) => ({ ...prev, hero_subtitle: e.target.value }))} className="min-h-16 w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
+            </label>
+            <label className="block space-y-1 text-sm">
+              <span className="font-medium">SEO Başlığı <span className="font-normal text-[var(--muted)]">(Google'da görünen başlık)</span></span>
+              <input value={pageForm.seo_title} onChange={(e) => setPageForm((prev) => ({ ...prev, seo_title: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
+            </label>
+            <label className="block space-y-1 text-sm">
+              <span className="font-medium">SEO Açıklaması <span className="font-normal text-[var(--muted)]">(Google sonuçlarında görünen açıklama)</span></span>
+              <textarea value={pageForm.meta_description} onChange={(e) => setPageForm((prev) => ({ ...prev, meta_description: e.target.value }))} className="min-h-16 w-full rounded-xl border border-[var(--line)] px-3 py-2.5" />
+            </label>
+            <div>
+              <button type="button" onClick={() => setShowPagePayload((v) => !v)} className="text-xs text-[var(--brand)] underline underline-offset-2">
+                {showPagePayload ? "▲ Gelişmiş alanları gizle" : "▼ Gelişmiş alanları göster"}
+              </button>
+              {showPagePayload ? (
+                <label className="mt-3 block space-y-1 text-sm">
+                  <span className="font-medium">Payload JSON</span>
+                  <textarea value={pageForm.payload} onChange={(e) => setPageForm((prev) => ({ ...prev, payload: e.target.value }))} className="min-h-40 w-full rounded-xl border border-[var(--line)] px-3 py-2.5 font-mono text-xs" />
+                </label>
+              ) : null}
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <button type="submit" disabled={saving} className="rounded-xl bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white">
+                {saving ? "Kaydediliyor..." : selectedPage ? "Güncelle" : "Oluştur"}
+              </button>
+              {selectedPage ? (
+                <button type="button" onClick={deletePage} disabled={saving} className="rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-700">
+                  Sil
+                </button>
+              ) : null}
+            </div>
+          </form>
+        </div>
+      </section>
 
-        <section className="surface rounded-2xl p-4">
-          <h3 className="text-lg font-semibold">Entegrasyon Logları</h3>
-          <div className="mt-4 space-y-3">
-            {logs.slice(0, 8).map((item) => (
-              <div key={item.id} className="rounded-xl border border-[var(--line)] bg-white p-3">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-[var(--ink)]">{item.action}</p>
-                  <p className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">{item.entity_type}</p>
+      <section className="surface rounded-2xl p-4">
+        <h3 className="text-lg font-semibold">Son Web Başvuruları</h3>
+        <p className="mt-1 text-sm text-[var(--muted)]">Web sitesinden gelen son form başvuruları.</p>
+        <div className="mt-4 space-y-2">
+          {submissions.slice(0, 8).map((item) => {
+            const typeLabel: Record<string, string> = {
+              family_application: "Aile Başvurusu",
+              nanny_application: "Dadı Başvurusu",
+              contact_request: "İletişim Talebi",
+              callback_request: "Geri Arama Talebi",
+              newsletter_subscription: "Bülten Aboneliği"
+            };
+            const statusLabel: Record<string, string> = {
+              SYNCED: "İşlendi",
+              PENDING: "Bekliyor",
+              FAILED: "Hata"
+            };
+            return (
+              <div key={item.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-white px-4 py-3">
+                <div>
+                  <p className="text-sm font-semibold text-[var(--ink)]">{typeLabel[item.form_type] ?? item.form_type}</p>
+                  <p className="text-xs text-[var(--muted)]">{new Date((item as unknown as Record<string, string>).created_at).toLocaleString("tr-TR")}</p>
                 </div>
-                <p className="mt-2 text-xs text-[var(--muted)]">
-                  {item.entity_id} · {new Date(item.created_at).toLocaleString("tr-TR")}
-                </p>
+                <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${item.status === "SYNCED" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>
+                  {statusLabel[item.status] ?? item.status}
+                </span>
               </div>
-            ))}
-            {logs.length === 0 ? <p className="text-sm text-[var(--muted)]">Log kaydı yok.</p> : null}
+            );
+          })}
+          {submissions.length === 0 ? <p className="text-sm text-[var(--muted)]">Henüz web başvurusu yok.</p> : null}
+        </div>
+      </section>
+
+      <div className="rounded-2xl border border-[var(--line)] bg-white p-4">
+        <button
+          type="button"
+          onClick={() => setShowAdvanced((v) => !v)}
+          className="flex w-full items-center justify-between text-sm font-semibold text-[var(--ink)]"
+        >
+          <span>Gelişmiş Ayarlar</span>
+          <span className="text-[var(--muted)]">{showAdvanced ? "▲ Gizle" : "▼ Göster"}</span>
+        </button>
+        <p className="mt-1 text-xs text-[var(--muted)]">Teknik ayarlar — genellikle değiştirilmesi gerekmez.</p>
+
+        {showAdvanced ? (
+          <div className="mt-6 grid gap-5 xl:grid-cols-2">
+            <section>
+              <h4 className="mb-3 text-sm font-semibold">Ham Ayarlar (JSON)</h4>
+              <form onSubmit={saveSetting} className="space-y-3 rounded-2xl border border-[var(--line)] bg-slate-50 p-4">
+                <label className="block space-y-1 text-sm">
+                  <span className="font-medium">Anahtar</span>
+                  <input value={settingForm.key} onChange={(e) => setSettingForm((prev) => ({ ...prev, key: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5" placeholder="global.contact" />
+                </label>
+                <label className="block space-y-1 text-sm">
+                  <span className="font-medium">Grup</span>
+                  <input value={settingForm.group} onChange={(e) => setSettingForm((prev) => ({ ...prev, group: e.target.value }))} className="w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5" placeholder="global" />
+                </label>
+                <label className="block space-y-1 text-sm">
+                  <span className="font-medium">Değer (JSON)</span>
+                  <textarea value={settingForm.value} onChange={(e) => setSettingForm((prev) => ({ ...prev, value: e.target.value }))} className="min-h-40 w-full rounded-xl border border-[var(--line)] bg-white px-3 py-2.5 font-mono text-xs" />
+                </label>
+                <div className="flex gap-3">
+                  <button type="submit" disabled={saving} className="rounded-xl bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white">{saving ? "Kaydediliyor..." : "Kaydet"}</button>
+                  <button type="button" onClick={() => { setSelectedSettingKey(null); setSettingForm(buildSettingForm()); }} className="rounded-xl border border-[var(--line)] bg-white px-4 py-2.5 text-sm text-[var(--ink)]">Temizle</button>
+                </div>
+              </form>
+              <div className="mt-3 space-y-2">
+                {settings.map((setting) => (
+                  <button key={setting.id} type="button" onClick={() => setSelectedSettingKey(setting.key)}
+                    className={`w-full rounded-xl border px-3 py-2.5 text-left text-sm transition ${selectedSettingKey === setting.key ? "border-[var(--brand)] bg-[#eef5ff]" : "border-[var(--line)] bg-white"}`}>
+                    <span className="font-medium">{setting.key}</span>
+                    <span className="ml-2 text-xs text-[var(--muted)]">{setting.group}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <h4 className="mb-3 text-sm font-semibold">Entegrasyon Logları</h4>
+              <div className="space-y-2">
+                {logs.slice(0, 8).map((item) => (
+                  <div key={item.id} className="rounded-xl border border-[var(--line)] bg-slate-50 px-3 py-2.5">
+                    <p className="text-xs font-semibold text-[var(--ink)]">{item.action}</p>
+                    <p className="text-xs text-[var(--muted)]">{new Date(item.created_at).toLocaleString("tr-TR")}</p>
+                  </div>
+                ))}
+                {logs.length === 0 ? <p className="text-sm text-[var(--muted)]">Log kaydı yok.</p> : null}
+              </div>
+            </section>
           </div>
-        </section>
+        ) : null}
       </div>
     </div>
   );

@@ -68,6 +68,8 @@ services:
       API_INTERNAL_URL: http://api:3001
       WEB_PORT: 3000
       NODE_ENV: production
+    volumes:
+      - uploads_data:/workspace/website/public/images/uploads
     depends_on:
       - api
     restart: unless-stopped
@@ -84,6 +86,8 @@ services:
       WEBSITE_PUBLIC_URL: https://dadikapida.com
       API_INTERNAL_URL: http://api:3001
       NODE_ENV: production
+    volumes:
+      - uploads_data:/workspace/website/public/images/uploads
     depends_on:
       - api
     restart: unless-stopped
@@ -109,3 +113,4 @@ volumes:
   redis_data:
   caddy_data:
   caddy_config:
+  uploads_data:
