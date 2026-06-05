@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #eef4ff;
+  --bg-soft: #f8fbff;
+  --panel: #ffffff;
+  --panel-strong: #f9fcff;
+  --ink: #0b1526;
+  --muted: #5f7088;
+  --brand: #0b6bcb;
+  --brand-strong: #0849a7;
+  --accent: #0ea5e9;
+  --ok: #0f9f6e;
+  --line: #d9e5f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  background:
+    radial-gradient(80rem 50rem at -10% -20%, #cfe1ff 0%, transparent 55%),
+    radial-gradient(45rem 30rem at 110% 10%, #bcecff 0%, transparent 60%),
+    linear-gradient(160deg, var(--bg-soft) 0%, var(--bg) 100%);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading), "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: #cfe4ff;
+  color: #031228;
+}
+
+@layer components {
+  .surface {
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, #ffffff 0%, var(--panel-strong) 100%);
+    box-shadow:
+      0 10px 35px rgba(8, 40, 94, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.8) inset;
+  }
+
+  .btn-primary {
+    border: 1px solid transparent;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--accent) 100%);
+    color: #fff;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.08);
+    box-shadow: 0 10px 20px rgba(11, 107, 203, 0.24);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    transition: background 0.16s ease, border-color 0.16s ease;
+  }
+
+  .btn-ghost:hover {
+    background: #f3f8ff;
+    border-color: #c6dbf5;
+  }
+}
+
+[data-app-shell] input,
+[data-app-shell] select,
+[data-app-shell] textarea {
+  border-color: #ceddf0;
+  background: #fff;
+  color: var(--ink);
+}
+
+[data-app-shell] table {
+  border-collapse: collapse;
+}
+
+[data-app-shell] thead {
+  background: #f4f8ff;
+}
+
+[data-app-shell] tbody tr:hover {
+  background: #f8fbff;
+}
+
+[data-app-shell] .fade-up {
+  animation: fadeUp 0.35s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

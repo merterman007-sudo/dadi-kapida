@@ -1,0 +1,31 @@
+import { PaymentStatus } from "@prisma/client";
+import { IsEnum, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
+
+export class CreatePaymentDto {
+  @IsOptional()
+  @IsUUID()
+  invoice_id?: string;
+
+  @IsNumber()
+  amount!: number;
+
+  @IsOptional()
+  @IsString()
+  currency?: string;
+
+  @IsOptional()
+  @IsString()
+  paid_at?: string;
+
+  @IsOptional()
+  @IsEnum(PaymentStatus)
+  status?: PaymentStatus;
+
+  @IsOptional()
+  @IsString()
+  method?: string;
+
+  @IsOptional()
+  @IsString()
+  transaction_ref?: string;
+}

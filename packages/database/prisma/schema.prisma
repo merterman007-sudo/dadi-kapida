@@ -1,0 +1,1048 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  INVITED
+  DISABLED
+}
+
+enum CandidateApplicationStatus {
+  NEW
+  CONTACTED
+  CONVERTED_TO_CANDIDATE
+  REJECTED
+  DUPLICATE
+}
+
+enum CandidateStatus {
+  NEW
+  PRE_SCREEN
+  INTERVIEW
+  REFERENCE_CHECK
+  DOCUMENT_PENDING
+  APPROVED
+  PASSIVE
+  REJECTED
+  BLACKLISTED
+}
+
+enum FamilyStatus {
+  LEAD
+  QUALIFIED
+  ACTIVE
+  PASSIVE
+  BLACKLISTED
+}
+
+enum FamilyRequestStatus {
+  DRAFT
+  OPEN
+  MATCHING
+  SHORTLISTED
+  INTERVIEWING
+  OFFER
+  PLACED
+  CANCELLED
+  LOST
+}
+
+enum WorkType {
+  LIVE_IN
+  DAYTIME
+  NIGHT
+  PART_TIME
+  FULL_TIME
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum MeetingType {
+  FAMILY_INTAKE
+  CANDIDATE_INTERVIEW
+  FAMILY_CANDIDATE_MEETING
+  FOLLOW_UP
+  REFERENCE_CALL
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  CANCELLED
+}
+
+enum DocumentStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  EXPIRED
+}
+
+enum ReferenceStatus {
+  NEW
+  CONTACTED
+  VERIFIED
+  NEGATIVE
+  UNREACHABLE
+}
+
+enum MatchStatus {
+  SUGGESTED
+  SHORTLISTED
+  REJECTED
+  SENT_TO_FAMILY
+  INTERVIEW_REQUESTED
+  PLACED
+}
+
+enum PlacementStatus {
+  OFFERED
+  ACCEPTED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  TERMINATED
+  REPLACEMENT
+}
+
+enum ContractStatus {
+  DRAFT
+  SENT
+  SIGNED
+  CANCELLED
+  EXPIRED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum ExpenseType {
+  CANDIDATE_PAYMENT
+  OPERATING_EXPENSE
+}
+
+enum ExpenseStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+enum WebsiteContentType {
+  PAGE
+  HOME
+  SERVICE
+  LOCATION
+  BLOG_POST
+  BLOG_CATEGORY
+  FAQ
+  TESTIMONIAL
+  CASE_STUDY
+  LEGAL_PAGE
+  NAVIGATION
+  FOOTER
+}
+
+enum WebsiteContentStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+  ARCHIVED
+}
+
+enum WebsiteSubmissionStatus {
+  NEW
+  REVIEWING
+  SYNCED
+  FAILED
+}
+
+enum WebsiteMediaVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+model User {
+  id             String     @id @default(uuid()) @db.Uuid
+  first_name     String
+  last_name      String
+  email          String     @unique
+  phone          String?
+  password_hash  String
+  status         UserStatus @default(ACTIVE)
+  last_login_at  DateTime?
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+  deleted_at     DateTime?
+}
+
+model Role {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Permission {
+  id          String   @id @default(uuid()) @db.Uuid
+  key         String   @unique
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model UserRole {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @db.Uuid
+  role_id    String   @db.Uuid
+  created_at DateTime @default(now())
+
+  @@unique([user_id, role_id])
+}
+
+model RolePermission {
+  id            String   @id @default(uuid()) @db.Uuid
+  role_id       String   @db.Uuid
+  permission_id String   @db.Uuid
+  created_at    DateTime @default(now())
+
+  @@unique([role_id, permission_id])
+}
+
+model UserSession {
+  id                  String   @id @default(uuid()) @db.Uuid
+  user_id             String   @db.Uuid
+  refresh_token_hash  String
+  ip_address          String?
+  user_agent          String?
+  expires_at          DateTime
+  revoked_at          DateTime?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
+
+model AuditLog {
+  id            String   @id @default(uuid()) @db.Uuid
+  actor_user_id String?  @db.Uuid
+  action        String
+  entity_type   String
+  entity_id     String?
+  metadata      Json?
+  ip_address    String?
+  user_agent    String?
+  created_at    DateTime @default(now())
+
+  @@index([entity_type, entity_id])
+}
+
+model CandidateApplication {
+  id                          String                     @id @default(uuid()) @db.Uuid
+  first_name                  String
+  last_name                   String
+  phone                       String
+  email                       String?
+  city                        String?
+  district                    String?
+  birth_date                  DateTime?
+  experience_years            Int?
+  expected_salary_min         Decimal?                   @db.Decimal(12, 2)
+  expected_salary_max         Decimal?                   @db.Decimal(12, 2)
+  work_type_preference        WorkType?
+  can_live_in                 Boolean?
+  has_first_aid_certificate   Boolean?
+  smoking_status              String?
+  notes                       String?
+  source                      String?
+  utm_source                  String?
+  utm_medium                  String?
+  utm_campaign                String?
+  raw_payload                 Json?
+  status                      CandidateApplicationStatus @default(NEW)
+  candidate_id                String?                    @db.Uuid
+  created_at                  DateTime                   @default(now())
+  updated_at                  DateTime                   @updatedAt
+
+  @@index([phone, created_at])
+}
+
+model Candidate {
+  id                          String          @id @default(uuid()) @db.Uuid
+  candidate_code              String          @unique
+  first_name                  String
+  last_name                   String
+  phone                       String          @unique
+  email                       String?
+  birth_date                  DateTime?
+  gender                      String?
+  city                        String?
+  district                    String?
+  address                     String?
+  education_level             String?
+  years_of_experience         Int?
+  expected_salary_min         Decimal?        @db.Decimal(12, 2)
+  expected_salary_max         Decimal?        @db.Decimal(12, 2)
+  smoking_status              String?
+  has_first_aid_certificate   Boolean         @default(false)
+  availability_status         String?
+  available_from              DateTime?
+  status                      CandidateStatus @default(NEW)
+  is_placeable                Boolean         @default(true)
+  reference_score             Int?            @default(0)
+  interview_score             Int?            @default(0)
+  document_score              Int?            @default(0)
+  quality_score               Int?            @default(0)
+  source                      String?
+  owner_user_id               String?         @db.Uuid
+  created_at                  DateTime        @default(now())
+  updated_at                  DateTime        @updatedAt
+  deleted_at                  DateTime?
+
+  @@index([status, city, district])
+}
+
+model CandidateAddress {
+  id           String   @id @default(uuid()) @db.Uuid
+  candidate_id String   @db.Uuid
+  title        String?
+  city         String
+  district     String
+  address_line String?
+  is_primary   Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model CandidateWorkPreference {
+  id                  String   @id @default(uuid()) @db.Uuid
+  candidate_id        String   @db.Uuid
+  work_type           WorkType
+  can_live_in         Boolean  @default(false)
+  night_shift_ok      Boolean  @default(false)
+  weekend_ok          Boolean  @default(false)
+  min_salary          Decimal? @db.Decimal(12, 2)
+  max_salary          Decimal? @db.Decimal(12, 2)
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
+
+model CandidateExperience {
+  id                  String   @id @default(uuid()) @db.Uuid
+  candidate_id        String   @db.Uuid
+  title               String?
+  description         String?
+  age_group_experience String?
+  years               Int?
+  start_date          DateTime?
+  end_date            DateTime?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
+
+model CandidateSkill {
+  id           String   @id @default(uuid()) @db.Uuid
+  candidate_id String   @db.Uuid
+  skill_id     String   @db.Uuid
+  level        String?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  @@unique([candidate_id, skill_id])
+}
+
+model CandidateCertification {
+  id               String   @id @default(uuid()) @db.Uuid
+  candidate_id     String   @db.Uuid
+  certification_id String   @db.Uuid
+  certificate_no   String?
+  expires_at       DateTime?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@unique([candidate_id, certification_id])
+}
+
+model CandidateLanguage {
+  id            String   @id @default(uuid()) @db.Uuid
+  candidate_id  String   @db.Uuid
+  language_id   String   @db.Uuid
+  level         String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@unique([candidate_id, language_id])
+}
+
+model CandidateDocument {
+  id              String         @id @default(uuid()) @db.Uuid
+  candidate_id    String         @db.Uuid
+  document_type   String
+  file_path       String
+  file_name       String
+  status          DocumentStatus @default(PENDING)
+  verified_by     String?        @db.Uuid
+  verified_at     DateTime?
+  reject_reason   String?
+  expires_at      DateTime?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+}
+
+model CandidateReference {
+  id               String          @id @default(uuid()) @db.Uuid
+  candidate_id     String          @db.Uuid
+  full_name        String
+  phone            String?
+  relation         String?
+  notes            String?
+  status           ReferenceStatus @default(NEW)
+  created_at       DateTime        @default(now())
+  updated_at       DateTime        @updatedAt
+}
+
+model ReferenceCheck {
+  id                     String          @id @default(uuid()) @db.Uuid
+  candidate_reference_id String          @db.Uuid
+  checked_by_user_id     String?         @db.Uuid
+  status                 ReferenceStatus @default(NEW)
+  score                  Int?
+  notes                  String?
+  created_at             DateTime        @default(now())
+  updated_at             DateTime        @updatedAt
+}
+
+model CandidateInterview {
+  id                String   @id @default(uuid()) @db.Uuid
+  candidate_id      String   @db.Uuid
+  interviewer_id    String?  @db.Uuid
+  scheduled_at      DateTime?
+  completed_at      DateTime?
+  score             Int?
+  outcome           String?
+  notes             String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model CandidateStatusHistory {
+  id              String          @id @default(uuid()) @db.Uuid
+  candidate_id    String          @db.Uuid
+  old_status      CandidateStatus?
+  new_status      CandidateStatus
+  reason          String?
+  changed_by      String?         @db.Uuid
+  created_at      DateTime        @default(now())
+}
+
+model CandidateBlacklistRecord {
+  id              String   @id @default(uuid()) @db.Uuid
+  candidate_id    String   @db.Uuid
+  reason          String
+  blocked_by      String?  @db.Uuid
+  blocked_at      DateTime @default(now())
+  notes           String?
+  created_at      DateTime @default(now())
+}
+
+model Family {
+  id                       String       @id @default(uuid()) @db.Uuid
+  family_name              String
+  primary_contact_name     String
+  primary_contact_phone    String
+  primary_contact_email    String?
+  secondary_contact_name   String?
+  secondary_contact_phone  String?
+  city                     String?
+  district                 String?
+  address                  String?
+  status                   FamilyStatus @default(LEAD)
+  source                   String?
+  budget_min               Decimal?     @db.Decimal(12, 2)
+  budget_max               Decimal?     @db.Decimal(12, 2)
+  notes                    String?
+  owner_user_id            String?      @db.Uuid
+  created_at               DateTime     @default(now())
+  updated_at               DateTime     @updatedAt
+  deleted_at               DateTime?
+
+  @@index([status, city, district])
+}
+
+model FamilyMember {
+  id            String   @id @default(uuid()) @db.Uuid
+  family_id     String   @db.Uuid
+  full_name     String
+  relation      String?
+  birth_date    DateTime?
+  notes         String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model FamilyAddress {
+  id            String   @id @default(uuid()) @db.Uuid
+  family_id     String   @db.Uuid
+  title         String?
+  city          String
+  district      String
+  address_line  String?
+  is_primary    Boolean  @default(false)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model FamilyRequest {
+  id                           String              @id @default(uuid()) @db.Uuid
+  family_id                    String              @db.Uuid
+  title                        String
+  status                       FamilyRequestStatus @default(DRAFT)
+  priority                     Int?                @default(0)
+  service_category_id          String?             @db.Uuid
+  work_type                    WorkType?
+  start_date                   DateTime?
+  end_date                     DateTime?
+  salary_min                   Decimal?            @db.Decimal(12, 2)
+  salary_max                   Decimal?            @db.Decimal(12, 2)
+  city                         String?
+  district                     String?
+  children_count               Int?
+  child_age_groups             String?
+  requires_first_aid           Boolean             @default(false)
+  requires_non_smoker          Boolean             @default(false)
+  min_experience_years         Int?
+  preferred_education_level    String?
+  required_language            String?
+  required_language_level      String?
+  has_pets                     Boolean?
+  live_in_room_available       Boolean?
+  description                  String?
+  requirements_json            Json?
+  match_weights_json           Json?
+  owner_user_id                String?             @db.Uuid
+  created_at                   DateTime            @default(now())
+  updated_at                   DateTime            @updatedAt
+
+  @@index([status, city, district, work_type])
+}
+
+model RequestScheduleRule {
+  id                String   @id @default(uuid()) @db.Uuid
+  family_request_id String   @db.Uuid
+  day_of_week       Int
+  start_time        String
+  end_time          String
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model RequestRequiredSkill {
+  id                String   @id @default(uuid()) @db.Uuid
+  family_request_id String   @db.Uuid
+  skill_id          String   @db.Uuid
+  level             String?
+  is_required       Boolean  @default(true)
+  created_at        DateTime @default(now())
+
+  @@unique([family_request_id, skill_id])
+}
+
+model RequestRequiredCertification {
+  id                String   @id @default(uuid()) @db.Uuid
+  family_request_id String   @db.Uuid
+  certification_id  String   @db.Uuid
+  is_required       Boolean  @default(true)
+  created_at        DateTime @default(now())
+
+  @@unique([family_request_id, certification_id])
+}
+
+model MatchRun {
+  id                String   @id @default(uuid()) @db.Uuid
+  family_request_id String   @db.Uuid
+  run_by_user_id    String?  @db.Uuid
+  weights_json      Json?
+  filters_json      Json?
+  result_count      Int      @default(0)
+  created_at        DateTime @default(now())
+}
+
+model CandidateMatch {
+  id                              String      @id @default(uuid()) @db.Uuid
+  match_run_id                    String      @db.Uuid
+  family_request_id               String      @db.Uuid
+  candidate_id                    String      @db.Uuid
+  status                          MatchStatus @default(SUGGESTED)
+  total_score                     Decimal     @db.Decimal(5, 2)
+  location_score                  Int?
+  salary_score                    Int?
+  experience_score                Int?
+  child_age_experience_score      Int?
+  work_type_score                 Int?
+  availability_score              Int?
+  reference_score                 Int?
+  interview_score                 Int?
+  document_score                  Int?
+  certification_score             Int?
+  smoking_score                   Int?
+  language_score                  Int?
+  explanation_json                Json?
+  created_at                      DateTime    @default(now())
+  updated_at                      DateTime    @updatedAt
+
+  @@index([family_request_id, total_score])
+}
+
+model Shortlist {
+  id                String   @id @default(uuid()) @db.Uuid
+  family_request_id String   @db.Uuid
+  title             String
+  notes             String?
+  created_by_user_id String? @db.Uuid
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model ShortlistItem {
+  id                String   @id @default(uuid()) @db.Uuid
+  shortlist_id      String   @db.Uuid
+  candidate_id      String   @db.Uuid
+  consultant_note   String?
+  sent_to_family_at DateTime?
+  family_feedback   String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  @@unique([shortlist_id, candidate_id])
+}
+
+model Meeting {
+  id                String        @id @default(uuid()) @db.Uuid
+  type              MeetingType
+  status            MeetingStatus @default(SCHEDULED)
+  title             String
+  entity_type       String?
+  entity_id         String?
+  family_id         String?       @db.Uuid
+  candidate_id      String?       @db.Uuid
+  family_request_id String?       @db.Uuid
+  starts_at         DateTime
+  ends_at           DateTime?
+  location          String?
+  notes             String?
+  created_by_user_id String?      @db.Uuid
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+}
+
+model Task {
+  id                String     @id @default(uuid()) @db.Uuid
+  title             String
+  description       String?
+  status            TaskStatus @default(TODO)
+  priority          Int        @default(0)
+  due_at            DateTime?
+  assignee_user_id  String?    @db.Uuid
+  entity_type       String?
+  entity_id         String?
+  created_by_user_id String?   @db.Uuid
+  created_at        DateTime   @default(now())
+  updated_at        DateTime   @updatedAt
+
+  @@index([assignee_user_id, status, due_at])
+}
+
+model Note {
+  id                 String   @id @default(uuid()) @db.Uuid
+  entity_type        String
+  entity_id          String
+  content            String
+  pinned             Boolean  @default(false)
+  created_by_user_id String?  @db.Uuid
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  @@index([entity_type, entity_id])
+}
+
+model Notification {
+  id            String   @id @default(uuid()) @db.Uuid
+  user_id       String   @db.Uuid
+  title         String
+  body          String?
+  type          String?
+  read_at       DateTime?
+  payload       Json?
+  created_at    DateTime @default(now())
+}
+
+model Placement {
+  id                String          @id @default(uuid()) @db.Uuid
+  family_request_id String          @db.Uuid
+  family_id         String          @db.Uuid
+  candidate_id      String          @db.Uuid
+  start_date        DateTime
+  agreed_salary     Decimal         @db.Decimal(12, 2)
+  service_fee       Decimal?        @db.Decimal(12, 2)
+  status            PlacementStatus @default(OFFERED)
+  guarantee_until   DateTime?
+  notes             String?
+  created_by_user_id String?        @db.Uuid
+  created_at        DateTime        @default(now())
+  updated_at        DateTime        @updatedAt
+
+  @@index([status, start_date])
+}
+
+model PlacementStatusHistory {
+  id                String          @id @default(uuid()) @db.Uuid
+  placement_id      String          @db.Uuid
+  old_status        PlacementStatus?
+  new_status        PlacementStatus
+  reason            String?
+  changed_by_user_id String?        @db.Uuid
+  created_at        DateTime        @default(now())
+}
+
+model ContractTemplate {
+  id                String   @id @default(uuid()) @db.Uuid
+  name              String
+  body              String
+  active            Boolean  @default(true)
+  created_by_user_id String? @db.Uuid
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model Contract {
+  id                String         @id @default(uuid()) @db.Uuid
+  contract_template_id String?     @db.Uuid
+  placement_id      String?        @db.Uuid
+  family_id         String?        @db.Uuid
+  candidate_id      String?        @db.Uuid
+  status            ContractStatus @default(DRAFT)
+  file_path         String?
+  sent_at           DateTime?
+  signed_at         DateTime?
+  expires_at        DateTime?
+  created_by_user_id String?       @db.Uuid
+  created_at        DateTime       @default(now())
+  updated_at        DateTime       @updatedAt
+}
+
+model Invoice {
+  id                String        @id @default(uuid()) @db.Uuid
+  family_id         String?       @db.Uuid
+  placement_id      String?       @db.Uuid
+  amount            Decimal       @db.Decimal(12, 2)
+  due_date          DateTime?
+  status            PaymentStatus @default(PENDING)
+  notes             String?
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+}
+
+model Payment {
+  id                String        @id @default(uuid()) @db.Uuid
+  invoice_id        String?       @db.Uuid
+  amount            Decimal       @db.Decimal(12, 2)
+  currency          String        @default("TRY")
+  paid_at           DateTime?
+  status            PaymentStatus @default(PENDING)
+  method            String?
+  transaction_ref   String?
+  created_at        DateTime      @default(now())
+  updated_at        DateTime      @updatedAt
+}
+
+model Expense {
+  id                 String        @id @default(uuid()) @db.Uuid
+  type               ExpenseType   @default(OPERATING_EXPENSE)
+  candidate_id       String?       @db.Uuid
+  family_id          String?       @db.Uuid
+  placement_id       String?       @db.Uuid
+  title              String
+  category           String?
+  amount             Decimal       @db.Decimal(12, 2)
+  currency           String        @default("TRY")
+  paid_at            DateTime?
+  status             ExpenseStatus @default(PENDING)
+  method             String?
+  transaction_ref    String?
+  notes              String?
+  created_by_user_id String?       @db.Uuid
+  created_at         DateTime      @default(now())
+  updated_at         DateTime      @updatedAt
+
+  @@index([type, status, created_at])
+}
+
+model Message {
+  id                String   @id @default(uuid()) @db.Uuid
+  channel           String
+  direction         String
+  entity_type       String?
+  entity_id         String?
+  to_value          String?
+  from_value        String?
+  subject           String?
+  content           String
+  sent_at           DateTime?
+  created_by_user_id String? @db.Uuid
+  created_at        DateTime @default(now())
+}
+
+model MessageTemplate {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String
+  channel       String
+  language_code String   @default("tr")
+  subject       String?
+  body          String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model ServiceCategory {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  active        Boolean  @default(true)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Skill {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Certification {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model WebsiteSetting {
+  id         String   @id @default(uuid()) @db.Uuid
+  key        String   @unique
+  group      String?
+  value      Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([group])
+}
+
+model WebsiteContent {
+  id              String               @id @default(uuid()) @db.Uuid
+  type            WebsiteContentType
+  slug            String?              @unique
+  title           String
+  status          WebsiteContentStatus @default(DRAFT)
+  hero_title      String?
+  hero_subtitle   String?
+  payload         Json
+  seo_title       String?
+  meta_description String?
+  canonical_url   String?
+  robots          String?
+  published_at    DateTime?
+  created_by_user_id String?           @db.Uuid
+  created_at      DateTime             @default(now())
+  updated_at      DateTime             @updatedAt
+
+  @@index([type, status])
+}
+
+model WebsiteContentRevision {
+  id                String   @id @default(uuid()) @db.Uuid
+  website_content_id String   @db.Uuid
+  snapshot          Json
+  created_by_user_id String?  @db.Uuid
+  created_at        DateTime @default(now())
+
+  @@index([website_content_id, created_at])
+}
+
+model WebsiteMediaAsset {
+  id             String                 @id @default(uuid()) @db.Uuid
+  bucket         String
+  object_key     String                 @unique
+  public_url     String?
+  file_name      String
+  original_name  String
+  mime_type      String
+  size           Int
+  alt_text       String?
+  caption        String?
+  visibility     WebsiteMediaVisibility @default(PRIVATE)
+  status         String                 @default("pending_scan")
+  uploaded_by_id String?                @db.Uuid
+  created_at     DateTime               @default(now())
+  updated_at     DateTime               @updatedAt
+}
+
+model WebsiteFormSubmission {
+  id              String                 @id @default(uuid()) @db.Uuid
+  form_type       String
+  status          WebsiteSubmissionStatus @default(NEW)
+  idempotency_key String?                @unique
+  payload         Json
+  crm_entity_type String?
+  crm_entity_id   String?
+  source          String?
+  utm             Json?
+  ip_hash         String?
+  user_agent      String?
+  error_message   String?
+  created_at      DateTime               @default(now())
+  updated_at      DateTime               @updatedAt
+
+  @@index([form_type, status, created_at])
+}
+
+model WebsiteConsentLog {
+  id            String   @id @default(uuid()) @db.Uuid
+  form_type     String
+  subject_type  String
+  subject_id    String?
+  consent_type  String
+  text_version  String
+  accepted      Boolean
+  ip_hash       String?
+  user_agent    String?
+  created_at    DateTime @default(now())
+}
+
+model WebsiteRedirect {
+  id           String   @id @default(uuid()) @db.Uuid
+  source_path  String   @unique
+  target_path  String
+  status_code  Int      @default(301)
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+}
+
+model WebsiteIntegrationLog {
+  id               String   @id @default(uuid()) @db.Uuid
+  source           String
+  action           String
+  status           String
+  request_payload  Json?
+  response_payload Json?
+  error_message    String?
+  created_at       DateTime @default(now())
+}
+
+model WebsiteWhatsAppSetting {
+  id                  String   @id @default(uuid()) @db.Uuid
+  is_enabled          Boolean  @default(true)
+  default_phone       String?
+  family_phone        String?
+  candidate_phone     String?
+  support_phone       String?
+  default_message     String?
+  family_message      String?
+  candidate_message   String?
+  out_of_hours_message String?
+  position            String?
+  show_on_mobile      Boolean  @default(true)
+  show_on_desktop     Boolean  @default(true)
+  active_hours        Json?
+  page_rules          Json?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}
+
+model Language {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  code          String   @unique
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Tag {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String   @unique
+  color         String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Setting {
+  id            String   @id @default(uuid()) @db.Uuid
+  key           String   @unique
+  value         Json
+  description   String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model Integration {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String
+  provider      String
+  config_json   Json?
+  active        Boolean  @default(false)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+}
+
+model WebhookEvent {
+  id            String   @id @default(uuid()) @db.Uuid
+  source        String
+  event_type    String
+  payload       Json
+  status        String?
+  received_at   DateTime @default(now())
+  processed_at  DateTime?
+  created_at    DateTime @default(now())
+}
+
+model ConsentRecord {
+  id               String   @id @default(uuid()) @db.Uuid
+  entity_type      String
+  entity_id        String
+  consent_type     String
+  policy_version   String?
+  granted          Boolean
+  granted_at       DateTime?
+  revoked_at       DateTime?
+  source           String?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@index([entity_type, entity_id])
+}
+
+model DataErasureRequest {
+  id                  String   @id @default(uuid()) @db.Uuid
+  entity_type         String
+  entity_id           String
+  requested_by_user_id String? @db.Uuid
+  reason              String?
+  status              String   @default("OPEN")
+  requested_at        DateTime @default(now())
+  processed_at        DateTime?
+  created_at          DateTime @default(now())
+  updated_at          DateTime @updatedAt
+}

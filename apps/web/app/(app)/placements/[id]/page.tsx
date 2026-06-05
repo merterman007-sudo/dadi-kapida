@@ -1,0 +1,133 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/api-client";
+
+type Placement = {
+  id: string;
+  family_request_id: string;
+  family_id: string;
+  candidate_id: string;
+  start_date: string;
+  agreed_salary: string;
+  status: string;
+  notes: string | null;
+};
+
+const statuses = [
+  "OFFERED",
+  "ACCEPTED",
+  "ACTIVE",
+  "COMPLETED",
+  "CANCELLED",
+  "TERMINATED",
+  "REPLACEMENT"
+] as const;
+
+export default function Page() {
+  const params = useParams<{ id: string }>();
+  const [item, setItem] = useState<Placement | null>(null);
+  const [status, setStatus] = useState<(typeof statuses)[number]>("ACTIVE");
+  const [reason, setReason] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const load = async () => {
+    const data = await apiFetch<Placement>(`/placements/${params.id}`);
+    setItem(data);
+    setStatus(data.status as (typeof statuses)[number]);
+  };
+
+  useEffect(() => {
+    let mounted = true;
+    const run = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await apiFetch<Placement>(`/placements/${params.id}`);
+        if (mounted) {
+          setItem(data);
+          setStatus(data.status as (typeof statuses)[number]);
+        }
+      } catch (err) {
+        if (mounted) {
+          setError(err instanceof Error ? err.message : "Yerleştirme alınamadı.");
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void run();
+    return () => {
+      mounted = false;
+    };
+  }, [params.id]);
+
+  const updateStatus = async () => {
+    if (!item) return;
+    try {
+      setSaving(true);
+      setError(null);
+      await apiFetch(`/placements/${item.id}/status`, {
+        method: "POST",
+        body: JSON.stringify({ status, reason })
+      });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Durum güncellenemedi.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <p className="text-sm text-slate-600">Yükleniyor...</p>;
+  if (error) return <p className="text-sm text-red-600">{error}</p>;
+  if (!item) return <p className="text-sm text-slate-600">Yerleştirme bulunamadı.</p>;
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-2xl font-bold">Yerleştirme Detayı</h2>
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm space-y-2">
+        <p><strong>ID:</strong> {item.id}</p>
+        <p><strong>Family Request:</strong> {item.family_request_id}</p>
+        <p><strong>Family:</strong> {item.family_id}</p>
+        <p><strong>Candidate:</strong> {item.candidate_id}</p>
+        <p><strong>Başlangıç:</strong> {new Date(item.start_date).toLocaleDateString("tr-TR")}</p>
+        <p><strong>Maaş:</strong> {item.agreed_salary}</p>
+        <p><strong>Durum:</strong> {item.status}</p>
+      </div>
+      <div className="grid gap-2 md:grid-cols-3">
+        <select
+          value={status}
+          onChange={(event) => setStatus(event.target.value as (typeof statuses)[number])}
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+        >
+          {statuses.map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+        <input
+          value={reason}
+          onChange={(event) => setReason(event.target.value)}
+          placeholder="Durum nedeni"
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm md:col-span-2"
+        />
+      </div>
+      <button
+        type="button"
+        onClick={updateStatus}
+        disabled={saving}
+        className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
+      >
+        Durumu Güncelle
+      </button>
+    </div>
+  );
+}

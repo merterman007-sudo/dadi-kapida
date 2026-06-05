@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:\\\\Users\\\\mert.erman\\\\Desktop\\\\Dadı Kapıda\\\\website\\\\app\\\\hizmetlerimiz\\\\[slug]\" 2>/dev/null; echo done)",
+      "Bash(pnpm dev *)",
+      "PowerShell($proc = Get-NetTCPConnection -LocalPort 3002 -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty OwningProcess; if \\($proc\\) { Stop-Process -Id $proc -Force; \"Port 3002 kapatıldı \\(PID $proc\\)\" } else { \"Port 3002 zaten boş\" })",
+      "PowerShell(netstat -ano)",
+      "PowerShell($pid = 36776; $proc = Get-Process -Id $pid -ErrorAction SilentlyContinue; if \\($proc\\) { \"Proses: $\\($proc.ProcessName\\) \\(PID $pid\\)\"; Stop-Process -Id $pid -Force; \"Kapatıldı.\" } else { \"PID bulunamadı\" })",
+      "PowerShell($p = Get-Process -Id 36776 -ErrorAction SilentlyContinue; if \\($p\\) { \"Proses: $\\($p.ProcessName\\)\"; Stop-Process -Id 36776 -Force; \"Kapatıldı.\" } else { \"Bulunamadı\" })",
+      "PowerShell($p = Get-Process -Name \"node\" -ErrorAction SilentlyContinue | Where-Object { $_.MainWindowTitle -eq \"\" } | Select-Object -First 1; if \\($p\\) { Stop-Process -Id $p.Id -Force; \"Node kapatıldı\" } else { \"Çalışan node yok\" })",
+      "PowerShell($result = netstat -ano | Select-String \":3002 \"; $result | ForEach-Object { $parts = $_ -split '\\\\s+'; $pid2 = $parts[-1]; if \\($pid2 -match '^\\\\d+$' -and $pid2 -ne '0'\\) { $proc = Get-Process -Id $pid2 -ErrorAction SilentlyContinue; \"PID $pid2 = $\\($proc.ProcessName\\)\"; Stop-Process -Id $pid2 -Force -ErrorAction SilentlyContinue; \"Kapatıldı\" } })",
+      "PowerShell(Get-Process -Name \"node\" -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }; Start-Sleep -Seconds 1; \"Tüm node processleri kapatıldı\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\mert.erman\\Desktop\\Dadı Kapıda\\website\\app\\hizmetlerimiz",
+      "c:\\Users\\mert.erman\\Desktop\\Dadi Kapida\\website"
+    ]
+  }
+}

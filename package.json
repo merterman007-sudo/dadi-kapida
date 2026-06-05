@@ -1,0 +1,30 @@
+{
+  "name": "dadi-kapida-crm",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Dadi Kapida internal CRM monorepo",
+  "packageManager": "pnpm@10.22.0",
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:bootstrap": "node scripts/dev-bootstrap.mjs",
+    "smoke:preprod": "node scripts/preprod-smoke.mjs",
+    "audit:turnkey": "node scripts/turnkey-audit.mjs",
+    "test:e2e:browser": "playwright test",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "format": "pnpm -r format",
+    "db:generate": "pnpm --filter @dadi-kapida/database db:generate",
+    "db:migrate": "pnpm --filter @dadi-kapida/database db:migrate",
+    "db:seed": "pnpm --filter @dadi-kapida/database db:seed",
+    "db:seed:demo": "pnpm --filter @dadi-kapida/database db:seed:demo",
+    "website:dev": "pnpm --filter @dadi-kapida/website dev",
+    "website:build": "pnpm --filter @dadi-kapida/website build",
+    "website:start": "pnpm --filter @dadi-kapida/website start"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "typescript": "^5.8.3"
+  }
+}

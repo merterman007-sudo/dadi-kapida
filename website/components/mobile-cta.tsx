@@ -1,0 +1,31 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const HIDE_PATHS = ["/aile-basvurusu", "/dadi-basvurusu", "/tesekkurler"];
+
+export function MobileCta() {
+  const pathname = usePathname();
+
+  if (HIDE_PATHS.some((path) => pathname.startsWith(path))) return null;
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-line/80 bg-[rgba(253,250,245,0.97)] px-4 py-3 backdrop-blur-xl lg:hidden">
+      <div className="flex gap-2">
+        <Link
+          href="/aile-basvurusu"
+          className="flex-1 rounded-full bg-navy py-3 text-center text-sm font-semibold text-white transition active:opacity-80"
+        >
+          Aile Başvurusu
+        </Link>
+        <Link
+          href="/dadi-basvurusu"
+          className="flex-1 rounded-full border border-line bg-white py-3 text-center text-sm font-medium text-navy transition active:opacity-80"
+        >
+          Dadı Başvurusu
+        </Link>
+      </div>
+    </div>
+  );
+}

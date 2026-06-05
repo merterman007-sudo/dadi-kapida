@@ -1,0 +1,35 @@
+{
+  "name": "@dadi-kapida/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo \"no lint configured for @dadi-kapida/database\"",
+    "test": "echo \"no tests for @dadi-kapida/database\"",
+    "format": "echo \"format handled at repo level\"",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --name init",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed",
+    "db:seed:demo": "tsx prisma/seed.demo.ts"
+  },
+  "dependencies": {
+    "@dadi-kapida/utils": "workspace:*",
+    "@prisma/client": "^6.8.2",
+    "argon2": "^0.41.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.13.1",
+    "prisma": "^6.8.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

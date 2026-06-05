@@ -1,0 +1,91 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dadi-kapida-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dadi_kapida_crm
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dadi_kapida_crm"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: dadi-kapida-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  api:
+    build:
+      context: ..
+      dockerfile: apps/api/Dockerfile
+    container_name: dadi-kapida-api
+    env_file:
+      - ../.env.example
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/dadi_kapida_crm?schema=public
+      REDIS_URL: redis://redis:6379
+      API_PORT: 3001
+      CORS_ORIGIN: http://localhost:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ..
+      dockerfile: apps/worker/Dockerfile
+    container_name: dadi-kapida-worker
+    env_file:
+      - ../.env.example
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - redis
+
+  web:
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    container_name: dadi-kapida-web
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+      WEB_PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  website:
+    build:
+      context: ..
+      dockerfile: website/Dockerfile
+    container_name: dadi-kapida-website
+    environment:
+      # Server-side (SSR) API calls — Docker internal network
+      API_BASE_URL: http://api:3001
+      # Client-side browser calls — accessible from host machine
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:3001
+      WEBSITE_PUBLIC_URL: http://localhost:3002
+    ports:
+      - "3002:3002"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  redis_data:
