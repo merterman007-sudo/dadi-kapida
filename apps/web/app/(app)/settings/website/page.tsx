@@ -780,7 +780,7 @@ export default function WebsiteSettingsPage() {
               <div key={item.id} className="flex items-center justify-between rounded-xl border border-[var(--line)] bg-white px-4 py-3">
                 <div>
                   <p className="text-sm font-semibold text-[var(--ink)]">{typeLabel[item.form_type] ?? item.form_type}</p>
-                  <p className="text-xs text-[var(--muted)]">{new Date((item as unknown as Record<string, string>).created_at).toLocaleString("tr-TR")}</p>
+                  <p className="text-xs text-[var(--muted)]">{new Date(item.created_at ?? "").toLocaleString("tr-TR")}</p>
                 </div>
                 <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${item.status === "SYNCED" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>
                   {statusLabel[item.status] ?? item.status}
