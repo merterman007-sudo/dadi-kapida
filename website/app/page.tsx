@@ -352,23 +352,55 @@ export default async function HomePage() {
       </section>
 
       {/* ═══════ REFERANSLAR ═══════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-green">
+      <section className="py-20 lg:py-28 bg-[#FAF5F7]">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <Label t="Referanslar" light />
-          <H size={2} light className="mt-3 max-w-lg">Ailelerle kurulan ilişkiler uzun solukludur.</H>
-          <div className="mt-9 grid gap-4 md:grid-cols-3">
-            {testimonialCards.map(item => (
-              <blockquote key={item.author} className="relative flex flex-col rounded-xl2 border border-white/10 bg-white/8 p-6 backdrop-blur">
-                <span className="absolute right-5 top-3 font-heading text-7xl leading-none text-[#B8860B]/12 select-none">&quot;</span>
-                <p className="relative flex-1 text-sm leading-8 text-white/65">{item.quote}</p>
-                <footer className="mt-5 flex items-center gap-3 border-t border-white/8 pt-4">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#B8860B]/25 bg-[#B8860B]/12 font-heading text-xs font-bold text-[#B8860B]">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="h-px w-6 bg-gold/60" />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/80">Referanslar</span>
+          </div>
+          <H size={2} className="max-w-lg">Ailelerle kurulan ilişkiler uzun solukludur.</H>
+          <p className="mt-3 max-w-lg text-sm leading-7 text-muted">Bize duydukları güveni, kendi sözleriyle aktarıyorlar.</p>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {testimonialCards.map((item, i) => (
+              <blockquote
+                key={item.author}
+                className="relative flex flex-col rounded-[20px] border border-[#EAD0D9] bg-white p-7 shadow-sm"
+              >
+                {/* Tırnak işareti - dekoratif */}
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FAF5F7] border border-[#EAD0D9]">
+                  <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+                    <path d="M0 12V7.2C0 5.04 0.56 3.28 1.68 1.92 2.8 0.64 4.32 0 6.24 0v2.4C5.28 2.4 4.56 2.72 4.08 3.36 3.6 3.92 3.36 4.72 3.36 5.76H6.24V12H0ZM9.76 12V7.2C9.76 5.04 10.32 3.28 11.44 1.92 12.56 0.64 14.08 0 16 0v2.4C15.04 2.4 14.32 2.72 13.84 3.36 13.36 3.92 13.12 4.72 13.12 5.76H16V12H9.76Z" fill="#8C5368" fillOpacity="0.25"/>
+                  </svg>
+                </div>
+
+                <p className="flex-1 font-heading text-[1.05rem] leading-[1.75] text-ink italic">
+                  &ldquo;{item.quote}&rdquo;
+                </p>
+
+                <footer className="mt-6 flex items-center gap-3 border-t border-[#EAD0D9] pt-5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8C5368] font-heading text-sm font-bold text-white">
                     {item.author[0]}
                   </div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#B8860B]/60">{item.author}</p>
+                  <div>
+                    <p className="text-xs font-bold text-ink">{item.author}</p>
+                    <p className="text-[10px] text-muted mt-0.5">Doğrulanmış müşteri</p>
+                  </div>
+                  <div className="ml-auto flex gap-0.5">
+                    {[...Array(5)].map((_, s) => (
+                      <svg key={s} width="10" height="10" viewBox="0 0 10 10" fill="#B8860B"><path d="M5 0l1.12 3.44H9.76l-2.94 2.13 1.12 3.44L5 7 2.06 9.01l1.12-3.44L.24 3.44H3.88z"/></svg>
+                    ))}
+                  </div>
                 </footer>
               </blockquote>
             ))}
+          </div>
+
+          {/* Güven rozeti */}
+          <div className="mt-10 flex flex-wrap items-center gap-6 rounded-[16px] border border-[#EAD0D9] bg-white px-6 py-4">
+            <p className="text-xs font-semibold text-ink">Gizlilik odaklı çalışma</p>
+            <span className="h-4 w-px bg-[#EAD0D9]" />
+            <p className="text-xs text-muted">Tüm müşteri bilgileri gizli tutulmaktadır. Paylaşılan yorumlar, bilgi değişimi için aile onayı alınarak yer almaktadır.</p>
           </div>
         </div>
       </section>
