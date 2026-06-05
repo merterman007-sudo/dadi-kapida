@@ -60,9 +60,9 @@ function Arrow({ white }: { white?: boolean }) {
 
 function Check({ green }: { green?: boolean }) {
   return (
-    <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${green ? "bg-[#1C4A34]/10" : "bg-[#B8860B]/12"}`}>
+    <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${green ? "bg-[#8C5368]/10" : "bg-[#B8860B]/12"}`}>
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-        <path d="M2 6.5l2.5 2.5 5.5-5" stroke={green ? "#1C4A34" : "#B8860B"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2 6.5l2.5 2.5 5.5-5" stroke={green ? "#8C5368" : "#B8860B"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     </span>
   );
@@ -243,7 +243,7 @@ export default async function HomePage() {
               <div className="absolute left-3 top-4 bottom-4 w-px bg-gradient-to-b from-[#B8860B]/60 via-[#B8860B]/20 to-transparent" />
               {processPreview.map((step, i) => (
                 <div key={step} className="relative flex items-start gap-5 rounded-xl2 border border-white/8 bg-white/5 p-4 hover:border-[#B8860B]/20 transition-colors">
-                  <span className="absolute -left-[22px] flex h-4 w-4 items-center justify-center rounded-full border border-[#B8860B]/40 bg-[#133526]">
+                  <span className="absolute -left-[22px] flex h-4 w-4 items-center justify-center rounded-full border border-[#B8860B]/40 bg-[#6D3D51]">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#B8860B]" />
                   </span>
                   <span className="font-heading text-2xl font-semibold text-[#E5B84B] w-7 shrink-0 leading-none pt-0.5">
@@ -277,7 +277,7 @@ export default async function HomePage() {
                 <Link key={svc.slug} href={`/hizmetlerimiz/${svc.slug}`}
                   className="card card-hover group block p-5"
                 >
-                  <div className="mb-3.5 flex h-10 w-10 items-center justify-center rounded-full border border-line bg-bg text-green text-sm transition-colors group-hover:border-green/20 group-hover:bg-[#1C4A34]/5">
+                  <div className="mb-3.5 flex h-10 w-10 items-center justify-center rounded-full border border-line bg-bg text-green text-sm transition-colors group-hover:border-green/20 group-hover:bg-[#8C5368]/5">
                     {symbols[i % symbols.length]}
                   </div>
                   <p className="font-heading text-[0.92rem] font-semibold text-ink">{svc.title}</p>
@@ -299,7 +299,7 @@ export default async function HomePage() {
             {/* Fotoğraf */}
             <div className="relative min-h-[300px]">
               <Image src={siteImages.trust} alt="Güvenilir dadı seçimi" fill sizes="50vw" className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1C4A34]/55 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#8C5368]/55 to-transparent" />
               <div className="absolute bottom-6 left-6 max-w-[200px]">
                 <p className="font-heading text-xl font-semibold text-white leading-tight">
                   Güven odaklı,<br />danışman eşliğinde.

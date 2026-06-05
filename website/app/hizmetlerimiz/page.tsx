@@ -60,7 +60,7 @@ export default function ServicesPage() {
                 className="card card-hover group block p-6"
               >
                 <div className="mb-5 flex items-start justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-bg text-green text-lg transition-colors group-hover:border-green/20 group-hover:bg-[#1C4A34]/5">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-bg text-green text-lg transition-colors group-hover:border-green/20 group-hover:bg-[#8C5368]/5">
                     {symbols[i % symbols.length]}
                   </div>
                   <span className="font-heading text-4xl font-semibold text-ink/6 select-none">
@@ -76,7 +76,7 @@ export default function ServicesPage() {
                   {svc.whoIsItFor.slice(0, 2).map(item => (
                     <div key={item} className="flex items-start gap-2 text-xs text-muted">
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="shrink-0 mt-0.5">
-                        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="#1C4A34" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="#8C5368" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                       {item}
                     </div>

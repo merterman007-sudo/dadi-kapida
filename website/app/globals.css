@@ -4,16 +4,20 @@
 
 /* ─── Renk Tokenları ─────────────────────────────────────── */
 :root {
-  --green:   #1C4A34;   /* orman yeşili — marka rengi */
-  --green2:  #133526;   /* koyu yeşil — hover/vurgu */
+  --rose:    #8C5368;   /* toz pembe — marka rengi */
+  --rose2:   #6D3D51;   /* koyu toz pembe — hover/vurgu */
   --gold:    #B8860B;   /* koyu amber/altın */
-  --gold-lt: #FBF3E0;   /* çok açık altın bg */
-  --ink:     #0A0F0D;   /* neredeyse siyah metin */
-  --body:    #3D4D45;   /* gövde metni */
-  --muted:   #697B72;   /* soluk/ikincil metin */
-  --line:    #DDE6E1;   /* border/çizgi */
-  --bg:      #F7FAF8;   /* sayfa arka planı */
+  --gold-lt: #FBF0F2;   /* çok açık pembe/şeftali bg */
+  --ink:     #1C1015;   /* neredeyse siyah, pembe tonu */
+  --body:    #4A3840;   /* gövde metni */
+  --muted:   #7C606B;   /* soluk/ikincil metin */
+  --line:    #EAD0D9;   /* border/çizgi */
+  --bg:      #FAF5F7;   /* sayfa arka planı */
   --white:   #FFFFFF;
+
+  /* Geriye dönük uyumluluk aliasları */
+  --green:   #8C5368;
+  --green2:  #6D3D51;
 }
 
 *,
@@ -70,11 +74,11 @@ a:hover { color: inherit; }
 
 /* ─── Dark bölüm ─────────────────────────────────────────── */
 .section-dark {
-  background: var(--green);
+  background: var(--rose);
   color: var(--white);
 }
 .section-dark-deeper {
-  background: linear-gradient(160deg, var(--green) 0%, var(--green2) 100%);
+  background: linear-gradient(160deg, var(--rose) 0%, var(--rose2) 100%);
   color: var(--white);
 }
 
@@ -87,24 +91,24 @@ a:hover { color: inherit; }
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
-  background: #1E6644;
+  background: #8C5368;
   color: white;
   border: none;
   cursor: pointer;
   transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(30,102,68,0.30), 0 1px 2px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(140,83,104,0.30), 0 1px 2px rgba(0,0,0,0.12);
 }
 .btn-primary:hover {
-  background: #165638;
-  box-shadow: 0 4px 16px rgba(30,102,68,0.35), 0 2px 4px rgba(0,0,0,0.15);
+  background: #6D3D51;
+  box-shadow: 0 4px 16px rgba(140,83,104,0.35), 0 2px 4px rgba(0,0,0,0.15);
   transform: translateY(-1px);
 }
 .btn-primary:active { transform: translateY(0); }
 .btn-primary:disabled,
 .btn-primary[aria-disabled="true"] {
-  background: #5f7f6d;
+  background: #b08e98;
   color: #ffffff;
   cursor: not-allowed;
   opacity: 1;
@@ -120,24 +124,24 @@ a:hover { color: inherit; }
   font-size: 0.875rem;
   font-weight: 600;
   background: white;
-  color: #1E6644;
-  border: 1.5px solid #1E6644;
+  color: #8C5368;
+  border: 1.5px solid #8C5368;
   cursor: pointer;
   transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
   text-decoration: none;
   white-space: nowrap;
 }
 .btn-outline:hover {
-  background: #1E6644;
+  background: #8C5368;
   color: white;
   transform: translateY(-1px);
 }
 .btn-outline:active { transform: translateY(0); }
 .btn-outline:disabled,
 .btn-outline[aria-disabled="true"] {
-  background: #f8faf8;
-  color: #527064;
-  border-color: #b8c8bf;
+  background: #faf5f7;
+  color: #9c8088;
+  border-color: #d4b5bf;
   cursor: not-allowed;
   opacity: 1;
 }
@@ -193,7 +197,7 @@ button:disabled {
 .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1.2rem; }
 .prose li { margin-bottom: 0.4rem; }
 .prose strong { font-weight: 600; color: var(--ink); }
-.prose a { color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+.prose a { color: var(--rose); text-decoration: underline; text-underline-offset: 3px; }
 .prose blockquote {
   border-left: 3px solid var(--gold);
   padding-left: 1.25rem;
@@ -221,8 +225,8 @@ button:disabled {
 }
 
 /* ─── Seçim & odak ───────────────────────────────────────── */
-::selection { background: rgba(184,134,11,0.18); color: var(--ink); }
-:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+::selection { background: rgba(140,83,104,0.18); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; border-radius: 4px; }
 
 /* ─── Scrollbar ──────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; }
