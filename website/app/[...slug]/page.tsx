@@ -226,16 +226,17 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
       {/* Hero card */}
-      <div className="relative overflow-hidden rounded-[24px] bg-[#0F1921] p-8">
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-gold/10" />
+      <div className="relative overflow-hidden rounded-[24px] bg-[#6D3D51] p-8">
+        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/10" />
+        <div className="absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-[#8C5368]/40" />
         <div className="flex items-center gap-2.5 mb-4">
           <span className="h-px w-6 bg-gold/60" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/70">{eyebrow}</span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/80">{eyebrow}</span>
         </div>
         <h1 className="relative font-heading text-3xl font-semibold text-white md:text-4xl">{item.title}</h1>
-        <p className="relative mt-3 text-sm leading-7 text-white/75">{item.subtitle}</p>
+        <p className="relative mt-3 text-sm leading-7 text-white/80">{item.subtitle}</p>
         {isLegalPage ? (
-          <p className="relative mt-3 inline-flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-3 py-1.5 text-xs text-yellow-300/80">
+          <p className="relative mt-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs text-gold/90">
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
               <path d="M8 2l.9 5.4h4.6L9.1 10l1.8 4.4L8 12l-2.9 2.4 1.8-4.4L2.5 7.4H7L8 2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
             </svg>
