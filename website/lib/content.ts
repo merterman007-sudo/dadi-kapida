@@ -109,7 +109,7 @@ export const genericPageData = {
   },
   hakkimizda: {
     title: "Hakkımızda",
-    subtitle: "Ailelere güven veren profesyonel yerleştirme danışmanlığı."
+    subtitle: "Aileler için güven veren, şeffaf ve profesyonel ev hizmetleri danışmanlığı."
   },
   ekibimiz: {
     title: "Ekibimiz",
@@ -126,10 +126,6 @@ export const genericPageData = {
   "sik-sorulan-sorular": {
     title: "Sık Sorulan Sorular",
     subtitle: "Dadı, bakıcı, temizlikçi, şoför ve ev yardımcısı hizmetleri hakkında merak edilen her şey."
-  },
-  hakkimizda: {
-    title: "Hakkımızda",
-    subtitle: "Aileler için güven veren, şeffaf ve profesyonel ev hizmetleri danışmanlığı."
   },
   "sorumluluk-ve-degerlerimiz": {
     title: "Sorumluluk ve Değerlerimiz",
