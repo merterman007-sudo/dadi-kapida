@@ -118,14 +118,42 @@ export function SiteHeader({
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
-            {navigation.map(item => (
+            {/* Hizmetlerimiz dropdown */}
+            <div className="group relative">
+              <Link
+                href="/hizmetlerimiz"
+                className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm transition-colors ${
+                  isActive("/hizmetlerimiz") ? "bg-[#FAF5F7] font-semibold text-green" : "text-body hover:text-green hover:bg-[#FAF5F7]"
+                }`}
+              >
+                Hizmetlerimiz
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </Link>
+              <div className="invisible absolute left-0 top-full z-50 mt-1 w-56 rounded-2xl border border-line bg-white p-2 shadow-lg opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
+                {[
+                  { label: "Dadı & Bebek Bakıcısı", href: "/hizmetlerimiz/yatili-dadi" },
+                  { label: "Yaşlı Bakıcısı", href: "/hizmetlerimiz/yasli-bakicisi" },
+                  { label: "Hasta Bakıcısı", href: "/hizmetlerimiz/hasta-bakicisi" },
+                  { label: "Temizlik Hizmetleri", href: "/hizmetlerimiz/gunluk-temizlik" },
+                  { label: "Özel Şoför", href: "/hizmetlerimiz/ozel-sofor" },
+                  { label: "Ev Yardımcısı / Aşçı", href: "/hizmetlerimiz/ev-yardimcisi" },
+                  { label: "Tüm Hizmetler →", href: "/hizmetlerimiz" },
+                ].map(sub => (
+                  <Link key={sub.href} href={sub.href} className="block rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FAF5F7] hover:text-green">
+                    {sub.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {navigation.filter(item => item.href !== "/hizmetlerimiz").map(item => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`px-3.5 py-2 rounded-full text-sm transition-colors ${
                   isActive(item.href)
-                    ? "bg-[#F7FAF8] font-semibold text-green"
-                    : "text-body hover:text-green hover:bg-[#F7FAF8]"
+                    ? "bg-[#FAF5F7] font-semibold text-green"
+                    : "text-body hover:text-green hover:bg-[#FAF5F7]"
                 }`}
               >
                 {item.label}

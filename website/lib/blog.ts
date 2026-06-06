@@ -288,9 +288,7 @@ export const blogPosts: BlogPost[] = [
 <h2>Yazılı Sözleşme Şart</h2>
 <p>Tüm bu kuralların yazılı bir sözleşmeye yansıtılması, taraflara eşit güvence sağlar. Sözleşme; çalışma saatlerini, maaşı, izin haklarını, deneme süresini ve fesih koşullarını kapsamalıdır.</p>
     `
-  }
-];
-
+  },
   {
     slug: "guvenilir-bakici-nasil-bulunur",
     title: "Güvenilir Bakıcı Nasıl Bulunur?",
@@ -330,7 +328,8 @@ export const blogPosts: BlogPost[] = [
     readingTime: 6,
     publishedAt: "2026-06-06",
     content: `<h2>Yasal Çerçeve</h2><p>Ev hizmetlerinde çalışanlar 5510 sayılı Kanun kapsamında sigortalanmalıdır. Aylık 10 günden fazla çalışanlar için tam sigorta zorunludur; 10 gün ve altında çalışanlar için ise farklı bir prim yapısı uygulanır.</p><h2>Yazılı Sözleşme</h2><p>Çalışma saatleri, görev kapsamı, ücret, izin hakları ve deneme süresi mutlaka yazılı sözleşmeye yansıtılmalıdır. Sözlü anlaşmalar her iki taraf için de hukuki güvence sağlamaz.</p><h2>Doğru Personeli Bulmak</h2><p>Referanslı bir danışmanlık firması aracılığıyla çalışmak, hem doğru adayı bulmayı hem de yasal süreçleri doğru yönetmeyi kolaylaştırır.</p>`
-  },
+  }
+];
 
 export const blogCategories = [
   { slug: "dadi-secme-rehberi", title: "Dadı Seçme Rehberi" },

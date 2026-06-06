@@ -121,7 +121,15 @@ export const genericPageData = {
   },
   "guvenlik-ve-dogrulama": {
     title: "Güvenlik ve Doğrulama",
-    subtitle: "Gizlilik, referans ve belge kontrolleri sürecin merkezinde yer alır."
+    subtitle: "Kimlik, adli sicil, referans kontrolü ve mülakat — her aday için eksiksiz uygularız."
+  },
+  "sik-sorulan-sorular": {
+    title: "Sık Sorulan Sorular",
+    subtitle: "Dadı, bakıcı, temizlikçi, şoför ve ev yardımcısı hizmetleri hakkında merak edilen her şey."
+  },
+  hakkimizda: {
+    title: "Hakkımızda",
+    subtitle: "Aileler için güven veren, şeffaf ve profesyonel ev hizmetleri danışmanlığı."
   },
   "sorumluluk-ve-degerlerimiz": {
     title: "Sorumluluk ve Değerlerimiz",

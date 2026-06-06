@@ -301,6 +301,78 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         </div>
       ) : null}
 
+      {/* Güvenlik ve Doğrulama sayfası */}
+      {!requestFormKind && !isLegalPage && (key === "guvenlik-ve-dogrulama" || key === "guven") ? (
+        <div className="mt-8 space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { icon: "🪪", title: "Kimlik Kontrolü", desc: "Tüm adayların nüfus cüzdanı veya pasaport bilgileri doğrulanır. Sahte belge riski sıfırlanır." },
+              { icon: "🔍", title: "Adli Sicil Araştırması", desc: "Her adaydan güncel adli sicil belgesi talep edilir ve değerlendirme sürecine dahil edilir." },
+              { icon: "📞", title: "Referans Kontrolü", desc: "Önceki işverenler aranarak adayın çalışma performansı, güvenilirliği ve iletişimi teyit edilir." },
+              { icon: "🗣", title: "Mülakat Süreci", desc: "Her aday kapsamlı bir mülakattan geçer. Deneyim, motivasyon ve aile uyumu değerlendirilir." },
+              { icon: "⏱", title: "Deneme Süreci", desc: "İstenen hizmetlerde deneme dönemi planlanabilir. Uyumsuzluk durumunda yeni süreç başlatılır." },
+              { icon: "📋", title: "Sürekli Takip", desc: "Yerleştirme sonrası ilk haftalar düzenli olarak takip edilir. Sorun yaşanırsa hızlı müdahale edilir." }
+            ].map(item => (
+              <div key={item.title} className="rounded-[18px] border border-line bg-white p-6">
+                <div className="mb-3 text-2xl">{item.icon}</div>
+                <p className="font-heading text-base font-semibold text-navy">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-muted">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="rounded-[18px] border border-[#EAD0D9] bg-[#FAF5F7] p-6">
+            <p className="font-heading text-base font-semibold text-navy">Neden bu süreç önemli?</p>
+            <p className="mt-2 text-sm leading-7 text-muted">Ev içinde çalışacak bir personele güven duymak, yalnızca referansa değil sistematik bir değerlendirme sürecine dayanmalıdır. Tüm bu adımları eksiksiz uyguluyoruz çünkü ailenizin güvenliği bizim sorumluluğumuzdur.</p>
+          </div>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">Başvuru Yap →</Link>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Hakkımızda sayfası */}
+      {!requestFormKind && !isLegalPage && key === "hakkimizda" ? (
+        <div className="mt-8 space-y-4">
+          <div className="rounded-[18px] border border-line bg-white p-7">
+            <p className="font-heading text-lg font-semibold text-navy">Hikayemiz</p>
+            <p className="mt-3 text-sm leading-8 text-muted">Dadı Kapıda, ailelerin ev hizmetleri personeli bulma sürecindeki güven açığını kapatmak amacıyla kurulmuştur. Referans doğrulaması yapılmadan, yüz yüze görüşme gerçekleştirilmeden yapılan yerleştirmelerin yarattığı riskleri ortadan kaldırmak için sistematik bir değerlendirme modeli geliştirdik.</p>
+            <p className="mt-3 text-sm leading-8 text-muted">Bugün dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı kategorilerinde Türkiye genelinde hizmet veriyoruz. Her yerleştirme, bir danışman eşliğinde ve belirlenmiş kalite standartları çerçevesinde gerçekleştirilir.</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              { title: "Misyonumuz", desc: "Aileler ile güvenilir ev hizmetleri personeli arasındaki köprüyü, şeffaf ve sistematik bir süreçle kurmak." },
+              { title: "Vizyonumuz", desc: "Türkiye'nin en güvenilir ev hizmetleri danışmanlık platformu olmak; her aileye ihtiyacına özel, doğrulanmış personel sağlamak." },
+              { title: "Değerlerimiz", desc: "Güven, şeffaflık, gizlilik ve aile odaklı hizmet. Her adımda hem aileyi hem de personeli eşit özenle değerlendiririz." }
+            ].map(item => (
+              <div key={item.title} className="rounded-[18px] border border-line bg-white p-6">
+                <p className="font-heading text-base font-semibold text-[#8C5368]">{item.title}</p>
+                <p className="mt-2 text-sm leading-7 text-muted">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">Ücretsiz Görüşme Al →</Link>
+            <Link href="/iletisim" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-[#8C5368]">İletişime Geç</Link>
+          </div>
+        </div>
+      ) : null}
+
+      {/* SSS sayfası */}
+      {!requestFormKind && !isLegalPage && key === "sik-sorulan-sorular" ? (
+        <div className="mt-8 space-y-3">
+          {faqs.map(faq => (
+            <div key={faq.question} className="rounded-[18px] border border-line bg-white p-5">
+              <p className="font-heading text-base font-semibold text-navy">{faq.question}</p>
+              <p className="mt-2 text-sm leading-7 text-muted">{faq.answer}</p>
+            </div>
+          ))}
+          <div className="flex flex-wrap gap-3 pt-2">
+            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">Başvuru Yap →</Link>
+            <Link href="/iletisim" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-[#8C5368]">Sormak İstedikleriniz İçin</Link>
+          </div>
+        </div>
+      ) : null}
+
       {/* Genel sayfalar için içerik grid */}
       {!requestFormKind && !isLegalPage && key !== "aileler-icin/nasil-calisir" && key !== "neden-dadi-kapida" ? (
         <div className="mt-8 grid gap-3 md:grid-cols-2">
