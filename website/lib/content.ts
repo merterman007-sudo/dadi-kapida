@@ -105,7 +105,7 @@ export const genericPageData = {
   },
   "hizmet-bolgeleri": {
     title: "Hizmet Bölgeleri",
-    subtitle: "İstanbul başta olmak üzere geniş hizmet ağı."
+    subtitle: "İstanbul, Ankara, İzmir ve Türkiye genelinde aileye özel dadı yerleştirme danışmanlığı."
   },
   hakkimizda: {
     title: "Hakkımızda",

@@ -34,22 +34,25 @@ export const locations: LocationItem[] = [
   { slug: "ankara", title: "Ankara", description: "Ankara'da güvenilir aday seçimi ve aile görüşme süreci." },
   { slug: "izmir", title: "İzmir", description: "İzmir merkez ve çevresinde aileye özel aday değerlendirmesi." },
   { slug: "antalya", title: "Antalya", description: "Dönemsel veya kalıcı bakım ihtiyaçları için Antalya hizmet ağı." },
-  { slug: "besiktas", title: "Beşiktaş", description: "Beşiktaş ve çevresinde profesyonel dadı arayan aileler için." },
-  { slug: "kadikoy", title: "Kadıköy", description: "Kadıköy aileleri için gündüzlü ve yatılı aday değerlendirmesi." },
-  { slug: "sariyer", title: "Sarıyer", description: "Sarıyer bölgesinde aile düzenine uygun aday desteği." },
-  { slug: "uskudar", title: "Üsküdar", description: "Üsküdar ve çevresinde güven odaklı yerleştirme." },
-  { slug: "atasehir", title: "Ataşehir", description: "Ataşehir aileleri için danışman eşliğinde aday süreci." },
-  { slug: "bakirkoy", title: "Bakırköy", description: "Bakırköy bölgesinde profesyonel çocuk bakımı desteği." },
-  { slug: "beylikduzu", title: "Beylikdüzü", description: "Beylikdüzü ve çevresinde aileye özel eşleştirme." },
-  { slug: "maslak", title: "Maslak", description: "Maslak bölgesinde yoğun aile düzenlerine uygun adaylar." },
-  { slug: "nisantasi", title: "Nişantaşı", description: "Nişantaşı aileleri için güvenilir danışmanlık süreci." },
-  { slug: "etiler", title: "Etiler", description: "Etiler ve çevresinde premium yerleştirme danışmanlığı." }
+  { slug: "bursa", title: "Bursa", description: "Bursa'da ailelerin ihtiyacına göre özenle seçilmiş aday profilleri." },
+  { slug: "gaziantep", title: "Gaziantep", description: "Gaziantep'te güvenilir dadı yerleştirme ve danışmanlık süreci." },
+  { slug: "konya", title: "Konya", description: "Konya'da aile yapısına ve çocuk rutinine uygun aday değerlendirmesi." },
+  { slug: "adana", title: "Adana", description: "Adana'da profesyonel dadı danışmanlığı ve aday eşleştirmesi." },
+  { slug: "mersin", title: "Mersin", description: "Mersin'de ailelere özel güvenilir yerleştirme danışmanlığı." },
+  { slug: "kayseri", title: "Kayseri", description: "Kayseri'de referanslı ve deneyimli dadı adayı değerlendirmesi." },
+  { slug: "eskisehir", title: "Eskişehir", description: "Eskişehir'de çocuk bakım ihtiyacına özel profesyonel süreç." },
+  { slug: "trabzon", title: "Trabzon", description: "Trabzon'da güvenilir ve referanslı dadı yerleştirme danışmanlığı." },
+  { slug: "samsun", title: "Samsun", description: "Samsun'da aile ve çocuk odaklı profesyonel danışmanlık hizmeti." },
+  { slug: "bodrum", title: "Bodrum", description: "Bodrum'da tatil ve yıl boyu kalıcı bakım ihtiyaçlarına yönelik çözümler." }
 ];
 
 export const faqs: FaqItem[] = [
-  { question: "Başvuru ne kadar sürer?", answer: "Ortalama 4 ila 6 dakika arasında tamamlanır." },
-  { question: "Adayları nasıl değerlendiriyorsunuz?", answer: "Referans, deneyim, iletişim, çalışma geçmişi ve aile uyumu birlikte değerlendirilir." },
-  { question: "Başvuru sonrası ne olur?", answer: "Danışman ekibimiz ihtiyacı netleştirir, uygun aday profillerini belirler ve görüşme sürecini planlar." }
+  { question: "Başvuru ne kadar sürer?", answer: "Ortalama 4 ila 6 dakika arasında tamamlanır. Danışmanımız başvurunuzu inceleyerek en kısa sürede sizinle iletişime geçer." },
+  { question: "Adayları nasıl değerlendiriyorsunuz?", answer: "Referans, deneyim, iletişim kalitesi, çalışma geçmişi ve aile uyumu birlikte değerlendirilir. Hiçbir aday referans kontrolü yapılmadan önerilmez." },
+  { question: "Başvuru sonrası ne olur?", answer: "Danışman ekibimiz ihtiyacınızı sizinle birlikte netleştirir, uygun aday profillerini belirler ve görüşme sürecini planlar. Süreç boyunca yanınızdayız." },
+  { question: "Hizmet Türkiye genelinde mi?", answer: "Evet. İstanbul, Ankara, İzmir, Antalya ve Türkiye'nin tüm büyük şehirlerinde hizmet veriyoruz. Bulunduğunuz şehri başvuru sırasında belirtin." },
+  { question: "İlk görüşme ücretli mi?", answer: "Hayır. İlk danışmanlık görüşmesi tamamen ücretsizdir. Hizmet bedeli yalnızca başarılı bir yerleştirme gerçekleştiğinde geçerlidir." },
+  { question: "Ne kadar sürede dadı bulabilirim?", answer: "Aile yapınıza ve beklentilerinize uygun adayları belirleme süreci genellikle birkaç iş günü içinde tamamlanır. Görüşme ve karar süreci ailenin tercihine bağlıdır." }
 ];
 
 export const trustStatements = [

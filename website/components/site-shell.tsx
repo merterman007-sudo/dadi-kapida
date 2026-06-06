@@ -88,7 +88,7 @@ export function SiteHeader({
         {/* Üst bilgi bandı */}
         <div className="bg-green">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2 text-xs text-white/80 lg:px-8">
-            <span className="hidden tracking-widest sm:block">PROFESYONEl DADI YERLEŞTİRME DANIŞMANLIĞI</span>
+            <span className="hidden tracking-widest sm:block">PROFESYONEL DADI YERLEŞTİRME DANIŞMANLIĞI</span>
             <div className="flex items-center gap-5">
               {phone && (
                 <a href={`tel:${phone.replace(/\D/g,"")}`} className="hover:text-white transition-colors">
@@ -259,7 +259,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
               </div>
             </div>
             <p className="text-sm leading-7 text-muted max-w-xs">
-              Aileler için güvenilir, referanslı ve aileye özel dadı yerleştirme danışmanlığı. İstanbul ve Türkiye genelinde hizmet.
+              Aileler için güvenilir, referanslı ve aileye özel dadı yerleştirme danışmanlığı. Türkiye genelinde hizmet.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {trustItems.slice(0, 4).map(item => (

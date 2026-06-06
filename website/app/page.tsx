@@ -146,10 +146,10 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid grid-cols-2 divide-x divide-line sm:grid-cols-4">
             {[
-              { v: "4–6 dk", l: "Başvuru süresi" },
-              { v: "1:1",    l: "Danışman takibi" },
-              { v: "2 Adım", l: "Ön değerlendirme" },
-              { v: "∞",      l: "Yerleştirme sonrası" },
+              { v: "4–6 dk",   l: "Başvuru süresi" },
+              { v: "1:1",      l: "Danışman takibi" },
+              { v: "Ücretsiz", l: "İlk görüşme" },
+              { v: "Takip",    l: "Yerleştirme sonrası" },
             ].map(s => (
               <div key={s.l} className="px-5 py-6 text-center">
                 <p className="font-heading text-[1.6rem] font-semibold text-green">{s.v}</p>

@@ -226,9 +226,9 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
   return (
     <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
       {/* Hero card */}
-      <div className="relative overflow-hidden rounded-[24px] bg-[#6D3D51] p-8">
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/10" />
-        <div className="absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-[#8C5368]/40" />
+      <div className="relative overflow-hidden rounded-[24px] bg-[#8C5368] p-8">
+        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/15" />
+        <div className="absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-white/8" />
         <div className="flex items-center gap-2.5 mb-4">
           <span className="h-px w-6 bg-gold/60" />
           <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/80">{eyebrow}</span>
