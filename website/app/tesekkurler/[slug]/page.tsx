@@ -28,10 +28,10 @@ const pageConfig: Record<string, PageConfig> = {
   },
   "dadi-basvurusu": {
     eyebrow: "Başvurunuz Alındı",
-    title: "Dadı başvurunuz değerlendirme sürecine alındı.",
+    title: "Personel başvurunuz değerlendirme sürecine alındı.",
     subtitle: "Başvurunuz danışman ekibimiz tarafından incelenecek. Uygun aile eşleşmeleri için değerlendirme tamamlandıktan sonra sizinle iletişime geçilecek.",
     primaryAction: { label: "Ana Sayfaya Dön", href: "/" },
-    secondaryAction: { label: "Dadılar İçin Rehber", href: "/dadilar-icin" },
+    secondaryAction: { label: "Personel Rehberi", href: "/dadilar-icin" },
     steps: [
       "Başvurunuz danışman ekibimizce incelenecek",
       "Profil değerlendirmesi yapılacak",

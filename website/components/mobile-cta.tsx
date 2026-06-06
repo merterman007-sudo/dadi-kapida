@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const HIDE_PATHS = ["/aile-basvurusu", "/dadi-basvurusu", "/tesekkurler"];
+const HIDE_PATHS = ["/aile-basvurusu", "/dadi-basvurusu", "/personel-basvurusu", "/tesekkurler"];
 
 export function MobileCta() {
   const pathname = usePathname();
@@ -20,7 +20,7 @@ export function MobileCta() {
           Aile Başvurusu
         </Link>
         <Link
-          href="/dadi-basvurusu"
+          href="/personel-basvurusu"
           className="flex-1 rounded-full border border-line bg-white py-3 text-center text-sm font-medium text-navy transition active:opacity-80"
         >
           Personel Başvurusu

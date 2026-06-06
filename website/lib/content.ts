@@ -7,7 +7,7 @@ export const home = {
     "Yatılı veya gündüzlü dadı ihtiyacınızda; deneyim, referans, çalışma düzeni, çocuk bakım beklentisi ve aile dinamiğinize göre adayları değerlendiriyor, süreci danışman eşliğinde yönetiyoruz.",
   ctas: {
     primary: { href: "/aile-basvurusu", label: "Aile Başvurusu Yap" },
-    secondary: { href: "/dadi-basvurusu", label: "Personel Başvurusu Yap" },
+    secondary: { href: "/personel-basvurusu", label: "Personel Başvurusu Yap" },
     tertiary: { href: "/iletisim", label: "Önce danışmanla görüşmek istiyorum" }
   }
 };
@@ -76,8 +76,8 @@ export const genericPageData = {
     subtitle: "Aday değerlendirmesinde kimlik, belge, referans ve iletişim kontrolleri önemlidir."
   },
   "dadilar-icin": {
-    title: "Dadılar için",
-    subtitle: "Profesyonel dadı adayları için saygılı, şeffaf ve düzenli başvuru süreci."
+    title: "Personel için",
+    subtitle: "Profesyonel personel adayları için saygılı, şeffaf ve düzenli başvuru süreci."
   },
   "dadilar-icin/basvuru-sureci": {
     title: "Personel Başvuru Süreci",
@@ -85,14 +85,14 @@ export const genericPageData = {
   },
   "dadilar-icin/aranan-nitelikler": {
     title: "Aranan Nitelikler",
-    subtitle: "Deneyim, referans, iletişim, güvenilirlik ve çocuk bakım yaklaşımı birlikte değerlendirilir."
+    subtitle: "Deneyim, referans, iletişim, güvenilirlik ve görev uyumu birlikte değerlendirilir."
   },
   "dadilar-icin/profesyonel-dadi-rehberi": {
-    title: "Profesyonel Dadı Rehberi",
+    title: "Profesyonel Personel Rehberi",
     subtitle: "Ailelerle uzun vadeli ve sağlıklı çalışma ilişkileri kurmak isteyen adaylar için rehber."
   },
   "dadilar-icin/sik-sorulan-sorular": {
-    title: "Dadılar için Sık Sorulan Sorular",
+    title: "Personel için Sık Sorulan Sorular",
     subtitle: "Başvuru, değerlendirme ve aile görüşmeleri hakkında merak edilenler."
   },
   "dadilar-icin/acik-pozisyonlar": {
@@ -101,7 +101,7 @@ export const genericPageData = {
   },
   "hizmetlerimiz": {
     title: "Hizmetlerimiz",
-    subtitle: "Ailenizin ihtiyacına göre profesyonel dadı çözümleri."
+    subtitle: "Ailenizin ihtiyacına göre profesyonel personel çözümleri."
   },
   "hizmet-bolgeleri": {
     title: "Hizmet Bölgeleri",
@@ -218,10 +218,6 @@ export const genericPageData = {
   "sikayet-ve-oneri": {
     title: "Şikayet ve Öneri",
     subtitle: "Geri bildirimlerinizi bize iletebilirsiniz."
-  },
-  "sik-sorulan-sorular": {
-    title: "Sık Sorulan Sorular",
-    subtitle: "Başvuru, süreç ve yerleştirme hakkında merak edilenler."
   },
   "kvkk-aydinlatma-metni": {
     title: "KVKK Aydınlatma Metni",

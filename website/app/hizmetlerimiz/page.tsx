@@ -5,7 +5,7 @@ import { servicesContent } from "../../lib/services-content";
 
 export const metadata: Metadata = {
   title: "Hizmetlerimiz | Dadı Kapıda",
-  description: "Yatılı dadı, gündüzlü dadı, bebek bakıcısı ve daha fazlası. Ailenizin ihtiyacına özel profesyonel dadı çözümleri.",
+  description: "Yatılı dadı, gündüzlü dadı, bebek bakıcısı ve daha fazlası. Ailenizin ihtiyacına özel profesyonel personel çözümleri.",
   alternates: { canonical: "https://dadikapida.com/hizmetlerimiz" }
 };
 
@@ -32,10 +32,10 @@ export default function ServicesPage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#B8860B]">Hizmetlerimiz</span>
           </div>
           <h1 className="font-heading text-4xl font-semibold text-ink sm:text-5xl max-w-2xl leading-tight">
-            Ailenizin ihtiyacına göre profesyonel dadı çözümleri
+            Ailenizin ihtiyacına göre profesyonel personel çözümleri
           </h1>
           <p className="mt-4 max-w-xl text-[0.95rem] leading-7 text-muted">
-            Yatılı veya gündüzlü bakım, bebek bakıcısı, yabancı dil bilen dadı ve daha fazlası — her ihtiyaç için özel değerlendirme ve danışman eşliğinde yerleştirme süreci.
+            Yatılı veya gündüzlü bakım, bebek bakıcısı, şoför, temizlik, ev yardımı ve daha fazlası — her ihtiyaç için özel değerlendirme ve danışman eşliğinde yerleştirme süreci.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="/aile-basvurusu" className="btn-primary">

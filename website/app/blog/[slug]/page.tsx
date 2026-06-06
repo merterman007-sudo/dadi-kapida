@@ -133,7 +133,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   <Link href="/aile-basvurusu" className="block rounded-xl bg-navy px-4 py-2.5 text-center text-sm font-medium text-white transition hover:bg-trust">
                     Aile Başvurusu
                   </Link>
-                  <Link href="/dadi-basvurusu" className="block rounded-xl border border-line px-4 py-2.5 text-center text-sm font-medium text-navy transition hover:border-navy">
+                  <Link href="/personel-basvurusu" className="block rounded-xl border border-line px-4 py-2.5 text-center text-sm font-medium text-navy transition hover:border-navy">
                     Personel Başvurusu
                   </Link>
                   <Link href="/iletisim" className="block rounded-xl border border-line px-4 py-2.5 text-center text-sm font-medium text-navy transition hover:border-navy">

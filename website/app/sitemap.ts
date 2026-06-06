@@ -5,6 +5,7 @@ import { locations, services } from "../lib/site";
 const pages = [
   "/",
   "/aile-basvurusu",
+  "/personel-basvurusu",
   "/dadi-basvurusu",
   "/geri-aranma-talebi",
   "/online-gorusme-talebi",

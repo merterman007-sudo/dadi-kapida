@@ -122,7 +122,7 @@ export default async function HomePage() {
               <Link href="/aile-basvurusu" className="btn-primary">
                 Aile Başvurusu Yap <Arrow white />
               </Link>
-              <Link href="/dadi-basvurusu" className="btn-outline">
+              <Link href="/personel-basvurusu" className="btn-outline">
                 Personel Başvurusu
               </Link>
               <Link href="/iletisim" className="hidden items-center gap-1.5 py-3 text-sm text-muted hover:text-green transition-colors lg:flex">
@@ -263,7 +263,7 @@ export default async function HomePage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <Label t="Hizmetlerimiz" />
-              <H size={2} className="mt-3">Ailenizin ihtiyacına göre dadı çözümleri</H>
+              <H size={2} className="mt-3">Ailenizin ihtiyacına göre personel çözümleri</H>
             </div>
             <Link href="/hizmetlerimiz" className="btn-outline self-start sm:self-auto shrink-0">
               Tüm hizmetler →
@@ -405,16 +405,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ═══════ DADILAR İÇİN ══════════════════════════ */}
+      {/* ═══════ PERSONEL İÇİN ══════════════════════════ */}
       <section className="py-20 lg:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid overflow-hidden rounded-xl3 border border-line shadow-lg lg:grid-cols-[0.6fr_1fr]">
             <div className="relative min-h-[260px]">
-              <Image src={siteImages.hero} alt="Profesyonel dadı adayları" fill sizes="40vw" className="object-cover" />
+              <Image src={siteImages.hero} alt="Profesyonel personel adayları" fill sizes="40vw" className="object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-green/60 to-transparent" />
             </div>
             <div className="bg-white p-7 lg:p-10">
-              <Label t="Dadılar İçin" />
+              <Label t="Personel İçin" />
               <H size={2} className="mt-3">Saygılı ve net bir başvuru süreci</H>
               <p className="mt-3 text-sm leading-7 text-muted">Deneyiminizi, referanslarınızı ve çalışma beklentinizi paylaşın. Uygun aile eşleşmeleri için değerlendirme başlasın.</p>
               <p className="mt-1.5 text-xs text-muted/60">Başvurular değerlendirme sürecine alınır. İşe yerleşme garantisi oluşturmaz.</p>
@@ -427,7 +427,7 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/dadi-basvurusu" className="btn-primary">Personel Başvurusu Yap <Arrow white /></Link>
+                <Link href="/personel-basvurusu" className="btn-primary">Personel Başvurusu Yap <Arrow white /></Link>
                 <Link href="/dadilar-icin" className="btn-outline">Süreci incele</Link>
               </div>
             </div>

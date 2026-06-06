@@ -30,7 +30,7 @@ function slugToKey(slug: string[]) {
 
 const eyebrowByPrefix: Record<string, string> = {
   "aileler-icin": "Aileler İçin",
-  "dadilar-icin": "Dadılar İçin",
+  "dadilar-icin": "Personel İçin",
   hizmetlerimiz: "Hizmetlerimiz",
   "hizmet-bolgeleri": "Hizmet Bölgeleri",
   istanbul: "Hizmet Bölgeleri",

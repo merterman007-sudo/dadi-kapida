@@ -19,7 +19,7 @@ const footerServices: NavItem[] = [
 
 const footerCorporate: NavItem[] = [
   { label: "Aileler İçin", href: "/aileler-icin" },
-  { label: "Personel Başvurusu", href: "/dadi-basvurusu" },
+  { label: "Personel Başvurusu", href: "/personel-basvurusu" },
   { label: "Blog", href: "/blog" },
   { label: "SSS", href: "/sik-sorulan-sorular" },
   { label: "İletişim", href: "/iletisim" }
@@ -173,7 +173,7 @@ export function SiteHeader({
                 WhatsApp
               </a>
             )}
-            <Link href="/dadi-basvurusu" className="btn-outline py-2 px-4 text-xs">
+            <Link href="/personel-basvurusu" className="btn-outline py-2 px-4 text-xs">
               Personel Başvurusu
             </Link>
             <Link href="/aile-basvurusu" className="btn-primary py-2 px-5 text-xs">
@@ -234,7 +234,7 @@ export function SiteHeader({
             <Link href="/aile-basvurusu" className="btn-primary w-full justify-center text-sm">
               Aile Başvurusu Yap
             </Link>
-            <Link href="/dadi-basvurusu" className="btn-outline w-full justify-center text-sm">
+            <Link href="/personel-basvurusu" className="btn-outline w-full justify-center text-sm">
               Personel Başvurusu Yap
             </Link>
             {whatsapp && (
@@ -335,7 +335,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
               <Link href="/aile-basvurusu" className="btn-primary w-full justify-center text-xs py-2.5 px-4">
                 Aile Başvurusu
               </Link>
-              <Link href="/dadi-basvurusu" className="btn-outline w-full justify-center text-xs py-2.5 px-4">
+              <Link href="/personel-basvurusu" className="btn-outline w-full justify-center text-xs py-2.5 px-4">
                 Personel Başvurusu
               </Link>
             </div>

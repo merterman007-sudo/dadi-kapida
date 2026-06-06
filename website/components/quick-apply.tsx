@@ -29,7 +29,7 @@ export function QuickApply() {
       if (workType) params.set("work_type", workType);
       if (city) params.set("city", city);
       if (experience) params.set("experience", experience);
-      router.push(`/dadi-basvurusu?${params.toString()}`);
+      router.push(`/personel-basvurusu?${params.toString()}`);
     }
   };
 

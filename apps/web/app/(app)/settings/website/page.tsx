@@ -769,7 +769,7 @@ export default function WebsiteSettingsPage() {
           {submissions.slice(0, 8).map((item) => {
             const typeLabel: Record<string, string> = {
               family_application: "Aile Başvurusu",
-              nanny_application: "Dadı Başvurusu",
+              nanny_application: "Personel Başvurusu",
               contact_request: "İletişim Talebi",
               callback_request: "Geri Arama Talebi",
               newsletter_subscription: "Bülten Aboneliği"

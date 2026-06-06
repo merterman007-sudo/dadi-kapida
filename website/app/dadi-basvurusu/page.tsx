@@ -136,8 +136,8 @@ export default function NannyApplicationPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8">
       <div className="surface rounded-[28px] p-6 md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Dadı Başvurusu</p>
-        <h1 className="mt-3 text-3xl font-semibold text-navy">Profesyonel dadı adayları için saygılı ve güvenilir süreç.</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Personel Başvurusu</p>
+        <h1 className="mt-3 text-3xl font-semibold text-navy">Profesyonel personel adayları için saygılı ve güvenilir süreç.</h1>
         <p className="mt-3 text-sm leading-7 text-muted">
           Başvurular değerlendirme sürecine alınır. Başvuru yapmak işe yerleşme garantisi oluşturmaz.
         </p>
