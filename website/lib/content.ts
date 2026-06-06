@@ -7,7 +7,7 @@ export const home = {
     "Yatılı veya gündüzlü dadı ihtiyacınızda; deneyim, referans, çalışma düzeni, çocuk bakım beklentisi ve aile dinamiğinize göre adayları değerlendiriyor, süreci danışman eşliğinde yönetiyoruz.",
   ctas: {
     primary: { href: "/aile-basvurusu", label: "Aile Başvurusu Yap" },
-    secondary: { href: "/dadi-basvurusu", label: "Dadı Başvurusu Yap" },
+    secondary: { href: "/dadi-basvurusu", label: "Personel Başvurusu Yap" },
     tertiary: { href: "/iletisim", label: "Önce danışmanla görüşmek istiyorum" }
   }
 };
@@ -80,7 +80,7 @@ export const genericPageData = {
     subtitle: "Profesyonel dadı adayları için saygılı, şeffaf ve düzenli başvuru süreci."
   },
   "dadilar-icin/basvuru-sureci": {
-    title: "Dadı Başvuru Süreci",
+    title: "Personel Başvuru Süreci",
     subtitle: "Başvuru, ön değerlendirme, referans ve uygun aile eşleşmesi adımlarını açıkça yönetiriz."
   },
   "dadilar-icin/aranan-nitelikler": {

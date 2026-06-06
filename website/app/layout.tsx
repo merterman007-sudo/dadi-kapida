@@ -30,11 +30,11 @@ type NavigationResponse = {
 };
 
 const defaultNavigation = [
-  { label: "Aileler İçin", href: "/aileler-icin" },
   { label: "Hizmetlerimiz", href: "/hizmetlerimiz" },
   { label: "Süreç", href: "/aileler-icin/nasil-calisir" },
   { label: "Neden Biz", href: "/neden-dadi-kapida" },
   { label: "Blog", href: "/blog" },
+  { label: "SSS", href: "/sik-sorulan-sorular" },
   { label: "İletişim", href: "/iletisim" }
 ];
 
@@ -52,10 +52,10 @@ const headingFont = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com"),
   title: {
-    default: "Dadı Kapıda | Profesyonel Dadı Yerleştirme Danışmanlığı",
+    default: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
     template: "%s | Dadı Kapıda"
   },
-  description: "Yatılı ve gündüzlü dadı arayan aileler için güvenilir, referanslı ve aileye özel yerleştirme danışmanlığı.",
+  description: "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı. Türkiye genelinde hizmet.",
   openGraph: {
     siteName: "Dadı Kapıda",
     locale: "tr_TR",

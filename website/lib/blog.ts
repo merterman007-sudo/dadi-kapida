@@ -291,17 +291,56 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
+  {
+    slug: "guvenilir-bakici-nasil-bulunur",
+    title: "Güvenilir Bakıcı Nasıl Bulunur?",
+    excerpt: "Doğru bakıcıyı bulmak için izlenmesi gereken adımlar ve dikkat edilmesi gereken kritik noktalar.",
+    image: "/images/uploads/dadi-blok-oyun-23224889.jpg",
+    category: "Aileler İçin Rehber",
+    readingTime: 7,
+    publishedAt: "2026-06-01",
+    content: `<h2>Güvenilir Bakıcı Arayışında Nereye Başlamalı?</h2><p>Güvenilir bir bakıcı bulmak, doğru kanalı seçmekle başlar. Referanslı bir danışmanlık firması aracılığıyla çalışmak, kendi araştırmanıza kıyasla çok daha hızlı ve güvenli sonuçlar verir. Danışmanlar, aday havuzunu önceden elemiş ve yalnızca doğrulanmış profilleri sunar.</p><h2>Referans Kontrolü Nasıl Yapılır?</h2><p>Adayın önceki işverenlerinden doğrudan referans alın. "Bu kişiyle tekrar çalışır mıydınız?" sorusu genellikle en dürüst cevabı verir. Referans verecek kişinin tanıdığı bir kişi olmamasına dikkat edin.</p><h2>Mülakat Sürecinde Sorulacak Sorular</h2><p>Önceki deneyimler, beklenmedik durumlarda nasıl davrandıkları, çocuk gelişimine bakış açıları ve neden bu işi tercih ettikleri hakkında kapsamlı sorular sorun.</p>`
+  },
+  {
+    slug: "yasli-bakicisi-ucretleri",
+    title: "Yaşlı Bakıcısı Ücretleri 2026",
+    excerpt: "Yaşlı bakım hizmetleri için güncel ücret aralıkları, faktörler ve bütçe planlaması.",
+    image: "/images/uploads/dadi-anne-cocuk-6970518.jpg",
+    category: "Maaş ve Ücretler",
+    readingTime: 5,
+    publishedAt: "2026-06-03",
+    content: `<h2>Yaşlı Bakıcısı Ücretlerini Belirleyen Faktörler</h2><p>Yaşlı bakım hizmetlerinde ücret; bakım yoğunluğu, yatılı veya gündüzlü çalışma modeli, şehir, adayın deneyimi ve özel sağlık gereksinimleri gibi faktörlere bağlıdır. Gündüzlü bakım ile yatılı bakım arasında ciddi fark olabilir.</p><h2>Gündüzlü vs Yatılı Bakım</h2><p>Gündüzlü yaşlı bakıcısı genellikle belirli saatlerde hizmet verirken, yatılı bakıcı sürekli ev içinde konaklar. Yatılı modelde barınma da sağlandığından ücret yapısı farklılaşır.</p><h2>Sigorta ve Yasal Yükümlülükler</h2><p>Yaşlı bakıcısı için SGK kaydı zorunludur. Kayıt dışı çalışma her iki taraf için de hukuki ve mali risk oluşturur.</p>`
+  },
+  {
+    slug: "ozel-sofor-secerken-dikkat-edilecekler",
+    title: "Özel Şoför Seçerken Dikkat Edilecekler",
+    excerpt: "Aile şoförü veya özel şoför ararken göz önünde bulundurmanız gereken kritik noktalar.",
+    image: "/images/uploads/dadi-hero-6951492.jpg",
+    category: "Şoför Hizmetleri",
+    readingTime: 4,
+    publishedAt: "2026-06-05",
+    content: `<h2>Şoför Seçiminde Öncelikler</h2><p>Özel şoför seçiminde ehliyet sicil kaydı, trafik ceza geçmişi ve referanslar ilk bakılacak unsurlardır. Özellikle çocuk servisi yapacak şoförler için çocuklarla deneyim ve sabırlı bir iletişim tarzı aranmalıdır.</p><h2>Makam Şoförü için Ek Gereksinimler</h2><p>Kurumsal kullanım için şoför seçiminde dil bilgisi, temsil yeteneği ve gizlilik anlayışı ön plana çıkar. Bazı işverenler güvenlik araştırması da talep edebilir.</p>`
+  },
+  {
+    slug: "ev-yardimcisi-calistirmanin-kurallari",
+    title: "Ev Yardımcısı Çalıştırmanın Kuralları",
+    excerpt: "Ev yardımcısı istihdamında yasal yükümlülükler, sözleşme ve SGK süreçleri.",
+    image: "/images/uploads/dadi-yatili-1648363.jpg",
+    category: "Ev Yardımcıları",
+    readingTime: 6,
+    publishedAt: "2026-06-06",
+    content: `<h2>Yasal Çerçeve</h2><p>Ev hizmetlerinde çalışanlar 5510 sayılı Kanun kapsamında sigortalanmalıdır. Aylık 10 günden fazla çalışanlar için tam sigorta zorunludur; 10 gün ve altında çalışanlar için ise farklı bir prim yapısı uygulanır.</p><h2>Yazılı Sözleşme</h2><p>Çalışma saatleri, görev kapsamı, ücret, izin hakları ve deneme süresi mutlaka yazılı sözleşmeye yansıtılmalıdır. Sözlü anlaşmalar her iki taraf için de hukuki güvence sağlamaz.</p><h2>Doğru Personeli Bulmak</h2><p>Referanslı bir danışmanlık firması aracılığıyla çalışmak, hem doğru adayı bulmayı hem de yasal süreçleri doğru yönetmeyi kolaylaştırır.</p>`
+  },
+
 export const blogCategories = [
   { slug: "dadi-secme-rehberi", title: "Dadı Seçme Rehberi" },
-  { slug: "yatili-dadi", title: "Yatılı Dadı" },
-  { slug: "gunduzlu-dadi", title: "Gündüzlü Dadı" },
-  { slug: "bebek-bakimi", title: "Bebek Bakımı" },
-  { slug: "yenidogan-bakimi", title: "Yenidoğan Bakımı" },
-  { slug: "cocuk-gelisimi", title: "Çocuk Gelişimi" },
+  { slug: "yasli-bakim", title: "Yaşlı Bakım" },
+  { slug: "hasta-bakim", title: "Hasta Bakım" },
+  { slug: "temizlik-hizmetleri", title: "Temizlik Hizmetleri" },
+  { slug: "sofor-hizmetleri", title: "Şoför Hizmetleri" },
+  { slug: "ev-yardimcilari", title: "Ev Yardımcıları" },
   { slug: "aileler-icin-rehber", title: "Aileler İçin Rehber" },
-  { slug: "dadilar-icin-rehber", title: "Dadılar İçin Rehber" },
-  { slug: "ev-hizmetleri-ve-yasal-bilgilendirme", title: "Ev Hizmetleri ve Yasal Bilgilendirme" },
-  { slug: "guvenlik-ve-referans-kontrolu", title: "Güvenlik ve Referans Kontrolü" },
-  { slug: "istanbul-dadi-rehberi", title: "İstanbul Dadı Rehberi" },
-  { slug: "maas-ve-calisma-duzeni", title: "Maaş ve Çalışma Düzeni" }
+  { slug: "sehir-rehberleri", title: "Şehir Rehberleri" },
+  { slug: "guvenlik-ve-referans", title: "Güvenlik ve Referans" },
+  { slug: "maas-ve-ucretler", title: "Maaş ve Ücretler" }
 ];

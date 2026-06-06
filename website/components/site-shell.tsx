@@ -8,19 +8,20 @@ import { footerPages } from "../lib/content";
 type NavItem = { label: string; href: string };
 
 const footerServices: NavItem[] = [
-  { label: "Yatılı Dadı", href: "/hizmetlerimiz/yatili-dadi" },
-  { label: "Gündüzlü Dadı", href: "/hizmetlerimiz/gunduzlu-dadi" },
-  { label: "Bebek Bakıcısı", href: "/hizmetlerimiz/bebek-bakicisi" },
-  { label: "Yenidoğan Bakımı", href: "/hizmetlerimiz/yenidogan-bakimi" },
-  { label: "Oyun Ablası", href: "/hizmetlerimiz/oyun-ablasi" },
+  { label: "Dadı & Bebek Bakıcısı", href: "/hizmetlerimiz/yatili-dadi" },
+  { label: "Yaşlı Bakıcısı", href: "/hizmetlerimiz/yasli-bakicisi" },
+  { label: "Hasta Bakıcısı", href: "/hizmetlerimiz/hasta-bakicisi" },
+  { label: "Temizlik Hizmetleri", href: "/hizmetlerimiz/gunluk-temizlik" },
+  { label: "Özel Şoför", href: "/hizmetlerimiz/ozel-sofor" },
+  { label: "Ev Yardımcısı / Aşçı", href: "/hizmetlerimiz/ev-yardimcisi" },
   { label: "Tüm Hizmetler →", href: "/hizmetlerimiz" }
 ];
 
 const footerCorporate: NavItem[] = [
   { label: "Aileler İçin", href: "/aileler-icin" },
-  { label: "Dadılar İçin", href: "/dadilar-icin" },
+  { label: "Personel Başvurusu", href: "/dadi-basvurusu" },
   { label: "Blog", href: "/blog" },
-  { label: "Hakkımızda", href: "/hakkimizda" },
+  { label: "SSS", href: "/sik-sorulan-sorular" },
   { label: "İletişim", href: "/iletisim" }
 ];
 
@@ -88,7 +89,7 @@ export function SiteHeader({
         {/* Üst bilgi bandı */}
         <div className="bg-green">
           <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2 text-xs text-white/80 lg:px-8">
-            <span className="hidden tracking-widest sm:block">PROFESYONEL DADI YERLEŞTİRME DANIŞMANLIĞI</span>
+            <span className="hidden tracking-widest sm:block">PROFESYONEL EV HİZMETLERİ DANIŞMANLIĞI</span>
             <div className="flex items-center gap-5">
               {phone && (
                 <a href={`tel:${phone.replace(/\D/g,"")}`} className="hover:text-white transition-colors">
@@ -145,7 +146,7 @@ export function SiteHeader({
               </a>
             )}
             <Link href="/dadi-basvurusu" className="btn-outline py-2 px-4 text-xs">
-              Dadı Başvurusu
+              Personel Başvurusu
             </Link>
             <Link href="/aile-basvurusu" className="btn-primary py-2 px-5 text-xs">
               Aile Başvurusu
@@ -206,7 +207,7 @@ export function SiteHeader({
               Aile Başvurusu Yap
             </Link>
             <Link href="/dadi-basvurusu" className="btn-outline w-full justify-center text-sm">
-              Dadı Başvurusu Yap
+              Personel Başvurusu Yap
             </Link>
             {whatsapp && (
               <a
@@ -307,7 +308,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
                 Aile Başvurusu
               </Link>
               <Link href="/dadi-basvurusu" className="btn-outline w-full justify-center text-xs py-2.5 px-4">
-                Dadı Başvurusu
+                Personel Başvurusu
               </Link>
             </div>
           </div>

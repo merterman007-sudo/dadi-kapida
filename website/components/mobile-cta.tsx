@@ -23,7 +23,7 @@ export function MobileCta() {
           href="/dadi-basvurusu"
           className="flex-1 rounded-full border border-line bg-white py-3 text-center text-sm font-medium text-navy transition active:opacity-80"
         >
-          Dadı Başvurusu
+          Personel Başvurusu
         </Link>
       </div>
     </div>

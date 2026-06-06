@@ -134,7 +134,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     Aile Başvurusu
                   </Link>
                   <Link href="/dadi-basvurusu" className="block rounded-xl border border-line px-4 py-2.5 text-center text-sm font-medium text-navy transition hover:border-navy">
-                    Dadı Başvurusu
+                    Personel Başvurusu
                   </Link>
                   <Link href="/iletisim" className="block rounded-xl border border-line px-4 py-2.5 text-center text-sm font-medium text-navy transition hover:border-navy">
                     İletişim

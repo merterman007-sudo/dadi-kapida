@@ -95,22 +95,22 @@ export default async function HomePage() {
         {/* İçerik */}
         <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-14 lg:px-8 lg:pb-20 lg:pt-20">
           <div className="max-w-xl">
-            <Label t="Dadı Kapıda · Profesyonel Yerleştirme" />
+            <Label t="Dadı Kapıda · Profesyonel Ev Hizmetleri" />
             <H size={1} className="mt-5">
               Aileniz için{" "}
               <span className="text-green relative">
                 güvenilir
                 <span className="absolute -bottom-1 left-0 w-full h-[3px] bg-[#B8860B] rounded-full" />
               </span>
-              , referanslı<br />dadıyı birlikte bulalım.
+              , referanslı<br />personeli birlikte bulalım.
             </H>
             <p className="mt-5 text-[1rem] leading-8 text-muted max-w-md">
-              Yatılı veya gündüzlü dadı ihtiyacınızda; deneyim, referans ve aile dinamiğinize göre adayları değerlendiriyor, süreci danışman eşliğinde yönetiyoruz.
+              Dadı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför veya ev yardımcısı ihtiyacınızda; deneyim, referans ve güven odaklı eşleştirme yapıyoruz.
             </p>
 
             {/* Trust rozetler */}
             <div className="mt-5 flex flex-wrap gap-2">
-              {["Referans Kontrolü", "Aileye Özel Eşleşme", "Süreç Takibi", "KVKK Uyumlu"].map(t => (
+              {["Referans Kontrolü", "Adli Sicil Kontrolü", "Süreç Takibi", "Ücretsiz Görüşme"].map(t => (
                 <span key={t} className="flex items-center gap-1.5 rounded-full border border-line bg-bg px-3 py-1.5 text-[11px] font-medium text-muted">
                   <Check green /> {t}
                 </span>
@@ -123,7 +123,7 @@ export default async function HomePage() {
                 Aile Başvurusu Yap <Arrow white />
               </Link>
               <Link href="/dadi-basvurusu" className="btn-outline">
-                Dadı Başvurusu
+                Personel Başvurusu
               </Link>
               <Link href="/iletisim" className="hidden items-center gap-1.5 py-3 text-sm text-muted hover:text-green transition-colors lg:flex">
                 Önce danışmanla görüşeyim →
@@ -427,7 +427,7 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/dadi-basvurusu" className="btn-primary">Dadı Başvurusu Yap <Arrow white /></Link>
+                <Link href="/dadi-basvurusu" className="btn-primary">Personel Başvurusu Yap <Arrow white /></Link>
                 <Link href="/dadilar-icin" className="btn-outline">Süreci incele</Link>
               </div>
             </div>
