@@ -487,13 +487,13 @@ export default async function HomePage() {
       <section className="border-y border-line py-12 lg:py-16 bg-bg">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <Label t="Hizmet Bölgeleri" />
-          <H size={2} className="mt-3 mb-7">İstanbul ve çevresinde hizmet ağımız</H>
+          <H size={2} className="mt-3 mb-7">Tüm Türkiye&apos;de profesyonel dadı hizmeti</H>
           <div className="flex flex-wrap gap-2">
             {locationsPreview.map(loc => (
               <Link
                 key={loc.slug}
-                href={`/istanbul/${loc.slug === "istanbul" ? "dadi" : `${loc.slug}-dadi`}`}
-                className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink hover:border-green hover:text-green hover:bg-green/5 transition-colors"
+                href={`/${loc.slug}-dadi`}
+                className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink hover:border-rose hover:text-rose hover:bg-rose/5 transition-colors"
               >
                 {loc.title}
               </Link>

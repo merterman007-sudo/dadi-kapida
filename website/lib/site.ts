@@ -95,15 +95,15 @@ export const serviceAngles = [
 export const testimonialCards = [
   {
     quote: "Adaylar sadece CV olarak gelmedi, aile yapımıza uyum açısından da gerçekten süzülerek sunuldu.",
-    author: "Kadıköy Ailesi"
+    author: "Leyla A. — Kadıköy"
   },
   {
     quote: "İlk görüşmeden yerleştirmeye kadar süreç sakin ve kontrollü ilerledi; iletişim çok rahattı.",
-    author: "Beşiktaş Ailesi"
+    author: "Selin K. — Beşiktaş"
   },
   {
-    quote: "Aday kodu ve geçmiş takibi, CRM tarafında aradığımız netliği bize sağladı.",
-    author: "Operasyon Ekibi"
+    quote: "Danışmanımız hem bizi hem de adayı çok iyi tanıdı. İlk görüşmede doğru eşleşmeyi bulduk.",
+    author: "Ayşe M. — Ankara"
   }
 ];
 

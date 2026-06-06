@@ -245,8 +245,64 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         ) : null}
       </div>
 
-      {/* İçerik grid */}
-      {!requestFormKind && !isLegalPage ? (
+      {/* Süreç sayfası için özel içerik */}
+      {!requestFormKind && !isLegalPage && key === "aileler-icin/nasil-calisir" ? (
+        <div className="mt-8 space-y-3">
+          {[
+            { n: "01", title: "Başvuruyu yapın", desc: "Aile başvuru formunu 4–6 dakikada doldurun. İhtiyacınızı, çalışma düzeninizi ve beklentilerinizi paylaşın." },
+            { n: "02", title: "Danışman görüşmesi", desc: "Ekibimiz sizi arar, ihtiyaç analizini detaylandırır ve süreç hakkında bilgi verir. İlk görüşme tamamen ücretsizdir." },
+            { n: "03", title: "Aday profilleri", desc: "Deneyim, referans ve aile uyumuna göre seçilen aday profillerini sizinle paylaşırız. Hiçbir aday referans kontrolü yapılmadan önerilmez." },
+            { n: "04", title: "Görüşme ve tanışma", desc: "Beğendiğiniz adayla tanışma görüşmesi planlanır. İstersen biz de bu sürece dahil oluruz." },
+            { n: "05", title: "Yerleştirme ve takip", desc: "Yerleştirme sonrası ilk haftalarda sizi takip ederiz. Süreç sorunsuz ilerlene kadar yanınızdayız." }
+          ].map((step) => (
+            <div key={step.n} className="flex gap-5 rounded-[18px] border border-line bg-white p-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#8C5368] font-heading text-sm font-bold text-white">{step.n}</div>
+              <div>
+                <p className="font-heading text-base font-semibold text-navy">{step.title}</p>
+                <p className="mt-1.5 text-sm leading-6 text-muted">{step.desc}</p>
+              </div>
+            </div>
+          ))}
+          <div className="mt-4 flex flex-wrap gap-3 pt-2">
+            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">
+              Başvuru Yap →
+            </Link>
+            <Link href="/iletisim" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-[#8C5368]">
+              Önce Danışmanla Görüş
+            </Link>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Neden Dadı Kapıda sayfası için özel içerik */}
+      {!requestFormKind && !isLegalPage && key === "neden-dadi-kapida" ? (
+        <div className="mt-8 space-y-3">
+          {[
+            { icon: "✓", title: "Referans kontrolü şart", desc: "Hiçbir aday referansları doğrulanmadan önerilmez. Geçmiş iş yerlerinden bilgi alır, deneyimi teyit ederiz." },
+            { icon: "✓", title: "Aileye özel eşleştirme", desc: "Standart bir liste değil, senin düzenine, çocuğuna ve beklentine göre özelleştirilmiş aday önerisi." },
+            { icon: "✓", title: "Yerleştirme sonrası takip", desc: "İşin bittiği yer bizim için başlangıçtır. İlk haftalar boyunca süreci takip eder, sorunları birlikte çözeriz." },
+            { icon: "✓", title: "Gizlilik ve KVKK uyumu", desc: "Aile ve aday bilgileri yalnızca eşleştirme sürecinde ve karşılıklı onay dahilinde paylaşılır." },
+            { icon: "✓", title: "Ücretsiz ilk görüşme", desc: "Ücret yalnızca başarılı yerleştirme gerçekleştiğinde geçerlidir. İlk danışmanlık görüşmesi tamamen ücretsiz." },
+            { icon: "✓", title: "Türkiye geneli hizmet", desc: "İstanbul, Ankara, İzmir, Antalya ve tüm büyük şehirlerde aynı kalite ve standartla hizmet veriyoruz." }
+          ].map((item) => (
+            <div key={item.title} className="flex gap-4 rounded-[18px] border border-line bg-white p-5">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10 text-sm font-bold text-[#8C5368]">{item.icon}</div>
+              <div>
+                <p className="font-heading text-base font-semibold text-navy">{item.title}</p>
+                <p className="mt-1.5 text-sm leading-6 text-muted">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+          <div className="mt-4 flex flex-wrap gap-3 pt-2">
+            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">
+              Ücretsiz Danışmanlık Al →
+            </Link>
+          </div>
+        </div>
+      ) : null}
+
+      {/* Genel sayfalar için içerik grid */}
+      {!requestFormKind && !isLegalPage && key !== "aileler-icin/nasil-calisir" && key !== "neden-dadi-kapida" ? (
         <div className="mt-8 grid gap-3 md:grid-cols-2">
           {services.slice(0, 4).map((service) => (
             <Link

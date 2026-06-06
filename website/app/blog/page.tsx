@@ -20,23 +20,25 @@ export default async function BlogPage() {
     <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
       {/* Header */}
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-        <div className="luxury-band rounded-[28px] p-8 shadow-premium">
-          <div className="flex items-center gap-2.5">
+        <div className="relative overflow-hidden rounded-[28px] bg-[#8C5368] p-8 shadow-md">
+          <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/10" />
+          <div className="absolute -left-16 -bottom-16 h-48 w-48 rounded-full bg-white/6" />
+          <div className="relative flex items-center gap-2.5">
             <span className="h-px w-6 bg-gold" />
             <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gold">Blog</span>
           </div>
-          <h1 className="mt-4 font-heading text-3xl font-semibold text-white md:text-4xl">
+          <h1 className="relative mt-4 font-heading text-3xl font-semibold text-white md:text-4xl">
             Aileler için rehber içerikler
           </h1>
-          <p className="mt-4 text-sm leading-7 text-white/78">
+          <p className="relative mt-4 text-sm leading-7 text-white/80">
             Dadı seçme rehberi, güvenlik ve çalışma modeli üzerine güncel içerikler.
           </p>
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="relative mt-6 flex flex-wrap gap-2">
             {blogCategories.map((category) => (
               <Link
                 key={category.slug}
                 href={`/blog/kategori/${category.slug}`}
-                className="rounded-full border border-white/15 bg-white/8 px-3 py-1.5 text-xs font-medium text-white/70 transition hover:border-gold/40 hover:text-gold"
+                className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:border-gold/50 hover:text-gold"
               >
                 {category.title}
               </Link>
