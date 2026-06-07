@@ -492,7 +492,7 @@ export default async function HomePage() {
             {locationsPreview.map(loc => (
               <Link
                 key={loc.slug}
-                href={`/${loc.slug}-dadi`}
+                href={`/hizmet-bolgeleri/${loc.slug}`}
                 className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink hover:border-rose hover:text-rose hover:bg-rose/5 transition-colors"
               >
                 {loc.title}
