@@ -61,16 +61,30 @@ const pages = [
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.WEBSITE_PUBLIC_URL ?? "http://localhost:3002";
-  const staticRoutes = pages.map((path) => ({ url: `${baseUrl}${path}`, lastModified: new Date() }));
-  const serviceRoutes = services.map((item) => ({ url: `${baseUrl}/hizmetlerimiz/${item.slug}`, lastModified: new Date() }));
+  const lastModified = new Date();
+  const staticRoutes = pages.map((path) => ({ url: `${baseUrl}${path}`, lastModified }));
+  const serviceRoutes = services.map((item) => ({ url: `${baseUrl}/hizmetlerimiz/${item.slug}`, lastModified }));
+  const cityRoutes = locations.map((item) => ({ url: `${baseUrl}/hizmet-bolgeleri/${item.slug}`, lastModified }));
+  const serviceCityRoutes = locations.flatMap((city) =>
+    services.map((item) => ({ url: `${baseUrl}/hizmet-bolgeleri/${city.slug}/${item.slug}`, lastModified }))
+  );
   const rootLocationRoutes = locations
     .filter((item) => ["istanbul", "ankara", "izmir", "antalya"].includes(item.slug))
-    .map((item) => ({ url: `${baseUrl}/${item.slug}-dadi`, lastModified: new Date() }));
+    .map((item) => ({ url: `${baseUrl}/${item.slug}-dadi`, lastModified }));
   const districtRoutes = locations
     .filter((item) => !["istanbul", "ankara", "izmir", "antalya"].includes(item.slug))
-    .map((item) => ({ url: `${baseUrl}/istanbul/${item.slug}-dadi`, lastModified: new Date() }));
-  const blogRoutes = blogPosts.map((item) => ({ url: `${baseUrl}/blog/${item.slug}`, lastModified: new Date() }));
-  const categoryRoutes = blogCategories.map((item) => ({ url: `${baseUrl}/blog/kategori/${item.slug}`, lastModified: new Date() }));
+    .map((item) => ({ url: `${baseUrl}/istanbul/${item.slug}-dadi`, lastModified }));
+  const blogRoutes = blogPosts.map((item) => ({ url: `${baseUrl}/blog/${item.slug}`, lastModified }));
+  const categoryRoutes = blogCategories.map((item) => ({ url: `${baseUrl}/blog/kategori/${item.slug}`, lastModified }));
 
-  return [...staticRoutes, ...serviceRoutes, ...rootLocationRoutes, ...districtRoutes, ...blogRoutes, ...categoryRoutes];
+  return [
+    ...staticRoutes,
+    ...serviceRoutes,
+    ...cityRoutes,
+    ...serviceCityRoutes,
+    ...rootLocationRoutes,
+    ...districtRoutes,
+    ...blogRoutes,
+    ...categoryRoutes
+  ];
 }

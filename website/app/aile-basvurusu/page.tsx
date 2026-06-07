@@ -51,6 +51,9 @@ export default function FamilyApplicationPage() {
     district: "",
     service_type: "gunduzlu-dadi",
     start_date: "",
+    working_hours: "",
+    budget_min: "",
+    budget_max: "",
     preferred_contact_channel: "phone",
     childrenCount: "1",
     notes: "",
@@ -73,6 +76,9 @@ export default function FamilyApplicationPage() {
       need: {
         serviceType: form.service_type,
         startDate: form.start_date,
+        workingHours: form.working_hours,
+        budgetMin: form.budget_min ? Number(form.budget_min) : undefined,
+        budgetMax: form.budget_max ? Number(form.budget_max) : undefined,
         preferredContactChannel: form.preferred_contact_channel,
         childrenCount: Number(form.childrenCount || 0),
         notes: form.notes
@@ -222,8 +228,25 @@ export default function FamilyApplicationPage() {
                     <option value="gunduzlu-dadi">Gündüzlü Dadı</option>
                     <option value="yatili-dadi">Yatılı Dadı</option>
                     <option value="bebek-bakicisi">Bebek Bakıcısı</option>
+                    <option value="cocuk-bakicisi">Çocuk Bakıcısı</option>
                     <option value="oyun-ablasi">Oyun Ablası</option>
-                    <option value="egitimli-dadi">Eğitimli Dadı</option>
+                    <option value="gece-dadisi">Gece Dadısı</option>
+                    <option value="yasli-bakicisi">Yaşlı Bakıcısı</option>
+                    <option value="refakatci">Refakatçi</option>
+                    <option value="evde-bakim">Evde Bakım</option>
+                    <option value="hasta-bakicisi">Hasta Bakıcısı</option>
+                    <option value="ameliyat-sonrasi-destek">Ameliyat Sonrası Destek</option>
+                    <option value="gunluk-temizlik">Günlük Temizlik</option>
+                    <option value="haftalik-temizlik">Haftalık Temizlik</option>
+                    <option value="ofis-temizligi">Ofis Temizliği</option>
+                    <option value="villa-temizligi">Villa Temizliği</option>
+                    <option value="aile-soforu">Aile Şoförü</option>
+                    <option value="ozel-sofor">Özel Şoför</option>
+                    <option value="makam-soforu">Makam Şoförü</option>
+                    <option value="ev-yardimcisi">Ev Yardımcısı</option>
+                    <option value="asci">Aşçı</option>
+                    <option value="kahya">Kahya</option>
+                    <option value="camasirci">Çamaşırcı</option>
                     <option value="yabanci-dil-bilen-dadi">Yabancı Dil Bilen Dadı</option>
                   </select>
                 </Field>
@@ -260,6 +283,38 @@ export default function FamilyApplicationPage() {
                     onChange={(e) => update("childrenCount", e.target.value)}
                   />
                 </Field>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Field label="Çalışma Saatleri">
+                  <input
+                    className={inputClass}
+                    placeholder="Örn. 08:00 - 18:00, yatılı, haftada 3 gün"
+                    value={form.working_hours}
+                    onChange={(e) => update("working_hours", e.target.value)}
+                  />
+                </Field>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Maaş Bütçesi Alt">
+                    <input
+                      className={inputClass}
+                      placeholder="₺"
+                      type="number"
+                      min={0}
+                      value={form.budget_min}
+                      onChange={(e) => update("budget_min", e.target.value)}
+                    />
+                  </Field>
+                  <Field label="Maaş Bütçesi Üst">
+                    <input
+                      className={inputClass}
+                      placeholder="₺"
+                      type="number"
+                      min={0}
+                      value={form.budget_max}
+                      onChange={(e) => update("budget_max", e.target.value)}
+                    />
+                  </Field>
+                </div>
               </div>
               <Field label="Notlar ve Beklentiler">
                 <textarea

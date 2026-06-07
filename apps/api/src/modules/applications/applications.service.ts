@@ -113,6 +113,18 @@ export class ApplicationsService {
       }
     });
 
+    if (application.work_type_preference) {
+      await this.prisma.candidateWorkPreference.create({
+        data: {
+          candidate_id: candidate.id,
+          work_type: application.work_type_preference,
+          can_live_in: application.can_live_in ?? false,
+          min_salary: application.expected_salary_min ?? undefined,
+          max_salary: application.expected_salary_max ?? undefined
+        }
+      });
+    }
+
     await this.prisma.candidateApplication.update({
       where: { id },
       data: {

@@ -85,9 +85,9 @@ export default function CandidatesPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Adaylar</h2>
+        <h2 className="text-2xl font-bold">Personel Profilleri</h2>
         <Link href="/candidates/new" className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white">
-          Yeni Aday
+          Yeni Personel
         </Link>
       </div>
 

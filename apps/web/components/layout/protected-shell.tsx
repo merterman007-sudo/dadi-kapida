@@ -81,7 +81,7 @@ type ApplicationSearchRow = {
 const menu: readonly MenuItem[] = [
   { href: "/dashboard", label: "Panel", icon: "dashboard" },
   { href: "/applications", label: "Başvurular", icon: "applications" },
-  { href: "/candidates", label: "Adaylar", icon: "candidates" },
+  { href: "/candidates", label: "Personel Profilleri", icon: "candidates" },
   { href: "/families", label: "Aileler", icon: "families" },
   { href: "/family-requests", label: "Talepler", icon: "requests" },
   { href: "/shortlists", label: "Kısa Liste", icon: "shortlists" },
@@ -307,13 +307,13 @@ export function ProtectedShell({ children }: { children: React.ReactNode }) {
         const next: SearchResult[] = [];
 
         if (candidateResult.status === "fulfilled") {
-          next.push(
-            ...candidateResult.value.map((candidate) => ({
-              href: `/candidates/${candidate.id}`,
-              eyebrow: "Aday",
-              title: `${candidate.first_name} ${candidate.last_name} (${candidate.candidate_code})`,
-              description: `${candidate.phone} · ${[candidate.city, candidate.district].filter(Boolean).join(" / ") || "Lokasyon yok"} · ${
-                candidate.source ?? "Kaynak yok"
+              next.push(
+                ...candidateResult.value.map((candidate) => ({
+                  href: `/candidates/${candidate.id}`,
+                  eyebrow: "Personel",
+                  title: `${candidate.first_name} ${candidate.last_name} (${candidate.candidate_code})`,
+                  description: `${candidate.phone} · ${[candidate.city, candidate.district].filter(Boolean).join(" / ") || "Lokasyon yok"} · ${
+                    candidate.source ?? "Kaynak yok"
               }`
             }))
           );

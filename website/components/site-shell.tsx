@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,6 +20,7 @@ const footerServices: NavItem[] = [
 
 const footerCorporate: NavItem[] = [
   { label: "Aileler İçin", href: "/aileler-icin" },
+  { label: "Hizmet Bölgeleri", href: "/hizmet-bolgeleri" },
   { label: "Personel Başvurusu", href: "/personel-basvurusu" },
   { label: "Blog", href: "/blog" },
   { label: "SSS", href: "/sik-sorulan-sorular" },
@@ -59,6 +61,9 @@ export function SiteHeader({
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
   const logoUrl = brand.logoUrl?.trim();
+  const mobileNavigation = navigation.some((item) => item.href === "/hizmet-bolgeleri")
+    ? navigation
+    : [{ label: "Hizmet Bölgeleri", href: "/hizmet-bolgeleri" }, ...navigation];
 
   /* scroll shadow */
   useEffect(() => {
@@ -108,7 +113,18 @@ export function SiteHeader({
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
-              {logoUrl ? <img src={logoUrl} alt={brandName} className="h-full w-full object-cover" /> : "DK"}
+              {logoUrl ? (
+                <Image
+                  src={logoUrl}
+                  alt={brandName}
+                  width={36}
+                  height={36}
+                  className="h-full w-full object-cover"
+                  unoptimized
+                />
+              ) : (
+                "DK"
+              )}
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-green leading-none">{brandName}</p>
@@ -159,6 +175,16 @@ export function SiteHeader({
                 {item.label}
               </Link>
             ))}
+            <Link
+              href="/hizmet-bolgeleri"
+              className={`px-3.5 py-2 rounded-full text-sm transition-colors ${
+                isActive("/hizmet-bolgeleri")
+                  ? "bg-[#FAF5F7] font-semibold text-green"
+                  : "text-body hover:text-green hover:bg-[#FAF5F7]"
+              }`}
+            >
+              Hizmet Bölgeleri
+            </Link>
           </nav>
 
           {/* Desktop CTA */}
@@ -217,7 +243,7 @@ export function SiteHeader({
           </div>
 
           <nav className="flex flex-col gap-0.5 overflow-y-auto px-4 py-5">
-            {navigation.map(item => (
+            {mobileNavigation.map(item => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -280,7 +306,18 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
-                {logoUrl ? <img src={logoUrl} alt={brandName} className="h-full w-full object-cover" /> : "DK"}
+                {logoUrl ? (
+                  <Image
+                    src={logoUrl}
+                    alt={brandName}
+                    width={40}
+                    height={40}
+                    className="h-full w-full object-cover"
+                    unoptimized
+                  />
+                ) : (
+                  "DK"
+                )}
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-green leading-none">{brandName}</p>

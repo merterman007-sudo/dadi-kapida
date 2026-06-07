@@ -1,6 +1,7 @@
 import { CandidateStatus } from "@prisma/client";
 import {
   IsBoolean,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsInt,
@@ -24,12 +25,32 @@ export class CreateCandidateDto {
   email?: string;
 
   @IsOptional()
+  @IsDateString()
+  birth_date?: string;
+
+  @IsOptional()
+  @IsDateString()
+  available_from?: string;
+
+  @IsOptional()
   @IsString()
   city?: string;
 
   @IsOptional()
   @IsString()
   district?: string;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsString()
+  preferred_cities?: string;
+
+  @IsOptional()
+  @IsString()
+  education_level?: string;
 
   @IsOptional()
   @IsInt()
@@ -54,4 +75,12 @@ export class CreateCandidateDto {
   @IsOptional()
   @IsBoolean()
   has_first_aid_certificate?: boolean;
+
+  @IsOptional()
+  @IsString()
+  availability_status?: string;
+
+  @IsOptional()
+  @IsString()
+  smoking_status?: string;
 }

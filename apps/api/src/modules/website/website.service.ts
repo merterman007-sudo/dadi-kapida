@@ -108,7 +108,15 @@ export class WebsiteService {
           status: "OPEN",
           city: dto.city?.trim() || undefined,
           district: dto.district?.trim() || undefined,
-          description: dto.notes ?? undefined,
+          salary_min: dto.budget_min !== undefined ? dto.budget_min : undefined,
+          salary_max: dto.budget_max !== undefined ? dto.budget_max : undefined,
+          description: dto.notes
+            ? [dto.working_hours ? `Çalışma saatleri: ${dto.working_hours}` : null, dto.notes]
+                .filter(Boolean)
+                .join("\n\n")
+            : dto.working_hours
+              ? `Çalışma saatleri: ${dto.working_hours}`
+              : undefined,
           requirements_json: payload as Prisma.InputJsonValue
         }
       });

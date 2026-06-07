@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsObject, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsBoolean, IsDateString, IsInt, IsObject, IsOptional, IsString, IsUUID } from "class-validator";
 
 export class CreateFamilyApplicationDto {
   @IsString()
@@ -34,6 +34,18 @@ export class CreateFamilyApplicationDto {
   @IsOptional()
   @IsString()
   notes?: string;
+
+  @IsOptional()
+  @IsString()
+  working_hours?: string;
+
+  @IsOptional()
+  @IsInt()
+  budget_min?: number;
+
+  @IsOptional()
+  @IsInt()
+  budget_max?: number;
 
   @IsOptional()
   @IsString()
