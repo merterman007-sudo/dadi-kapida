@@ -5,6 +5,15 @@ import { BreadcrumbSchema } from "../../components/structured-data";
 import { serviceCategories } from "../../lib/site";
 import { buildCityParams, findCityBySlug } from "../../lib/service-region-pages";
 
+function normalizeCitySlug(slug: string) {
+  return slug.endsWith("-dadi") ? slug.replace(/-dadi$/, "") : slug;
+}
+
+function resolveCityParam(params: Record<string, string | undefined>) {
+  const rawValue = Object.values(params).find((value): value is string => typeof value === "string" && value.length > 0);
+  return rawValue ?? "";
+}
+
 export function generateStaticParams() {
   return buildCityParams();
 }
@@ -14,8 +23,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ city: string }>;
 }): Promise<Metadata> {
-  const { city } = await params;
-  const location = findCityBySlug(city);
+  const resolvedParams = await params;
+  const location = findCityBySlug(normalizeCitySlug(resolveCityParam(resolvedParams)));
   if (!location) return {};
 
   return {
@@ -26,8 +35,8 @@ export async function generateMetadata({
 }
 
 export default async function CityLandingPage({ params }: { params: Promise<{ city: string }> }) {
-  const { city } = await params;
-  const location = findCityBySlug(city);
+  const resolvedParams = await params;
+  const location = findCityBySlug(normalizeCitySlug(resolveCityParam(resolvedParams)));
   if (!location) return notFound();
 
   return (
