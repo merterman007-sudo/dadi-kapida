@@ -68,9 +68,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const serviceCityRoutes = locations.flatMap((city) =>
     services.map((item) => ({ url: `${baseUrl}/hizmet-bolgeleri/${city.slug}/${item.slug}`, lastModified }))
   );
-  const rootLocationRoutes = locations
-    .filter((item) => ["istanbul", "ankara", "izmir", "antalya"].includes(item.slug))
-    .map((item) => ({ url: `${baseUrl}/${item.slug}-dadi`, lastModified }));
+  const rootLocationRoutes = locations.map((item) => ({ url: `${baseUrl}/${item.slug}-dadi`, lastModified }));
   const districtRoutes = locations
     .filter((item) => !["istanbul", "ankara", "izmir", "antalya"].includes(item.slug))
     .map((item) => ({ url: `${baseUrl}/istanbul/${item.slug}-dadi`, lastModified }));

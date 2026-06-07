@@ -371,6 +371,644 @@ export const servicesContent: ServiceContent[] = [
         answer: "Doğrudan WhatsApp ya da telefon ile danışmanlarımıza ulaşmanız en hızlı yoldur."
       }
     ]
+  },
+  {
+    slug: "cocuk-bakicisi",
+    title: "Çocuk Bakıcısı",
+    tagline: "Okul çağındaki çocuklara güvenilir, düzenli ve enerjik bakım",
+    shortDescription: "Okul sonrası rutin, ödev takibi, oyun ve günlük bakım desteği için çocuk bakıcısı profilleri.",
+    longDescription: "Çocuk bakıcısı hizmeti; okul çağındaki çocukların günlük düzenini desteklemek, güvenli ve sıcak bir ortam sağlamak için tasarlanmıştır. Adaylarda iletişim, sabır, enerji ve aile düzenine uyum öncelikli olarak değerlendirilir.",
+    whoIsItFor: [
+      "Okul sonrası çocuk bakımı arayan aileler",
+      "Ödev ve rutin desteği isteyen ebeveynler",
+      "Kısa süreli gündüz desteği arayan aileler"
+    ],
+    whatWeEvaluate: [
+      "Çocuk yaş grubuna uygun bakım deneyimi",
+      "Ödev ve rutin yönetimi",
+      "Sabır ve iletişim becerisi",
+      "Aile kurallarına uyum"
+    ],
+    candidateQualities: [
+      "Referanslı çocuk bakımı geçmişi",
+      "Enerjik ve sabırlı yaklaşım",
+      "Sorumluluk bilinci"
+    ],
+    faqs: [
+      {
+        question: "Çocuk bakıcısı ile oyun ablası arasındaki fark nedir?",
+        answer: "Çocuk bakıcısı günlük bakım ve düzen sorumluluğunu daha geniş kapsar; oyun ablası ise oyun ve gelişim odaklı destek verir."
+      }
+    ]
+  },
+  {
+    slug: "gece-dadisi",
+    title: "Gece Dadısı",
+    tagline: "Gece rutinleri ve uyku düzeni için destek",
+    shortDescription: "Gece beslenme, uyku takibi ve geceye özel bakım için deneyimli gece dadısı çözümleri.",
+    longDescription: "Gece dadısı, özellikle yenidoğan döneminde veya gece desteğine ihtiyaç duyan ailelerde güvenli ve sakin bir bakım düzeni kurar. Adayların gece çalışma deneyimi, dikkat seviyesi ve aileyle iletişimi titizlikle değerlendirilir.",
+    whoIsItFor: [
+      "Gece destek isteyen yenidoğan aileleri",
+      "Uyku düzeni kurmak isteyen ebeveynler",
+      "Gece vardiyası nedeniyle ek destek arayan aileler"
+    ],
+    whatWeEvaluate: [
+      "Gece vardiyası deneyimi",
+      "Uyku ve beslenme rutini bilgisi",
+      "Dikkat ve güvenilirlik",
+      "Acil durum farkındalığı"
+    ],
+    candidateQualities: [
+      "Gece çalışmaya uyumlu",
+      "Sakin ve dikkatli",
+      "Yenidoğan veya bebek deneyimli"
+    ],
+    faqs: [
+      {
+        question: "Gece dadısı kaç saat çalışır?",
+        answer: "İhtiyaca göre değişir; genelde 8-12 saatlik gece vardiyaları planlanır."
+      }
+    ]
+  },
+  {
+    slug: "refakatci",
+    title: "Refakatçi",
+    tagline: "Doktor ve sosyal süreçlerde güvenli eşlik",
+    shortDescription: "Yaşlı bireylere, hastane süreçlerine veya günlük dışarı çıkışlara eşlik eden refakatçi desteği.",
+    longDescription: "Refakatçi; sosyal destek, doktor ziyaretleri, kısa yürüyüşler ve gündelik dış aktivitelerde eşlik eder. Tıbbi müdahale yapmaz; güvenli, saygılı ve dikkatli bir eşlik rolü üstlenir.",
+    whoIsItFor: [
+      "Hastane randevularında eşlik ihtiyacı olan aileler",
+      "Yaşlı bireyler için sosyal destek arayanlar",
+      "Kısa süreli refakat desteği isteyen aileler"
+    ],
+    whatWeEvaluate: [
+      "Eşlik ve iletişim becerisi",
+      "Sabır ve güvenilirlik",
+      "Temel yönlendirme ve destek kapasitesi",
+      "Aile ile uyum"
+    ],
+    candidateQualities: [
+      "Saygılı ve dikkatli",
+      "İletişimi güçlü",
+      "Sorumluluk sahibi"
+    ],
+    faqs: [
+      {
+        question: "Refakatçi tıbbi işlem yapabilir mi?",
+        answer: "Hayır. Refakatçi yalnızca eşlik ve destek sağlar; tıbbi müdahale gerektiren işlemler sağlık profesyonelleri tarafından yapılmalıdır."
+      }
+    ]
+  },
+  {
+    slug: "yasli-bakicisi",
+    title: "Yaşlı Bakıcısı",
+    tagline: "Günlük bakım, ilaç takibi ve güvenli ev desteği",
+    shortDescription: "Yaşlı bireylerin günlük rutinlerini kolaylaştıran, güvenilir ve deneyimli yaşlı bakıcısı hizmeti.",
+    longDescription: "Yaşlı bakıcısı; günlük bakım, ilaç düzeni takibi, yeme-içme desteği ve güvenli ev ortamının korunmasında yardımcı olur. Adaylarda sabır, iletişim ve süreklilik çok önemlidir.",
+    whoIsItFor: [
+      "Günlük bakım desteği isteyen aileler",
+      "İlaç ve rutin takibi gereken yaşlı bireyler",
+      "Evde uzun süreli destek arayanlar"
+    ],
+    whatWeEvaluate: [
+      "Yaşlı bakım deneyimi",
+      "İlaç ve rutin takibi bilgisi",
+      "Sabır ve güvenilirlik",
+      "Aile iletişimi"
+    ],
+    candidateQualities: [
+      "Deneyimli ve referanslı",
+      "Sabırlı ve şefkatli",
+      "Sorumluluk sahibi"
+    ],
+    faqs: [
+      {
+        question: "Yaşlı bakıcısı gece kalabilir mi?",
+        answer: "Evet, ihtiyaç varsa yatılı veya gece destekli seçenekler değerlendirilebilir."
+      }
+    ]
+  },
+  {
+    slug: "hasta-bakicisi",
+    title: "Hasta Bakıcısı",
+    tagline: "İyileşme sürecinde güvenli ve düzenli destek",
+    shortDescription: "Kronik hastalık, taburculuk ve kısa/uzun dönem bakım ihtiyaçları için hasta bakıcısı hizmeti.",
+    longDescription: "Hasta bakıcısı, evde bakım sürecinde düzen, gözlem ve aile desteği sağlar. Tıbbi müdahale yapmaz; bakım, yönlendirme ve günlük yaşam desteğine odaklanır.",
+    whoIsItFor: [
+      "Taburculuk sonrası destek arayan aileler",
+      "Kronik bakım ihtiyacı olan bireyler",
+      "Kısa süreli iyileşme desteği isteyenler"
+    ],
+    whatWeEvaluate: [
+      "Hasta bakım deneyimi",
+      "İletişim ve sabır",
+      "Düzen ve gözlem becerisi",
+      "Aile ile uyum"
+    ],
+    candidateQualities: [
+      "Referanslı bakım geçmişi",
+      "Sakin ve dikkatli",
+      "Sorumluluk sahibi"
+    ],
+    faqs: [
+      {
+        question: "Hasta bakıcısı ilaç verebilir mi?",
+        answer: "Doktorun/ailenin belirlediği rutinler doğrultusunda yardımcı olabilir; ancak tıbbi karar ve müdahaleler sağlık profesyonellerine aittir."
+      }
+    ]
+  },
+  {
+    slug: "gunluk-temizlik",
+    title: "Günlük Temizlik",
+    tagline: "Düzenli ve pratik ev temizliği desteği",
+    shortDescription: "Günlük veya periyodik ev düzeni için güvenilir temizlik personeli eşleştirmesi.",
+    longDescription: "Günlük temizlik hizmeti; evin temiz, düzenli ve yaşanabilir kalmasına yardımcı olur. Adayların hız, dikkat ve detay odaklı çalışma tarzı değerlendirilir.",
+    whoIsItFor: [
+      "Düzenli ev temizliği arayan aileler",
+      "Yoğun çalışan ebeveynler",
+      "Ev düzenini korumak isteyenler"
+    ],
+    whatWeEvaluate: [
+      "Temizlik deneyimi",
+      "Detay ve hız dengesi",
+      "Güvenilirlik",
+      "Ev düzenine uyum"
+    ],
+    candidateQualities: [
+      "Deneyimli ve referanslı",
+      "Titiz ve düzenli",
+      "Dakik"
+    ],
+    faqs: [
+      {
+        question: "Temizlik malzemelerini kim sağlar?",
+        answer: "Bu detay başvuruda netleştirilir; çoğu durumda aile sağlar."
+      }
+    ]
+  },
+  {
+    slug: "ozel-sofor",
+    title: "Özel Şoför",
+    tagline: "Bireysel kullanım için güvenilir sürücü desteği",
+    shortDescription: "Günlük ulaşım, özel kullanım ve esnek rota planlaması için özel şoför çözümleri.",
+    longDescription: "Özel şoför; bireysel ihtiyaçlara göre planlanan ulaşım desteğidir. Araç kullanımı, güvenli sürüş ve zaman yönetimi temel değerlendirme başlıklarıdır.",
+    whoIsItFor: [
+      "Bireysel ulaşım desteği isteyenler",
+      "Yoğun programı olan aile bireyleri",
+      "Esnek saatlerde şoför arayanlar"
+    ],
+    whatWeEvaluate: [
+      "Güvenli sürüş deneyimi",
+      "Zaman yönetimi",
+      "İletişim ve gizlilik",
+      "Şehir içi rota hakimiyeti"
+    ],
+    candidateQualities: [
+      "Ehliyet ve deneyim",
+      "Güvenilir sürüş alışkanlığı",
+      "Esnek çalışma düzeni"
+    ],
+    faqs: [
+      {
+        question: "Araç aileye mi ait olur?",
+        answer: "Genellikle aile aracını kullanır; detaylar başvuruda netleştirilir."
+      }
+    ]
+  },
+  {
+    slug: "ev-yardimcisi",
+    title: "Ev Yardımcısı",
+    tagline: "Ev işlerinde genel destek ve düzen",
+    shortDescription: "Ev içi düzen, yemek, toparlama ve günlük işlerde yardımcı olacak güvenilir ev yardımcısı profilleri.",
+    longDescription: "Ev yardımcısı; ev işlerinin hafifletilmesi, günlük düzenin korunması ve aileye operasyonel destek sağlanması için değerlendirilir. Geniş görev tanımı önceden netleştirilir.",
+    whoIsItFor: [
+      "Ev düzeninde destek isteyen aileler",
+      "Çoklu görev desteği arayanlar",
+      "Günlük iş yükünü azaltmak isteyenler"
+    ],
+    whatWeEvaluate: [
+      "Genel ev işi deneyimi",
+      "Sorumluluk ve düzen",
+      "İletişim",
+      "Aile beklentisine uyum"
+    ],
+    candidateQualities: [
+      "Pratik ve düzenli",
+      "Güvenilir",
+      "Çoklu göreve uyumlu"
+    ],
+    faqs: [
+      {
+        question: "Ev yardımcısı yemek de yapar mı?",
+        answer: "İhtiyaca göre görev kapsamına eklenebilir; başvuruda netleştirilir."
+      }
+    ]
+  },
+  {
+    slug: "cocuk-bakicisi",
+    title: "Çocuk Bakıcısı",
+    tagline: "Okul çağı ve günlük rutinlerde güvenilir destek",
+    shortDescription: "Okul çağı çocukların rutinini, güvenliğini ve günlük akışını destekleyen deneyimli çocuk bakıcısı hizmeti.",
+    longDescription: "Çocuk bakıcısı profilleri; okul sonrası destek, ders takibi, oyun düzeni, beslenme ve güvenli ev içi bakım konularında deneyimli adaylardan seçilir. Ailenin çalışma düzeni ve çocuğun yaş grubuna göre eşleştirme yapılır.",
+    whoIsItFor: [
+      "Okul çağı çocuğu olan aileler",
+      "Okul sonrası bakım desteği isteyenler",
+      "Evde güvenilir günlük rutin desteği arayanlar"
+    ],
+    whatWeEvaluate: [
+      "Çocuk rutini yönetimi",
+      "Yaşa uygun iletişim ve oyun yaklaşımı",
+      "Güvenilirlik ve dakiklik",
+      "Aile ile şeffaf iletişim"
+    ],
+    candidateQualities: [
+      "Çocuklarla uzun süreli çalışma deneyimi",
+      "Sabırlı ve sorumluluk sahibi",
+      "Aile kurallarına uyumlu"
+    ],
+    faqs: [
+      {
+        question: "Çocuk bakıcısı ile oyun ablası arasındaki fark nedir?",
+        answer: "Çocuk bakıcısı günlük bakım, güvenlik ve rutin yönetimine daha geniş ölçekte destek olur. Oyun ablası ise daha çok oyun, gelişim ve etkinlik odaklıdır."
+      }
+    ]
+  },
+  {
+    slug: "gece-dadisi",
+    title: "Gece Dadısı",
+    tagline: "Gece uyku düzeninde ve yenidoğan döneminde özel destek",
+    shortDescription: "Gece beslenme, uyku takibi ve ebeveyn dinlenmesini destekleyen deneyimli gece dadısı hizmeti.",
+    longDescription: "Gece dadısı; özellikle yenidoğan dönemi, sık uyanan bebekler ve gece vardiyası ihtiyacı olan aileler için planlanan profesyonel destek modelidir. Gece boyunca düzen, güvenlik ve aile konforunu birlikte yönetir.",
+    whoIsItFor: [
+      "Yenidoğan dönemi yaşayan aileler",
+      "Gece uyanmaları yoğun bebekler",
+      "Ebeveynin dinlenmeye ihtiyacı olduğu dönemler"
+    ],
+    whatWeEvaluate: [
+      "Gece bakımı deneyimi",
+      "Sabır ve dikkat",
+      "Uyku rutini yönetimi",
+      "Acil durumda doğru yönlendirme"
+    ],
+    candidateQualities: [
+      "Gece çalışmasına uyumlu",
+      "Sakin ve güven veren",
+      "Bebek bakımında deneyimli"
+    ],
+    faqs: [
+      {
+        question: "Gece dadısı yatılı olmak zorunda mı?",
+        answer: "Hayır, gece dadısı yatılı çalışabilir ya da belirli gece saatlerinde hizmet verebilir. Düzen aile ihtiyacına göre belirlenir."
+      }
+    ]
+  },
+  {
+    slug: "yasli-bakicisi",
+    title: "Yaşlı Bakıcısı",
+    tagline: "Günlük bakımda sabır, düzen ve güvenli destek",
+    shortDescription: "Yaşlı bireylerin günlük ihtiyaçları, ilaç takibi ve ev içi düzeni için deneyimli yaşlı bakıcısı hizmeti.",
+    longDescription: "Yaşlı bakıcısı; evde yaşam kalitesini korumak, günlük rutinleri desteklemek ve aileye güven vermek için planlanır. Bakımın kapsamı, sağlık durumu ve günlük ihtiyaçlara göre netleştirilir.",
+    whoIsItFor: [
+      "Günlük yaşam desteği arayan aileler",
+      "Hareket kısıtlılığı olan yaşlı bireyler",
+      "Ev içi düzen ve refakat ihtiyacı olanlar"
+    ],
+    whatWeEvaluate: [
+      "Yaşlı bakım deneyimi",
+      "Sabır ve empati",
+      "Rutin takibi",
+      "Aile ile net iletişim"
+    ],
+    candidateQualities: [
+      "Referanslı bakım deneyimi",
+      "Şefkatli ve dikkatli",
+      "Uzun soluklu çalışmaya uygun"
+    ],
+    faqs: [
+      {
+        question: "Yaşlı bakıcısı gece destek verir mi?",
+        answer: "İhtiyaca göre gece kalabilen ya da belirli saatlerde destek veren adaylar değerlendirilebilir."
+      }
+    ]
+  },
+  {
+    slug: "refakatci",
+    title: "Refakatçi",
+    tagline: "Hastane, doktor ve günlük takip süreçlerinde eşlik",
+    shortDescription: "Randevu, hastane ve günlük eşlik ihtiyacı için güvenilir refakatçi hizmeti.",
+    longDescription: "Refakatçi, tıbbi müdahale yapmadan kişiye günlük yaşamda eşlik eder; randevu takibi, yolculuk desteği ve bekleme süreçlerinde yardımcı olur. Özellikle hasta ve yaşlı yakınlarının yükünü hafifletir.",
+    whoIsItFor: [
+      "Hastane süreçlerinde eşlik ihtiyacı olanlar",
+      "Doktor randevularında destek arayanlar",
+      "Günlük dışarı çıkışlarda refakat gerekenler"
+    ],
+    whatWeEvaluate: [
+      "Güvenilirlik",
+      "İletişim ve sakinlik",
+      "Zaman yönetimi",
+      "Eşlik deneyimi"
+    ],
+    candidateQualities: [
+      "Dikkatli ve sorumluluk sahibi",
+      "Yol ve süreç takibinde iyi",
+      "İletişimi kuvvetli"
+    ],
+    faqs: [
+      {
+        question: "Refakatçi ilaç takibi yapar mı?",
+        answer: "Ailenin belirlediği rutini takip edebilir; ancak tıbbi karar ve uygulamalar sağlık profesyonellerine aittir."
+      }
+    ]
+  },
+  {
+    slug: "evde-bakim",
+    title: "Evde Bakım",
+    tagline: "Uzun dönemli ev içi bakım ve günlük destek",
+    shortDescription: "Yaşlı veya desteğe ihtiyaç duyan bireyler için evde bakım hizmeti ve düzenli günlük takip.",
+    longDescription: "Evde bakım hizmeti, kişinin kendi evinde konforunu korurken gerekli günlük desteği almasını sağlar. Bakım planı; hareket, beslenme, temizlik ve eşlik ihtiyaçlarına göre şekillenir.",
+    whoIsItFor: [
+      "Uzun dönemli destek ihtiyacı olan aileler",
+      "Evden ayrılmak istemeyen yaşlı bireyler",
+      "Günlük bakım planı gerektiren durumlar"
+    ],
+    whatWeEvaluate: [
+      "Bakım planına uyum",
+      "Sürekli çalışma deneyimi",
+      "Güven ve düzen",
+      "Aile ile koordinasyon"
+    ],
+    candidateQualities: [
+      "Sorumluluk sahibi",
+      "Uzun süreli bakım tecrübesi",
+      "Şefkatli yaklaşım"
+    ],
+    faqs: [
+      {
+        question: "Evde bakım ile yaşlı bakıcısı aynı şey mi?",
+        answer: "Benzer alanlar olsa da evde bakım genelde daha geniş ve uzun dönemli bir bakım çerçevesi sunar."
+      }
+    ]
+  },
+  {
+    slug: "ameliyat-sonrasi-destek",
+    title: "Ameliyat Sonrası Destek",
+    tagline: "Taburculuk sonrası iyileşme sürecinde düzenli ev desteği",
+    shortDescription: "Ameliyat sonrası dönemde dinlenme, günlük bakım ve refakat için profesyonel destek.",
+    longDescription: "Ameliyat sonrası destek; iyileşme döneminde güvenlik, düzen ve eşlik sağlar. Adaylar, aileye hem fiziksel yardım hem de süreç takibi açısından destek olur.",
+    whoIsItFor: [
+      "Taburculuk sonrası iyileşme sürecinde olanlar",
+      "Evde geçici bakım ihtiyacı duyanlar",
+      "Günlük hareketlerde destek gerekenler"
+    ],
+    whatWeEvaluate: [
+      "İyileşme sürecine uygun bakım deneyimi",
+      "Dikkat ve düzen",
+      "Refakat becerisi",
+      "Aile ile koordinasyon"
+    ],
+    candidateQualities: [
+      "Sakin ve dikkatli",
+      "Güvenilir",
+      "Yönlendirmeye açık"
+    ],
+    faqs: [
+      {
+        question: "Ameliyat sonrası destek tıbbi bakım içerir mi?",
+        answer: "Hayır. Bu hizmet günlük yaşam desteği ve refakat odaklıdır; tıbbi işlemler sağlık profesyonellerine aittir."
+      }
+    ]
+  },
+  {
+    slug: "haftalik-temizlik",
+    title: "Haftalık Temizlik",
+    tagline: "Periyodik düzen için planlı ev temizliği",
+    shortDescription: "Haftalık ya da iki haftada bir yapılan düzenli temizlik ihtiyaçları için planlı personel eşleştirmesi.",
+    longDescription: "Haftalık temizlik hizmeti; evin düzenini sürdürülebilir şekilde korumak isteyen aileler için hazırlanmıştır. Program, evin büyüklüğüne ve temizlik beklentisine göre planlanır.",
+    whoIsItFor: [
+      "Düzenli temizlik isteyen aileler",
+      "İş yoğunluğu sebebiyle zaman ayıramayanlar",
+      "Periyodik ev düzeni arayanlar"
+    ],
+    whatWeEvaluate: [
+      "Temizlik deneyimi",
+      "Planlı çalışma",
+      "Detaylara dikkat",
+      "Güvenilirlik"
+    ],
+    candidateQualities: [
+      "Düzenli ve titiz",
+      "Referanslı",
+      "Programlı çalışmaya uygun"
+    ],
+    faqs: [
+      {
+        question: "Haftalık temizlikte görev kapsamı değişebilir mi?",
+        answer: "Evet, evin ihtiyacına göre mutfak, banyo, ütü veya toparlama gibi alanlar baştan netleştirilebilir."
+      }
+    ]
+  },
+  {
+    slug: "ofis-temizligi",
+    title: "Ofis Temizliği",
+    tagline: "İş yerleri için düzenli ve profesyonel temizlik",
+    shortDescription: "Ofis, çalışma alanı ve küçük işletmeler için planlı temizlik personeli hizmeti.",
+    longDescription: "Ofis temizliği; iş ortamında düzeni, hijyeni ve profesyonel görünümü korumayı amaçlar. İş saatlerine, alan büyüklüğüne ve beklentiye göre uygun personel planlanır.",
+    whoIsItFor: [
+      "Ofis veya stüdyo sahipleri",
+      "Düzenli temizlik programı isteyen işletmeler",
+      "Çalışma alanını profesyonel tutmak isteyen ekipler"
+    ],
+    whatWeEvaluate: [
+      "İş yeri deneyimi",
+      "Zamanlama ve disiplin",
+      "Detay odaklı çalışma",
+      "Güvenilirlik"
+    ],
+    candidateQualities: [
+      "Düzenli ve dakik",
+      "İş yeri deneyimli",
+      "Esnek programa uyumlu"
+    ],
+    faqs: [
+      {
+        question: "Ofis temizliği mesai saatleri dışında yapılabilir mi?",
+        answer: "Evet, iş akışını etkilemeyecek saatlerde temizlik planlanabilir."
+      }
+    ]
+  },
+  {
+    slug: "villa-temizligi",
+    title: "Villa Temizliği",
+    tagline: "Geniş yaşam alanları için kapsamlı temizlik planı",
+    shortDescription: "Geniş ev ve villa tipleri için ekip ya da tekil personelle planlanan kapsamlı temizlik hizmeti.",
+    longDescription: "Villa temizliği, büyük metrekareli alanlarda düzenli ve derinlemesine temizlik gereksinimini karşılamak için planlanır. Oda sayısı, dış alanlar ve periyot ihtiyacına göre personel seçilir.",
+    whoIsItFor: [
+      "Geniş ev ve villa sahipleri",
+      "Sezonluk veya düzenli temizlik arayanlar",
+      "Ekip ile temizlik tercih edenler"
+    ],
+    whatWeEvaluate: [
+      "Büyük alan deneyimi",
+      "Takım çalışması",
+      "Detay ve hız dengesi",
+      "Güvenilirlik"
+    ],
+    candidateQualities: [
+      "Yoğun temizlik deneyimi",
+      "Fiziksel dayanıklılık",
+      "Düzenli çalışma alışkanlığı"
+    ],
+    faqs: [
+      {
+        question: "Villa temizliği ekip halinde mi olur?",
+        answer: "İhtiyaca göre tek personel ya da birden fazla kişiyle planlanabilir."
+      }
+    ]
+  },
+  {
+    slug: "aile-soforu",
+    title: "Aile Şoförü",
+    tagline: "Aile rutinine uyumlu güvenli ulaşım desteği",
+    shortDescription: "Çocuk servisi, günlük transfer ve aile programına uyum sağlayan güvenilir aile şoförü hizmeti.",
+    longDescription: "Aile şoförü; okul, aktivite, alışveriş ve günlük ulaşım akışını güvenli ve düzenli şekilde yürütür. Rota bilgisi, araç kullanımı ve aile programına uyum temel değerlendirme başlıklarıdır.",
+    whoIsItFor: [
+      "Günlük ulaşım desteği arayan aileler",
+      "Çocuk servisi ihtiyacı olanlar",
+      "Esnek programla çalışan aile bireyleri"
+    ],
+    whatWeEvaluate: [
+      "Güvenli sürüş",
+      "Zaman yönetimi",
+      "Gizlilik",
+      "Şehir içi rota hakimiyeti"
+    ],
+    candidateQualities: [
+      "Deneyimli sürücü",
+      "Aile düzenine uyumlu",
+      "Esnek çalışma saatlerine uygun"
+    ],
+    faqs: [
+      {
+        question: "Aile şoförü kendi aracını mı kullanır?",
+        answer: "Genellikle aile aracını kullanır; detaylar başvuruda netleştirilir."
+      }
+    ]
+  },
+  {
+    slug: "makam-soforu",
+    title: "Makam Şoförü",
+    tagline: "Temsil ve güven gerektiren transferler için profesyonel sürücü",
+    shortDescription: "Kurumsal, protokol ve özel transferler için deneyimli makam şoförü hizmeti.",
+    longDescription: "Makam şoförü profilleri, temsil gücü, gizlilik anlayışı ve yüksek dikkat gerektiren sürüş düzeniyle seçilir. Kurumsal veya özel kullanım senaryolarında güvenilir bir çözüm sunar.",
+    whoIsItFor: [
+      "Kurumsal transfer ihtiyacı olanlar",
+      "Protokol ve temsil gerektiren kullanım",
+      "Gizlilik ve disiplin arayanlar"
+    ],
+    whatWeEvaluate: [
+      "Profesyonel sürüş deneyimi",
+      "Gizlilik ve temsil",
+      "Planlı çalışma",
+      "Şehir içi ve uzun yol deneyimi"
+    ],
+    candidateQualities: [
+      "Tecrübeli ve dikkatli",
+      "Temsil kabiliyeti güçlü",
+      "Disiplinli"
+    ],
+    faqs: [
+      {
+        question: "Makam şoföründe özel güvenlik kontrolü var mı?",
+        answer: "Pozisyona göre ek referans ve güvenlik değerlendirmesi yapılabilir."
+      }
+    ]
+  },
+  {
+    slug: "asci",
+    title: "Aşçı",
+    tagline: "Ev mutfağında günlük yemek ve özel menü desteği",
+    shortDescription: "Aile düzenine uygun, günlük yemek ve mutfak organizasyonu sağlayan profesyonel aşçı hizmeti.",
+    longDescription: "Aşçı profilleri; günlük aile yemeği, özel menü, diyet uyumu ve mutfak düzeni konularında deneyimli adaylardan seçilir. Menü alışkanlıkları ve çalışma temposu baştan netleştirilir.",
+    whoIsItFor: [
+      "Evinde düzenli yemek hazırlatmak isteyen aileler",
+      "Özel menü veya diyet desteği arayanlar",
+      "Mutfak organizasyonunu profesyonelleştirmek isteyenler"
+    ],
+    whatWeEvaluate: [
+      "Mutfak deneyimi",
+      "Menü planlama",
+      "Hijyen ve düzen",
+      "Aile damak zevkine uyum"
+    ],
+    candidateQualities: [
+      "Deneyimli ve temiz çalışkan",
+      "Menüye uyum sağlayabilen",
+      "Ev mutfağında rahat"
+    ],
+    faqs: [
+      {
+        question: "Aşçı sadece yemek mi yapar?",
+        answer: "Görev kapsamı ihtiyaca göre mutfak düzeni, alışveriş listesi ve menü planlamayı da kapsayabilir."
+      }
+    ]
+  },
+  {
+    slug: "kahya",
+    title: "Kahya",
+    tagline: "Büyük hanelerde düzen, koordinasyon ve operasyon yönetimi",
+    shortDescription: "Kahya profilleri; ev içi operasyon, personel koordinasyonu ve düzenli takibi üstlenen deneyimli adaylardan oluşur.",
+    longDescription: "Kahya, büyük evlerde ve çoklu personel yapısında işleri koordine eden, stok takibi, programlama ve günlük düzeni yöneten profesyonel destek rolüdür.",
+    whoIsItFor: [
+      "Büyük hane veya villa sahibi aileler",
+      "Birden fazla personel koordinasyonu gereken evler",
+      "Operasyonel düzen isteyen aileler"
+    ],
+    whatWeEvaluate: [
+      "Ev yönetimi deneyimi",
+      "Koordinasyon becerisi",
+      "Takip ve sorumluluk",
+      "Gizlilik"
+    ],
+    candidateQualities: [
+      "Organize",
+      "Sorumluluk sahibi",
+      "Çoklu görev yönetimine uygun"
+    ],
+    faqs: [
+      {
+        question: "Kahya günlük olarak ne yapar?",
+        answer: "Ev düzenini, görev dağılımını, stok ve temel koordinasyonu takip eder; detay görev kapsamı aileye göre belirlenir."
+      }
+    ]
+  },
+  {
+    slug: "camasirci",
+    title: "Çamaşırcı",
+    tagline: "Çamaşır, ütü ve tekstil düzeninde yardımcı destek",
+    shortDescription: "Çamaşır yıkama, kurutma, ütü ve giyim düzeni için uzman destek personeli.",
+    longDescription: "Çamaşırcı hizmeti, kıyafet ve ev tekstili düzeninin pratik şekilde sürdürülmesine yardımcı olur. Evde tekstil yoğunluğu fazla olan aileler için ideal bir destek modelidir.",
+    whoIsItFor: [
+      "Çamaşır ve ütü yükü fazla olan aileler",
+      "Düzenli tekstil bakımı isteyenler",
+      "Ev işlerini hafifletmek isteyenler"
+    ],
+    whatWeEvaluate: [
+      "Ütü ve kumaş bilgisi",
+      "Düzen ve hız",
+      "Güvenilirlik",
+      "Titizlik"
+    ],
+    candidateQualities: [
+      "Titiz ve düzenli",
+      "Tekstil bakımına dikkatli",
+      "Ev düzenine uyumlu"
+    ],
+    faqs: [
+      {
+        question: "Çamaşırcı sadece ütü mü yapar?",
+        answer: "Hayır. Çamaşır yıkama, ayırma, ütü ve düzenleme görevleri ihtiyaca göre birlikte planlanabilir."
+      }
+    ]
   }
 ];
 
