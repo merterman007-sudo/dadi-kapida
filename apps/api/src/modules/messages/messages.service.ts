@@ -16,6 +16,18 @@ export class MessagesService {
     });
   }
 
+  findWebsiteSubmissions(limit = 50) {
+    return this.prisma.websiteFormSubmission.findMany({
+      where: {
+        form_type: {
+          in: ["contact_request", "callback_request", "newsletter_subscription"]
+        }
+      },
+      take: Math.max(Math.min(limit, 100), 1),
+      orderBy: { created_at: "desc" }
+    });
+  }
+
   async findOne(id: string) {
     const message = await this.prisma.message.findUnique({ where: { id } });
     if (!message) {

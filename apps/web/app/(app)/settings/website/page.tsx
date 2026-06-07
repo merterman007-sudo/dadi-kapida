@@ -776,7 +776,8 @@ export default function WebsiteSettingsPage() {
             };
             const statusLabel: Record<string, string> = {
               SYNCED: "İşlendi",
-              PENDING: "Bekliyor",
+              NEW: "Yeni",
+              REVIEWING: "İnceleniyor",
               FAILED: "Hata"
             };
             return (

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { SiteFooter, SiteHeader } from "../components/site-shell";
@@ -32,11 +32,11 @@ type NavigationResponse = {
 
 const defaultNavigation = [
   { label: "Hizmetlerimiz", href: "/hizmetlerimiz" },
-  { label: "Süreç", href: "/aileler-icin/nasil-calisir" },
+  { label: "SÃ¼reÃ§", href: "/aileler-icin/nasil-calisir" },
   { label: "Neden Biz", href: "/neden-dadi-kapida" },
   { label: "Blog", href: "/blog" },
   { label: "SSS", href: "/sik-sorulan-sorular" },
-  { label: "İletişim", href: "/iletisim" }
+  { label: "Ä°letiÅŸim", href: "/iletisim" }
 ];
 
 const bodyFont = Inter({
@@ -53,15 +53,56 @@ const headingFont = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com"),
   title: {
-    default: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
-    template: "%s | Dadı Kapıda"
+    default: "DadÄ± KapÄ±da | Profesyonel Ev Hizmetleri DanÄ±ÅŸmanlÄ±ÄŸÄ±",
+    template: "%s | DadÄ± KapÄ±da"
   },
-  description: "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı. Türkiye genelinde hizmet.",
+  description: "DadÄ±, bebek bakÄ±cÄ±sÄ±, yaÅŸlÄ± bakÄ±cÄ±sÄ±, hasta bakÄ±cÄ±sÄ±, temizlikÃ§i, ÅŸofÃ¶r ve ev yardÄ±mcÄ±sÄ± iÃ§in gÃ¼venilir, referanslÄ± ve aileye Ã¶zel personel yerleÅŸtirme danÄ±ÅŸmanlÄ±ÄŸÄ±. TÃ¼rkiye genelinde hizmet.",
+  keywords: [
+    "dadı kapıda",
+    "dadı",
+    "bebek bakıcısı",
+    "çocuk bakıcısı",
+    "yaşlı bakıcısı",
+    "hasta bakıcısı",
+    "temizlikçi",
+    "şoför",
+    "ev yardımcısı",
+    "personel yerleştirme"
+  ],
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com"
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1
+    }
+  },
   openGraph: {
-    siteName: "Dadı Kapıda",
+    title: "DadÄ± KapÄ±da | Profesyonel Ev Hizmetleri DanÄ±ÅŸmanlÄ±ÄŸÄ±",
+    description:
+      "DadÄ±, bebek bakÄ±cÄ±sÄ±, yaÅŸlÄ± bakÄ±cÄ±sÄ±, hasta bakÄ±cÄ±sÄ±, temizlikÃ§i, ÅŸofÃ¶r ve ev yardÄ±mcÄ±sÄ± iÃ§in gÃ¼venilir personel yerleÅŸtirme danÄ±ÅŸmanlÄ±ÄŸÄ±.",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com",
+    siteName: "DadÄ± KapÄ±da",
     locale: "tr_TR",
     type: "website"
-  }
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DadÄ± KapÄ±da | Profesyonel Ev Hizmetleri DanÄ±ÅŸmanlÄ±ÄŸÄ±",
+    description:
+      "DadÄ±, bebek bakÄ±cÄ±sÄ±, yaÅŸlÄ± bakÄ±cÄ±sÄ±, hasta bakÄ±cÄ±sÄ±, temizlikÃ§i, ÅŸofÃ¶r ve ev yardÄ±mcÄ±sÄ± iÃ§in gÃ¼venilir personel yerleÅŸtirme."
+  },
+  other: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? {
+        "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      }
+    : undefined
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -89,7 +130,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <MobileCta />
         {whatsapp ? <WhatsAppButton whatsapp={whatsapp} /> : null}
         <CookieConsent />
-        {/* Tawk.to canlı chat */}
+        {/* Tawk.to canlÄ± chat */}
         <Script
           id="tawkto"
           strategy="lazyOnload"
@@ -111,3 +152,4 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     </html>
   );
 }
+

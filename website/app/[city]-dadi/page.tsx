@@ -30,7 +30,8 @@ export async function generateMetadata({
   return {
     title: `${location.title} Dadı | Dadı Kapıda`,
     description: `${location.title} içinde dadı, bakıcı, temizlik, şoför ve ev yardımcısı personel yerleştirme danışmanlığı.`,
-    alternates: { canonical: `https://dadikapida.com/${location.slug}-dadi` }
+    alternates: { canonical: `https://dadikapida.com/hizmet-bolgeleri/${location.slug}` },
+    robots: { index: false, follow: true }
   };
 }
 

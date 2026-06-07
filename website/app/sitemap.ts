@@ -68,10 +68,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const serviceCityRoutes = locations.flatMap((city) =>
     services.map((item) => ({ url: `${baseUrl}/hizmet-bolgeleri/${city.slug}/${item.slug}`, lastModified }))
   );
-  const rootLocationRoutes = locations.map((item) => ({ url: `${baseUrl}/hizmet-bolgeleri/${item.slug}`, lastModified }));
-  const districtRoutes = locations
-    .filter((item) => !["istanbul", "ankara", "izmir", "antalya"].includes(item.slug))
-    .map((item) => ({ url: `${baseUrl}/istanbul/${item.slug}-dadi`, lastModified }));
   const blogRoutes = blogPosts.map((item) => ({ url: `${baseUrl}/blog/${item.slug}`, lastModified }));
   const categoryRoutes = blogCategories.map((item) => ({ url: `${baseUrl}/blog/kategori/${item.slug}`, lastModified }));
 
@@ -80,8 +76,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...serviceRoutes,
     ...cityRoutes,
     ...serviceCityRoutes,
-    ...rootLocationRoutes,
-    ...districtRoutes,
     ...blogRoutes,
     ...categoryRoutes
   ];

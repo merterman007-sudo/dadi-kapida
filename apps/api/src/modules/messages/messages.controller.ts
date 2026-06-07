@@ -23,6 +23,12 @@ export class MessagesController {
     return this.service.findAll(Number(page ?? 1), Number(limit ?? 20), channel);
   }
 
+  @Get("website-submissions")
+  @RequirePermissions("families.read")
+  websiteSubmissions(@Query("limit") limit?: string) {
+    return this.service.findWebsiteSubmissions(Number(limit ?? 50));
+  }
+
   @Get(":id")
   @RequirePermissions("families.read")
   findOne(@Param("id") id: string) {

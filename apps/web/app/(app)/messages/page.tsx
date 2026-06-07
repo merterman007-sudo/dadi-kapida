@@ -13,8 +13,28 @@ type MessageRow = {
   sent_at: string | null;
 };
 
+type WebsiteSubmissionRow = {
+  id: string;
+  form_type: string;
+  status: string;
+  payload: Record<string, unknown>;
+  created_at: string;
+};
+
+const websiteFormLabels: Record<string, string> = {
+  contact_request: "İletişim Formu",
+  callback_request: "Geri Arama Talebi",
+  newsletter_subscription: "Bülten Kaydı"
+};
+
+function payloadText(payload: Record<string, unknown>, key: string) {
+  const value = payload[key];
+  return typeof value === "string" && value.trim() ? value : null;
+}
+
 export default function MessagesPage() {
   const [items, setItems] = useState<MessageRow[]>([]);
+  const [websiteSubmissions, setWebsiteSubmissions] = useState<WebsiteSubmissionRow[]>([]);
   const [channel, setChannel] = useState("WHATSAPP");
   const [direction, setDirection] = useState("OUTBOUND");
   const [toValue, setToValue] = useState("");
@@ -23,8 +43,12 @@ export default function MessagesPage() {
   const [error, setError] = useState<string | null>(null);
 
   const load = async () => {
-    const data = await apiFetch<MessageRow[]>("/messages?page=1&limit=100");
+    const [data, websiteData] = await Promise.all([
+      apiFetch<MessageRow[]>("/messages?page=1&limit=100"),
+      apiFetch<WebsiteSubmissionRow[]>("/messages/website-submissions?limit=50")
+    ]);
     setItems(data);
+    setWebsiteSubmissions(websiteData);
   };
 
   useEffect(() => {
@@ -57,6 +81,66 @@ export default function MessagesPage() {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Mesajlar</h2>
+      <section className="rounded-xl border border-slate-200 bg-white p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h3 className="text-lg font-semibold">Web Sitesi Talepleri</h3>
+            <p className="text-sm text-slate-500">İletişim, geri arama ve online görüşme formlarından gelen kayıtlar.</p>
+          </div>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+            {websiteSubmissions.length} kayıt
+          </span>
+        </div>
+        <div className="mt-4 grid gap-3 xl:grid-cols-2">
+          {websiteSubmissions.map((item) => {
+            const name = payloadText(item.payload, "full_name") ?? "İsimsiz talep";
+            const phone = payloadText(item.payload, "phone");
+            const email = payloadText(item.payload, "email");
+            const message = payloadText(item.payload, "message");
+            const preferredTime = payloadText(item.payload, "preferred_time");
+
+            return (
+              <article key={item.id} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--brand)]">
+                      {websiteFormLabels[item.form_type] ?? item.form_type}
+                    </p>
+                    <h4 className="mt-1 font-semibold text-slate-950">{name}</h4>
+                  </div>
+                  <span className="rounded-full bg-white px-2.5 py-1 text-xs font-medium text-slate-600">
+                    {item.status}
+                  </span>
+                </div>
+                <dl className="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
+                  <div>
+                    <dt className="text-xs text-slate-500">Telefon</dt>
+                    <dd>{phone ?? "-"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs text-slate-500">E-posta</dt>
+                    <dd>{email ?? "-"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs text-slate-500">Uygun zaman</dt>
+                    <dd>{preferredTime ?? "-"}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs text-slate-500">Tarih</dt>
+                    <dd>{new Date(item.created_at).toLocaleString("tr-TR")}</dd>
+                  </div>
+                </dl>
+                {message ? <p className="mt-3 rounded-lg bg-white p-3 text-sm leading-6 text-slate-700">{message}</p> : null}
+              </article>
+            );
+          })}
+          {websiteSubmissions.length === 0 ? (
+            <p className="rounded-xl border border-dashed border-slate-300 p-5 text-sm text-slate-500">
+              Henüz web sitesi mesajı yok.
+            </p>
+          ) : null}
+        </div>
+      </section>
       <div className="grid gap-2 md:grid-cols-4">
         <input value={channel} onChange={(e) => setChannel(e.target.value)} placeholder="Kanal" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
         <input value={direction} onChange={(e) => setDirection(e.target.value)} placeholder="Yön" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
