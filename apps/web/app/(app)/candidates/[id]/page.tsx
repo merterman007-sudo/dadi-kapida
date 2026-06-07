@@ -534,6 +534,41 @@ export default function CandidateDetailPage() {
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Profil Özeti</p>
+          <p className="mt-2 text-lg font-semibold text-slate-900">
+            {candidate.first_name} {candidate.last_name}
+          </p>
+          <p className="mt-1 text-sm text-slate-600">{candidate.candidate_code}</p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Konum</p>
+          <p className="mt-2 text-lg font-semibold text-slate-900">
+            {[candidate.city, candidate.district].filter(Boolean).join(" / ") || "-"}
+          </p>
+          <p className="mt-1 text-sm text-slate-600">
+            {candidate.preferred_cities?.trim() || "Tercih edilen şehir bilgisi yok"}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Durum</p>
+          <p className="mt-2 text-lg font-semibold text-slate-900">{candidate.status}</p>
+          <p className="mt-1 text-sm text-slate-600">
+            {candidate.availability_status ?? "Müsaitlik bilgisi yok"} · {candidate.has_first_aid_certificate ? "İlk yardım sertifikası var" : "İlk yardım sertifikası yok"}
+          </p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white p-4">
+          <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Operasyon</p>
+          <p className="mt-2 text-lg font-semibold text-slate-900">
+            {summary?.placementCount ?? 0} yerleştirme
+          </p>
+          <p className="mt-1 text-sm text-slate-600">
+            {summary?.referenceCount ?? 0} referans · {summary?.documentCount ?? 0} evrak · {summary?.languageCount ?? 0} dil
+          </p>
+        </div>
+      </div>
+
       <form
         className="space-y-4 rounded-xl border border-slate-200 bg-white p-4"
         onSubmit={(event) => {
