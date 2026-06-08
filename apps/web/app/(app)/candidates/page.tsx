@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
+import { candidateStatusLabels, positionLabels } from "@/lib/status-map";
 
 type Candidate = {
   id: string;
@@ -127,13 +128,19 @@ export default function CandidatesPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3">{candidate.phone}</td>
-                  <td className="px-4 py-3">{candidate.applied_position ?? "-"}</td>
+                  <td className="px-4 py-3">
+                    {candidate.applied_position
+                      ? positionLabels[candidate.applied_position] ?? candidate.applied_position
+                      : "-"}
+                  </td>
                   <td className="px-4 py-3">{candidate.email ?? "-"}</td>
                   <td className="px-4 py-3">
                     {candidate.city ?? "-"}
                     {candidate.district ? ` / ${candidate.district}` : ""}
                   </td>
-                  <td className="px-4 py-3">{candidate.status}</td>
+                  <td className="px-4 py-3">
+                    {candidateStatusLabels[candidate.status] ?? candidate.status}
+                  </td>
                   <td className="px-4 py-3">
                     <button
                       type="button"

@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  UseGuards
+} from "@nestjs/common";
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { RequirePermissions } from "../../common/decorators/require-permissions.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
@@ -16,14 +25,14 @@ export class ReferencesController {
 
   @Get("candidates/:id/references")
   @RequirePermissions("candidates.read")
-  listCandidateReferences(@Param("id") candidateId: string) {
+  listCandidateReferences(@Param("id", ParseUUIDPipe) candidateId: string) {
     return this.service.listCandidateReferences(candidateId);
   }
 
   @Post("candidates/:id/references")
   @RequirePermissions("candidates.update")
   createCandidateReference(
-    @Param("id") candidateId: string,
+    @Param("id", ParseUUIDPipe) candidateId: string,
     @Body() dto: CreateCandidateReferenceDto
   ) {
     return this.service.createCandidateReference(candidateId, dto);
@@ -32,7 +41,7 @@ export class ReferencesController {
   @Patch("candidate-references/:id")
   @RequirePermissions("candidates.update")
   updateCandidateReference(
-    @Param("id") referenceId: string,
+    @Param("id", ParseUUIDPipe) referenceId: string,
     @Body() dto: UpdateCandidateReferenceDto
   ) {
     return this.service.updateCandidateReference(referenceId, dto);
@@ -41,7 +50,7 @@ export class ReferencesController {
   @Post("candidate-references/:id/checks")
   @RequirePermissions("candidates.update")
   createReferenceCheck(
-    @Param("id") referenceId: string,
+    @Param("id", ParseUUIDPipe) referenceId: string,
     @Body() dto: CreateReferenceCheckDto,
     @CurrentUser() user: AuthenticatedUser
   ) {
@@ -50,7 +59,7 @@ export class ReferencesController {
 
   @Get("candidate-references/:id/checks")
   @RequirePermissions("candidates.read")
-  listReferenceChecks(@Param("id") referenceId: string) {
+  listReferenceChecks(@Param("id", ParseUUIDPipe) referenceId: string) {
     return this.service.listReferenceChecks(referenceId);
   }
 }

@@ -21,6 +21,11 @@ export class CreateMeetingDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(30)
+  contact_phone?: string;
+
+  @IsOptional()
+  @IsString()
   entity_type?: string;
 
   @IsOptional()

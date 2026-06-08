@@ -1,5 +1,11 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { Prisma, WebsiteContentStatus, WebsiteContentType, WebsiteSubmissionStatus } from "@prisma/client";
+import {
+  Prisma,
+  WebsiteContentStatus,
+  WebsiteContentType,
+  WebsiteSubmissionStatus,
+  WorkType
+} from "@prisma/client";
 import { createHash } from "node:crypto";
 import { ApplicationsService } from "../applications/applications.service";
 import { PrismaService } from "../../prisma/prisma.service";
@@ -104,12 +110,15 @@ export class WebsiteService {
       const createdRequest = await tx.familyRequest.create({
         data: {
           family_id: createdFamily.id,
-          title: `Website aile başvurusu - ${createdFamily.family_name}`,
+          title: `Web sitesi aile başvurusu - ${createdFamily.family_name}`,
           status: "OPEN",
+          work_type: this.mapFamilyWorkType(dto.service_type),
+          start_date: dto.start_date ? new Date(dto.start_date) : undefined,
           city: dto.city?.trim() || undefined,
           district: dto.district?.trim() || undefined,
           salary_min: dto.budget_min !== undefined ? dto.budget_min : undefined,
           salary_max: dto.budget_max !== undefined ? dto.budget_max : undefined,
+          children_count: this.getNestedNumber(payload, "need", "childrenCount"),
           description: dto.notes
             ? [dto.working_hours ? `Çalışma saatleri: ${dto.working_hours}` : null, dto.notes]
                 .filter(Boolean)
@@ -124,7 +133,7 @@ export class WebsiteService {
       await tx.task.create({
         data: {
           title: `Yeni aile başvurusu: ${createdFamily.family_name}`,
-          description: "Website üzerinden gelen aile başvurusu incelenecek.",
+          description: "Web sitesi üzerinden gelen aile başvurusu incelenecek.",
           status: "TODO",
           priority: 8,
           entity_type: "family_request",
@@ -180,6 +189,12 @@ export class WebsiteService {
     const [firstNamePart, ...rest] = fullName.split(/\s+/);
     const firstName = firstNamePart || fullName || "Aday";
     const lastName = rest.join(" ") || "Aday";
+    const experienceYears = this.parseExperienceYears(
+      this.getNestedString(payload, "experience", "years")
+    );
+    const workPreference = this.mapCandidateWorkType(
+      this.getNestedString(payload, "experience", "workType")
+    );
     const publicApplication = await this.applicationsService.createPublicApplication(
       {
         first_name: firstName,
@@ -190,6 +205,9 @@ export class WebsiteService {
         district: dto.district?.trim(),
         applied_position: dto.applied_position.trim(),
         birth_date: dto.birth_date,
+        experience_years: experienceYears,
+        work_type_preference: workPreference?.workType,
+        can_live_in: workPreference?.canLiveIn,
         source: dto.source ?? "WEBSITE",
         notes: [
           `Başvurulan pozisyon: ${dto.applied_position.trim()}`,
@@ -260,16 +278,51 @@ export class WebsiteService {
       marketing_consent: dto.marketing_consent ?? false
     };
 
-    const submission = await this.prisma.websiteFormSubmission.create({
-      data: {
-        form_type: formType,
-        status: WebsiteSubmissionStatus.NEW,
-        idempotency_key: idempotencyKey ?? undefined,
-        payload: payload as Prisma.InputJsonValue,
-        source: dto.source ?? "website",
-        ip_hash: this.hashIp(ip),
-        user_agent: userAgent ?? null
-      }
+    const submission = await this.prisma.$transaction(async (tx) => {
+      const createdSubmission = await tx.websiteFormSubmission.create({
+        data: {
+          form_type: formType,
+          status: WebsiteSubmissionStatus.NEW,
+          idempotency_key: idempotencyKey ?? undefined,
+          payload: payload as Prisma.InputJsonValue,
+          source: dto.source ?? "website",
+          ip_hash: this.hashIp(ip),
+          user_agent: userAgent ?? null
+        }
+      });
+
+      const requestKind =
+        typeof dto.payload?.requestKind === "string" ? dto.payload.requestKind : null;
+      const subject =
+        requestKind === "online"
+          ? "Web sitesi online görüşme talebi"
+          : formType === "callback_request"
+            ? "Web sitesi geri arama talebi"
+            : formType === "newsletter_subscription"
+              ? "Web sitesi bülten kaydı"
+              : "Web sitesi iletişim mesajı";
+
+      const message = await tx.message.create({
+        data: {
+          channel: "WEBSITE",
+          direction: "INBOUND",
+          entity_type: "WebsiteFormSubmission",
+          entity_id: createdSubmission.id,
+          from_value: dto.phone?.trim() || dto.email?.trim() || undefined,
+          subject,
+          content: dto.message?.trim() || `${dto.full_name.trim()} iletişim talebi oluşturdu.`,
+          sent_at: new Date()
+        }
+      });
+
+      return tx.websiteFormSubmission.update({
+        where: { id: createdSubmission.id },
+        data: {
+          status: WebsiteSubmissionStatus.SYNCED,
+          crm_entity_type: "Message",
+          crm_entity_id: message.id
+        }
+      });
     });
 
     await this.prisma.auditLog.create({
@@ -436,5 +489,50 @@ export class WebsiteService {
   private hashIp(ip?: string) {
     if (!ip) return null;
     return createHash("sha256").update(ip).digest("hex");
+  }
+
+  private getNestedString(
+    payload: Record<string, unknown>,
+    parentKey: string,
+    childKey: string
+  ): string | undefined {
+    const parent = payload[parentKey];
+    if (!parent || typeof parent !== "object" || Array.isArray(parent)) return undefined;
+    const value = (parent as Record<string, unknown>)[childKey];
+    return typeof value === "string" && value.trim() ? value.trim() : undefined;
+  }
+
+  private getNestedNumber(
+    payload: Record<string, unknown>,
+    parentKey: string,
+    childKey: string
+  ): number | undefined {
+    const parent = payload[parentKey];
+    if (!parent || typeof parent !== "object" || Array.isArray(parent)) return undefined;
+    const value = (parent as Record<string, unknown>)[childKey];
+    return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+  }
+
+  private parseExperienceYears(value?: string): number | undefined {
+    if (!value) return undefined;
+    const match = value.match(/\d+/);
+    return match ? Number(match[0]) : undefined;
+  }
+
+  private mapCandidateWorkType(
+    value?: string
+  ): { workType: WorkType; canLiveIn: boolean } | undefined {
+    if (value === "yatili") return { workType: WorkType.LIVE_IN, canLiveIn: true };
+    if (value === "gunduzlu") return { workType: WorkType.DAYTIME, canLiveIn: false };
+    if (value === "part-time") return { workType: WorkType.PART_TIME, canLiveIn: false };
+    if (value === "her-ikisi") return { workType: WorkType.FULL_TIME, canLiveIn: true };
+    return undefined;
+  }
+
+  private mapFamilyWorkType(value?: string): WorkType | undefined {
+    if (value === "yatili-dadi") return WorkType.LIVE_IN;
+    if (value === "gece-dadisi") return WorkType.NIGHT;
+    if (value === "gunduzlu-dadi") return WorkType.DAYTIME;
+    return undefined;
   }
 }

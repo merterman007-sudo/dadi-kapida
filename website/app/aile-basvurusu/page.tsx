@@ -286,12 +286,21 @@ export default function FamilyApplicationPage() {
               </div>
               <div className="grid gap-4 md:grid-cols-2">
                 <Field label="Çalışma Saatleri">
-                  <input
+                  <select
                     className={inputClass}
-                    placeholder="Örn. 08:00 - 18:00, yatılı, haftada 3 gün"
                     value={form.working_hours}
                     onChange={(e) => update("working_hours", e.target.value)}
-                  />
+                  >
+                    <option value="">Seçiniz</option>
+                    <option value="07:00 - 17:00">07:00 - 17:00</option>
+                    <option value="08:00 - 18:00">08:00 - 18:00</option>
+                    <option value="09:00 - 18:00">09:00 - 18:00</option>
+                    <option value="09:00 - 19:00">09:00 - 19:00</option>
+                    <option value="10:00 - 20:00">10:00 - 20:00</option>
+                    <option value="20:00 - 08:00">20:00 - 08:00 (Gece)</option>
+                    <option value="Yatılı">Yatılı</option>
+                    <option value="Esnek / Görüşülecek">Esnek / Görüşülecek</option>
+                  </select>
                 </Field>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label="Maaş Bütçesi Alt">

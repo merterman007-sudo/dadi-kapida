@@ -104,8 +104,8 @@ export const genericPageData = {
     subtitle: "Ailenizin ihtiyacına göre profesyonel personel çözümleri."
   },
   "hizmet-bolgeleri": {
-    title: "Hizmet Bölgeleri",
-    subtitle: "İstanbul, Ankara, İzmir ve Türkiye genelinde aileye özel dadı yerleştirme danışmanlığı."
+    title: "Türkiye Geneli Hizmet",
+    subtitle: "81 ilde dadı, bakıcı, temizlik, şoför ve ev yardımcısı ihtiyaçları için danışmanlık."
   },
   hakkimizda: {
     title: "Hakkımızda",

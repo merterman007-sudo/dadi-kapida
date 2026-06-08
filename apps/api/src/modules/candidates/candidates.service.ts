@@ -75,7 +75,8 @@ export class CandidatesService {
       references,
       documents,
       families,
-      requests
+      requests,
+      sourceApplication
     ] = await Promise.all([
       this.prisma.candidateWorkPreference.findMany({
         where: { candidate_id: candidate.id },
@@ -108,7 +109,11 @@ export class CandidatesService {
             where: { id: { in: placements.map((placement) => placement.family_request_id) } },
             select: { id: true, title: true }
           })
-        : Promise.resolve([])
+        : Promise.resolve([]),
+      this.prisma.candidateApplication.findFirst({
+        where: { candidate_id: candidate.id },
+        orderBy: { created_at: "desc" }
+      })
     ]);
 
     const familyMap = new Map(families.map((family) => [family.id, family.family_name] as const));
@@ -121,6 +126,7 @@ export class CandidatesService {
       experiences,
       references,
       documents,
+      source_application: sourceApplication,
       placements: placements.map((placement): CandidateDetailPlacement => ({
         id: placement.id,
         family_id: placement.family_id,

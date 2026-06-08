@@ -3,6 +3,11 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
+import {
+  applicationStatusLabels as statusLabels,
+  familyStatusLabels,
+  positionLabels
+} from "@/lib/status-map";
 
 type Application = {
   id: string;
@@ -29,21 +34,6 @@ type FamilyLead = {
   created_at: string;
 };
 
-const statusLabels: Record<string, string> = {
-  NEW: "Yeni",
-  REVIEWING: "Ä°nceleniyor",
-  REJECTED: "Reddedildi",
-  DUPLICATE: "MÃ¼kerrer",
-  CONVERTED_TO_CANDIDATE: "Adaya DÃ¶nÃ¼ÅŸtÃ¼rÃ¼ldÃ¼"
-};
-
-const familyStatusLabels: Record<string, string> = {
-  LEAD: "Yeni BaÅŸvuru",
-  ACTIVE: "Aktif MÃ¼ÅŸteri",
-  INACTIVE: "Pasif",
-  BLACKLISTED: "Kara Liste"
-};
-
 export default function ApplicationsPage() {
   const [tab, setTab] = useState<"nanny" | "family">("nanny");
 
@@ -64,7 +54,7 @@ export default function ApplicationsPage() {
       setNannyItems(nanny);
       setFamilyItems(family);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Veriler alÄ±namadÄ±.");
+      setError(err instanceof Error ? err.message : "Veriler alınamadı.");
     } finally {
       setLoading(false);
     }
@@ -85,7 +75,7 @@ export default function ApplicationsPage() {
           setFamilyItems(family);
         }
       } catch (err) {
-        if (mounted) setError(err instanceof Error ? err.message : "Veriler alÄ±namadÄ±.");
+        if (mounted) setError(err instanceof Error ? err.message : "Veriler alınamadı.");
       } finally {
         if (mounted) setLoading(false);
       }
@@ -105,7 +95,7 @@ export default function ApplicationsPage() {
       await apiFetch(pathMap[action], { method: "POST" });
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Aksiyon baÅŸarÄ±sÄ±z.");
+      setError(err instanceof Error ? err.message : "Aksiyon başarısız.");
     }
   };
 
@@ -128,9 +118,9 @@ export default function ApplicationsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">BaÅŸvurular</h2>
+        <h2 className="text-2xl font-bold">Başvurular</h2>
         <span className="text-sm text-slate-500">
-          {tab === "nanny" ? nannyItems.length : familyItems.length} kayÄ±t
+          {tab === "nanny" ? nannyItems.length : familyItems.length} kayıt
         </span>
       </div>
 
@@ -143,7 +133,7 @@ export default function ApplicationsPage() {
             tab === "nanny" ? "bg-white shadow text-slate-900" : "text-slate-600 hover:text-slate-900"
           }`}
         >
-          DadÄ± BaÅŸvurularÄ±
+          Dadı Başvuruları
           {nannyItems.length > 0 && (
             <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
               {nannyItems.filter(i => i.status === "NEW").length}
@@ -157,7 +147,7 @@ export default function ApplicationsPage() {
             tab === "family" ? "bg-white shadow text-slate-900" : "text-slate-600 hover:text-slate-900"
           }`}
         >
-          Aile BaÅŸvurularÄ±
+          Aile Başvuruları
           {familyItems.length > 0 && (
             <span className="ml-2 rounded-full bg-orange-100 px-2 py-0.5 text-xs text-orange-700">
               {familyItems.length}
@@ -173,7 +163,7 @@ export default function ApplicationsPage() {
         className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
       />
 
-      {loading ? <p className="text-sm text-slate-600">YÃ¼kleniyor...</p> : null}
+      {loading ? <p className="text-sm text-slate-600">Yükleniyor...</p> : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
       {!loading && !error && tab === "nanny" ? (
@@ -186,7 +176,7 @@ export default function ApplicationsPage() {
                 <th className="px-4 py-3">Pozisyon</th>
                 <th className="px-4 py-3">E-posta</th>
                 <th className="px-4 py-3">Durum</th>
-                <th className="px-4 py-3">Ä°ÅŸlemler</th>
+                <th className="px-4 py-3">İşlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -198,7 +188,11 @@ export default function ApplicationsPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3">{item.phone}</td>
-                  <td className="px-4 py-3">{item.applied_position ?? "-"}</td>
+                  <td className="px-4 py-3">
+                    {item.applied_position
+                      ? positionLabels[item.applied_position] ?? item.applied_position
+                      : "-"}
+                  </td>
                   <td className="px-4 py-3">{item.email ?? "-"}</td>
                   <td className="px-4 py-3">
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs">
@@ -208,13 +202,13 @@ export default function ApplicationsPage() {
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-2">
                       <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => runAction(item.id, "convert")}>
-                        Adaya DÃ¶nÃ¼ÅŸtÃ¼r
+                        Adaya Dönüştür
                       </button>
                       <button type="button" className="rounded border border-red-200 px-2 py-1 text-xs text-red-600" onClick={() => runAction(item.id, "reject")}>
                         Reddet
                       </button>
                       <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => runAction(item.id, "duplicate")}>
-                        MÃ¼kerrer
+                        Mükerrer
                       </button>
                     </div>
                   </td>
@@ -233,12 +227,12 @@ export default function ApplicationsPage() {
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-slate-700">
               <tr>
-                <th className="px-4 py-3">Aile AdÄ±</th>
-                <th className="px-4 py-3">Ä°letiÅŸim</th>
+                <th className="px-4 py-3">Aile Adı</th>
+                <th className="px-4 py-3">İletişim</th>
                 <th className="px-4 py-3">Telefon</th>
-                <th className="px-4 py-3">Åžehir</th>
+                <th className="px-4 py-3">Şehir</th>
                 <th className="px-4 py-3">Durum</th>
-                <th className="px-4 py-3">Ä°ÅŸlemler</th>
+                <th className="px-4 py-3">İşlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -261,7 +255,7 @@ export default function ApplicationsPage() {
                 </tr>
               ))}
               {filteredFamily.length === 0 ? (
-                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Yeni aile baÅŸvurusu yok.</td></tr>
+                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Yeni aile başvurusu yok.</td></tr>
               ) : null}
             </tbody>
           </table>

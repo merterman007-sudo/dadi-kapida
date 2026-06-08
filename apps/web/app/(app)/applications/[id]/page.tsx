@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
+import {
+  applicationStatusLabels,
+  positionLabels,
+  publicWorkTypeLabels,
+  workTypeLabels
+} from "@/lib/status-map";
 
 type Application = {
   id: string;
@@ -14,11 +20,26 @@ type Application = {
   city: string | null;
   district: string | null;
   applied_position: string | null;
+  birth_date: string | null;
+  experience_years: number | null;
+  work_type_preference: string | null;
   notes: string | null;
+  raw_payload: Record<string, unknown> | null;
   status: string;
 };
 
 const statuses = ["NEW", "CONTACTED", "CONVERTED_TO_CANDIDATE", "REJECTED", "DUPLICATE"] as const;
+
+function payloadValue(payload: Record<string, unknown>, path: string[]): string | null {
+  let current: unknown = payload;
+  for (const key of path) {
+    if (!current || typeof current !== "object" || Array.isArray(current)) return null;
+    current = (current as Record<string, unknown>)[key];
+  }
+  if (typeof current === "string" && current.trim()) return current;
+  if (typeof current === "number" || typeof current === "boolean") return String(current);
+  return null;
+}
 
 export default function ApplicationDetailPage() {
   const params = useParams<{ id: string }>();
@@ -89,7 +110,7 @@ export default function ApplicationDetailPage() {
   };
 
   if (loading) return <p className="text-sm text-slate-600">Yükleniyor...</p>;
-  if (error) return <p className="text-sm text-red-600">{error}</p>;
+  if (error && !item) return <p className="text-sm text-red-600">{error}</p>;
   if (!item) return <p className="text-sm text-slate-600">Başvuru bulunamadı.</p>;
 
   return (
@@ -102,6 +123,8 @@ export default function ApplicationDetailPage() {
           Listeye dön
         </Link>
       </div>
+
+      {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
       <div className="grid gap-4 rounded-xl border border-slate-200 bg-white p-4 md:grid-cols-2">
         <p className="text-sm">
@@ -117,7 +140,24 @@ export default function ApplicationDetailPage() {
           <strong>İlçe:</strong> {item.district ?? "-"}
         </p>
         <p className="text-sm md:col-span-2">
-          <strong>Başvurduğu Pozisyon:</strong> {item.applied_position ?? "-"}
+          <strong>Başvurduğu Pozisyon:</strong>{" "}
+          {item.applied_position
+            ? positionLabels[item.applied_position] ?? item.applied_position
+            : "-"}
+        </p>
+        <p className="text-sm">
+          <strong>Doğum Tarihi:</strong>{" "}
+          {item.birth_date ? new Date(item.birth_date).toLocaleDateString("tr-TR") : "-"}
+        </p>
+        <p className="text-sm">
+          <strong>Deneyim:</strong>{" "}
+          {item.experience_years !== null ? `${item.experience_years} yıl` : "-"}
+        </p>
+        <p className="text-sm md:col-span-2">
+          <strong>Çalışma Tercihi:</strong>{" "}
+          {item.work_type_preference
+            ? workTypeLabels[item.work_type_preference] ?? item.work_type_preference
+            : "-"}
         </p>
 
         <label className="space-y-1 text-sm md:col-span-2">
@@ -129,7 +169,7 @@ export default function ApplicationDetailPage() {
           >
             {statuses.map((value) => (
               <option key={value} value={value}>
-                {value}
+                {applicationStatusLabels[value] ?? value}
               </option>
             ))}
           </select>
@@ -165,6 +205,34 @@ export default function ApplicationDetailPage() {
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
         </div>
       </div>
+
+      {item.raw_payload ? (
+        <section className="rounded-xl border border-slate-200 bg-white p-4">
+          <h3 className="font-semibold">Web Başvuru Formu Bilgileri</h3>
+          <p className="mt-1 text-sm text-slate-500">
+            Başvuru sırasında iletilen ek bilgiler.
+          </p>
+          <dl className="mt-4 grid gap-3 md:grid-cols-2">
+            {[
+              ["Başvurulan Pozisyon", payloadValue(item.raw_payload, ["application", "appliedPosition"])],
+              ["Deneyim", payloadValue(item.raw_payload, ["experience", "years"])],
+              [
+                "Çalışma Tipi",
+                publicWorkTypeLabels[payloadValue(item.raw_payload, ["experience", "workType"]) ?? ""] ??
+                  payloadValue(item.raw_payload, ["experience", "workType"])
+              ],
+              ["Adayın Notu", payloadValue(item.raw_payload, ["notes"])]
+            ]
+              .filter((row): row is [string, string] => Boolean(row[1]))
+              .map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-slate-50 p-3">
+                  <dt className="text-xs text-slate-500">{label}</dt>
+                  <dd className="mt-1 text-sm text-slate-800">{value}</dd>
+                </div>
+              ))}
+          </dl>
+        </section>
+      ) : null}
     </div>
   );
 }

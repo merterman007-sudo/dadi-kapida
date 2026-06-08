@@ -41,7 +41,22 @@ export class FamiliesService {
       throw new NotFoundException("Family not found");
     }
 
-    return family;
+    const [members, requests] = await Promise.all([
+      this.prisma.familyMember.findMany({
+        where: { family_id: family.id },
+        orderBy: { created_at: "asc" }
+      }),
+      this.prisma.familyRequest.findMany({
+        where: { family_id: family.id },
+        orderBy: { created_at: "desc" }
+      })
+    ]);
+
+    return {
+      ...family,
+      members,
+      requests
+    };
   }
 
   create(dto: CreateFamilyDto) {

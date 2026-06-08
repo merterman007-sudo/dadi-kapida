@@ -486,7 +486,7 @@ export default async function HomePage() {
       {/* ═══════ LOKASYONLAR ════════════════════════════ */}
       <section className="border-y border-line py-12 lg:py-16 bg-bg">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <Label t="Hizmet Bölgeleri" />
+          <Label t="Türkiye Geneli Hizmet" />
           <H size={2} className="mt-3 mb-7">Tüm Türkiye&apos;de profesyonel dadı hizmeti</H>
           <div className="flex flex-wrap gap-2">
             {locationsPreview.map(loc => (

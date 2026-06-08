@@ -32,8 +32,8 @@ const eyebrowByPrefix: Record<string, string> = {
   "aileler-icin": "Aileler İçin",
   "dadilar-icin": "Personel İçin",
   hizmetlerimiz: "Hizmetlerimiz",
-  "hizmet-bolgeleri": "Hizmet Bölgeleri",
-  istanbul: "Hizmet Bölgeleri",
+  "hizmet-bolgeleri": "Türkiye Geneli Hizmet",
+  istanbul: "Türkiye Geneli Hizmet",
   rehberler: "Rehberler",
   hakkimizda: "Hakkımızda",
   ekibimiz: "Ekibimiz",
@@ -62,10 +62,10 @@ const eyebrowByPrefix: Record<string, string> = {
   "aile-aydinlatma-metni": "Yasal",
   "veri-sahibi-basvuru-formu": "Yasal",
   "yasal-bilgilendirme": "Yasal",
-  "ankara-dadi": "Hizmet Bölgeleri",
-  "izmir-dadi": "Hizmet Bölgeleri",
-  "antalya-dadi": "Hizmet Bölgeleri",
-  "istanbul-dadi": "Hizmet Bölgeleri",
+  "ankara-dadi": "Türkiye Geneli Hizmet",
+  "izmir-dadi": "Türkiye Geneli Hizmet",
+  "antalya-dadi": "Türkiye Geneli Hizmet",
+  "istanbul-dadi": "Türkiye Geneli Hizmet",
 };
 
 function getEyebrow(key: string): string {
@@ -187,7 +187,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="surface rounded-[34px] p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Hizmet Bölgeleri</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Türkiye Geneli Hizmet</p>
               <h1 className="mt-3 text-4xl font-semibold text-navy">{location.title} dadı hizmetleri</h1>
               <p className="mt-4 text-sm leading-7 text-muted">{location.description}</p>
               <div className="mt-6 flex flex-wrap gap-3">

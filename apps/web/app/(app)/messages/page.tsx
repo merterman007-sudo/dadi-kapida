@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
+import { messageChannelLabels, messageDirectionLabels } from "@/lib/status-map";
 
 type MessageRow = {
   id: string;
   channel: string;
   direction: string;
   to_value: string | null;
+  from_value: string | null;
   subject: string | null;
   content: string;
   sent_at: string | null;
@@ -25,6 +27,13 @@ const websiteFormLabels: Record<string, string> = {
   contact_request: "İletişim Formu",
   callback_request: "Geri Arama Talebi",
   newsletter_subscription: "Bülten Kaydı"
+};
+
+const submissionStatusLabels: Record<string, string> = {
+  NEW: "Yeni",
+  REVIEWING: "İnceleniyor",
+  SYNCED: "CRM'e Aktarıldı",
+  FAILED: "Aktarım Hatası"
 };
 
 function payloadText(payload: Record<string, unknown>, key: string) {
@@ -109,7 +118,7 @@ export default function MessagesPage() {
                     <h4 className="mt-1 font-semibold text-slate-950">{name}</h4>
                   </div>
                   <span className="rounded-full bg-white px-2.5 py-1 text-xs font-medium text-slate-600">
-                    {item.status}
+                    {submissionStatusLabels[item.status] ?? item.status}
                   </span>
                 </div>
                 <dl className="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
@@ -142,8 +151,16 @@ export default function MessagesPage() {
         </div>
       </section>
       <div className="grid gap-2 md:grid-cols-4">
-        <input value={channel} onChange={(e) => setChannel(e.target.value)} placeholder="Kanal" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-        <input value={direction} onChange={(e) => setDirection(e.target.value)} placeholder="Yön" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+        <select value={channel} onChange={(e) => setChannel(e.target.value)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="WHATSAPP">WhatsApp</option>
+          <option value="SMS">SMS</option>
+          <option value="EMAIL">E-posta</option>
+          <option value="PHONE">Telefon</option>
+        </select>
+        <select value={direction} onChange={(e) => setDirection(e.target.value)} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="OUTBOUND">Giden</option>
+          <option value="INBOUND">Gelen</option>
+        </select>
         <input value={toValue} onChange={(e) => setToValue(e.target.value)} placeholder="Alıcı" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
         <input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Konu" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
       </div>
@@ -164,9 +181,9 @@ export default function MessagesPage() {
           <tbody>
             {items.map((item) => (
               <tr key={item.id} className="border-t border-slate-100">
-                <td className="px-4 py-3">{item.channel}</td>
-                <td className="px-4 py-3">{item.direction}</td>
-                <td className="px-4 py-3">{item.to_value ?? "-"}</td>
+                <td className="px-4 py-3">{messageChannelLabels[item.channel] ?? item.channel}</td>
+                <td className="px-4 py-3">{messageDirectionLabels[item.direction] ?? item.direction}</td>
+                <td className="px-4 py-3">{item.to_value ?? item.from_value ?? "-"}</td>
                 <td className="px-4 py-3">{item.subject ?? "-"}</td>
                 <td className="px-4 py-3">{item.content}</td>
               </tr>

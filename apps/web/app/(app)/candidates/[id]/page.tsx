@@ -4,6 +4,13 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
+import {
+  candidateStatusLabels,
+  positionLabels,
+  publicWorkTypeLabels,
+  referenceStatusLabels,
+  workTypeLabels
+} from "@/lib/status-map";
 
 type CandidatePlacement = {
   id: string;
@@ -65,6 +72,14 @@ type CandidateDocument = {
   created_at: string;
 };
 
+type CandidateSourceApplication = {
+  id: string;
+  applied_position: string | null;
+  notes: string | null;
+  raw_payload: Record<string, unknown> | null;
+  created_at: string;
+};
+
 type LanguageOption = {
   id: string;
   name: string;
@@ -101,6 +116,7 @@ type Candidate = {
   experiences: CandidateExperience[];
   references: CandidateReference[];
   documents: CandidateDocument[];
+  source_application: CandidateSourceApplication | null;
 };
 
 type ProfileDraft = {
@@ -183,6 +199,15 @@ function formatMoney(value: string | null | undefined) {
   return Number.isNaN(numeric) ? value : new Intl.NumberFormat("tr-TR").format(numeric);
 }
 
+function payloadValue(payload: Record<string, unknown> | null, path: string[]): string | null {
+  let current: unknown = payload;
+  for (const key of path) {
+    if (!current || typeof current !== "object" || Array.isArray(current)) return null;
+    current = (current as Record<string, unknown>)[key];
+  }
+  return typeof current === "string" && current.trim() ? current : null;
+}
+
 function createProfileDraft(candidate: Candidate): ProfileDraft {
   return {
     first_name: candidate.first_name,
@@ -195,7 +220,9 @@ function createProfileDraft(candidate: Candidate): ProfileDraft {
     district: candidate.district ?? "",
     address: candidate.address ?? "",
     preferred_cities: candidate.preferred_cities ?? "",
-    applied_position: candidate.applied_position ?? "",
+    applied_position: candidate.applied_position
+      ? positionLabels[candidate.applied_position] ?? candidate.applied_position
+      : "",
     education_level: candidate.education_level ?? "",
     years_of_experience: candidate.years_of_experience?.toString() ?? "",
     expected_salary_min: candidate.expected_salary_min ?? "",
@@ -545,7 +572,11 @@ export default function CandidateDetailPage() {
             {candidate.first_name} {candidate.last_name}
           </p>
           <p className="mt-1 text-sm text-slate-600">{candidate.candidate_code}</p>
-          <p className="mt-1 text-sm text-slate-600">{candidate.applied_position ?? "Pozisyon bilgisi yok"}</p>
+          <p className="mt-1 text-sm text-slate-600">
+            {candidate.applied_position
+              ? positionLabels[candidate.applied_position] ?? candidate.applied_position
+              : "Pozisyon bilgisi yok"}
+          </p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Konum</p>
@@ -558,7 +589,9 @@ export default function CandidateDetailPage() {
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Durum</p>
-          <p className="mt-2 text-lg font-semibold text-slate-900">{candidate.status}</p>
+          <p className="mt-2 text-lg font-semibold text-slate-900">
+            {candidateStatusLabels[candidate.status] ?? candidate.status}
+          </p>
           <p className="mt-1 text-sm text-slate-600">
             {candidate.availability_status ?? "Müsaitlik bilgisi yok"} · {candidate.has_first_aid_certificate ? "İlk yardım sertifikası var" : "İlk yardım sertifikası yok"}
           </p>
@@ -573,6 +606,44 @@ export default function CandidateDetailPage() {
           </p>
         </div>
       </div>
+
+      {candidate.source_application ? (
+        <section className="rounded-xl border border-slate-200 bg-white p-4">
+          <h3 className="font-semibold">İlk Web Başvurusu</h3>
+          <p className="mt-1 text-sm text-slate-500">
+            Personel profiline dönüştürülmeden önce adayın ilettiği bilgiler.
+          </p>
+          <dl className="mt-4 grid gap-3 md:grid-cols-2">
+            {[
+              [
+                "Başvurulan Pozisyon",
+                candidate.source_application.applied_position
+                  ? positionLabels[candidate.source_application.applied_position] ??
+                    candidate.source_application.applied_position
+                  : null
+              ],
+              [
+                "Deneyim",
+                payloadValue(candidate.source_application.raw_payload, ["experience", "years"])
+              ],
+              [
+                "Çalışma Tipi",
+                publicWorkTypeLabels[
+                  payloadValue(candidate.source_application.raw_payload, ["experience", "workType"]) ?? ""
+                ] ?? payloadValue(candidate.source_application.raw_payload, ["experience", "workType"])
+              ],
+              ["Adayın Notu", payloadValue(candidate.source_application.raw_payload, ["notes"])]
+            ]
+              .filter((row): row is [string, string] => Boolean(row[1]))
+              .map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-slate-50 p-3">
+                  <dt className="text-xs text-slate-500">{label}</dt>
+                  <dd className="mt-1 text-sm text-slate-800">{value}</dd>
+                </div>
+              ))}
+          </dl>
+        </section>
+      ) : null}
 
       <form
         className="space-y-4 rounded-xl border border-slate-200 bg-white p-4"
@@ -813,7 +884,7 @@ export default function CandidateDetailPage() {
             >
               {statuses.map((item) => (
                 <option key={item} value={item}>
-                  {item}
+                  {candidateStatusLabels[item] ?? item}
                 </option>
               ))}
             </select>
@@ -952,7 +1023,8 @@ export default function CandidateDetailPage() {
               >
                 <div className="text-sm">
                   <p className="font-semibold">
-                    {preference.work_type} · {preference.can_live_in ? "Yatılı" : "Gündüz"}
+                    {workTypeLabels[preference.work_type] ?? preference.work_type} ·{" "}
+                    {preference.can_live_in ? "Yatılı" : "Gündüz"}
                   </p>
                   <p className="text-xs text-[var(--muted)]">
                     Maaş: {formatMoney(preference.min_salary)} - {formatMoney(preference.max_salary)} · Gece:{" "}
@@ -1186,7 +1258,8 @@ export default function CandidateDetailPage() {
               <div key={reference.id} className="rounded-xl border border-slate-200 p-3 text-sm">
                 <p className="font-semibold">{reference.full_name}</p>
                 <p className="text-xs text-[var(--muted)]">
-                  {reference.phone ?? "-"} · {reference.relation ?? "-"} · {reference.status}
+                  {reference.phone ?? "-"} · {reference.relation ?? "-"} ·{" "}
+                  {referenceStatusLabels[reference.status] ?? reference.status}
                 </p>
               </div>
             ))}

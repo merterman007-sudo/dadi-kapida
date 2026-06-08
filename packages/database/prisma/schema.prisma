@@ -638,6 +638,7 @@ model Meeting {
   type              MeetingType
   status            MeetingStatus @default(SCHEDULED)
   title             String
+  contact_phone     String?
   entity_type       String?
   entity_id         String?
   family_id         String?       @db.Uuid

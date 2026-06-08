@@ -20,7 +20,7 @@ const footerServices: NavItem[] = [
 
 const footerCorporate: NavItem[] = [
   { label: "Aileler İçin", href: "/aileler-icin" },
-  { label: "Hizmet Bölgeleri", href: "/hizmet-bolgeleri" },
+  { label: "Türkiye Geneli Hizmet", href: "/hizmet-bolgeleri" },
   { label: "Personel Başvurusu", href: "/personel-basvurusu" },
   { label: "Blog", href: "/blog" },
   { label: "SSS", href: "/sik-sorulan-sorular" },
@@ -56,14 +56,16 @@ export function SiteHeader({
   const contact = siteSettings["global.contact"] ?? {};
   const phone = contact.phone?.trim();
   const email = contact.supportEmail ?? "iletisim@dadikapida.com";
-  const whatsapp = contact.whatsapp?.trim();
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
   const logoUrl = brand.logoUrl?.trim();
-  const mobileNavigation = navigation.some((item) => item.href === "/hizmet-bolgeleri")
-    ? navigation
-    : [{ label: "Hizmet Bölgeleri", href: "/hizmet-bolgeleri" }, ...navigation];
+  const normalizedNavigation = navigation.map((item) =>
+    item.href === "/hizmet-bolgeleri" ? { ...item, label: "Türkiye Geneli Hizmet" } : item
+  );
+  const mobileNavigation = normalizedNavigation.some((item) => item.href === "/hizmet-bolgeleri")
+    ? normalizedNavigation
+    : [{ label: "Türkiye Geneli Hizmet", href: "/hizmet-bolgeleri" }, ...normalizedNavigation];
 
   /* scroll shadow */
   useEffect(() => {
@@ -162,7 +164,9 @@ export function SiteHeader({
               </div>
             </div>
 
-            {navigation.filter(item => item.href !== "/hizmetlerimiz").map(item => (
+            {normalizedNavigation
+              .filter(item => item.href !== "/hizmetlerimiz" && item.href !== "/hizmet-bolgeleri")
+              .map(item => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -183,22 +187,12 @@ export function SiteHeader({
                   : "text-body hover:text-green hover:bg-[#FAF5F7]"
               }`}
             >
-              Hizmet Bölgeleri
+              Türkiye Geneli
             </Link>
           </nav>
 
           {/* Desktop CTA */}
           <div className="hidden items-center gap-2 lg:flex">
-            {whatsapp && (
-              <a
-                href={`https://wa.me/${whatsapp.replace(/\D/g,"")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-outline py-2 px-4 text-xs"
-              >
-                WhatsApp
-              </a>
-            )}
             <Link href="/personel-basvurusu" className="btn-outline py-2 px-4 text-xs">
               Personel Başvurusu
             </Link>
@@ -263,16 +257,6 @@ export function SiteHeader({
             <Link href="/personel-basvurusu" className="btn-outline w-full justify-center text-sm">
               Personel Başvurusu Yap
             </Link>
-            {whatsapp && (
-              <a
-                href={`https://wa.me/${whatsapp.replace(/\D/g,"")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-outline w-full justify-center text-sm"
-              >
-                WhatsApp ile Yazın
-              </a>
-            )}
           </div>
         </div>
       )}

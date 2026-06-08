@@ -72,7 +72,7 @@ export default async function ServiceRegionServicePage({
       <BreadcrumbSchema
         items={[
           { name: "Ana Sayfa", url: "https://dadikapida.com" },
-          { name: "Hizmet Bölgeleri", url: "https://dadikapida.com/hizmet-bolgeleri" },
+          { name: "Türkiye Geneli Hizmet", url: "https://dadikapida.com/hizmet-bolgeleri" },
           { name: location.title, url: `https://dadikapida.com/hizmet-bolgeleri/${location.slug}` },
           {
             name: serviceItem.title,
@@ -90,7 +90,7 @@ export default async function ServiceRegionServicePage({
             </Link>
             <span>/</span>
             <Link href="/hizmet-bolgeleri" className="hover:text-trust transition-colors">
-              Hizmet Bölgeleri
+              Türkiye Geneli Hizmet
             </Link>
             <span>/</span>
             <Link href={`/hizmet-bolgeleri/${location.slug}`} className="hover:text-trust transition-colors">
@@ -115,8 +115,8 @@ export default async function ServiceRegionServicePage({
                 {serviceContent?.tagline ?? serviceItem.description}
               </p>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-muted">
-                Bu sayfa, {location.title} bölgesinde {serviceItem.title.toLowerCase()} ihtiyacı olan ailelerin daha hızlı
-                karar verebilmesi için hazırlanmıştır.
+                Bu sayfa, {location.title} aramasını kolaylaştırmak için hazırlanmıştır. Dadı Kapıda aynı hizmet için
+                Türkiye genelinde talep alır; bulunduğunuz şehir farklıysa aile başvuru formundan bize ulaşabilirsiniz.
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link href="/aile-basvurusu" className="btn-primary">
@@ -249,7 +249,7 @@ export default async function ServiceRegionServicePage({
                   Aile Başvurusu Yap
                 </Link>
                 <Link href="/hizmet-bolgeleri" className="btn-outline">
-                  Tüm Bölgeler
+                  Öne Çıkan Şehirler
                 </Link>
               </div>
             </div>

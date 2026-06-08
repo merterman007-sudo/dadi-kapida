@@ -4,9 +4,9 @@ import { BreadcrumbSchema } from "../../components/structured-data";
 import { serviceCategories, locations } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "Hizmet Bölgeleri | Dadı Kapıda",
+  title: "Türkiye Genelinde Hizmet | Dadı Kapıda",
   description:
-    "İstanbul, Ankara, İzmir ve Türkiye genelinde dadı, bakıcı, temizlik, şoför, aşçı ve ev yardımcısı hizmetleri için şehir bazlı sayfaları inceleyin.",
+    "Dadı Kapıda; dadı, bakıcı, yaşlı bakım, hasta bakım, temizlik, şoför, aşçı ve ev yardımcısı hizmetlerinde Türkiye genelinde ailelere danışmanlık verir.",
   alternates: { canonical: "https://dadikapida.com/hizmet-bolgeleri" }
 };
 
@@ -16,7 +16,7 @@ export default function ServiceRegionsPage() {
       <BreadcrumbSchema
         items={[
           { name: "Ana Sayfa", url: "https://dadikapida.com" },
-          { name: "Hizmet Bölgeleri", url: "https://dadikapida.com/hizmet-bolgeleri" }
+          { name: "Türkiye Geneli Hizmet", url: "https://dadikapida.com/hizmet-bolgeleri" }
         ]}
       />
 
@@ -27,19 +27,34 @@ export default function ServiceRegionsPage() {
               Ana Sayfa
             </Link>
             <span>/</span>
-            <span className="font-medium text-navy">Hizmet Bölgeleri</span>
+            <span className="font-medium text-navy">Türkiye Geneli Hizmet</span>
           </nav>
           <div className="flex items-center gap-2 mb-4">
             <span className="h-px w-5 bg-[#B8860B]" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#B8860B]">Hizmet Bölgeleri</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#B8860B]">Türkiye Geneli Hizmet</span>
           </div>
           <h1 className="max-w-3xl font-heading text-4xl font-semibold leading-tight text-navy sm:text-5xl">
-            Şehre göre hizmet sayfaları, daha net arama ve daha güçlü SEO için hazırlandı
+            Türkiye genelinde ailelere güvenilir ev hizmetleri danışmanlığı
           </h1>
           <p className="mt-4 max-w-2xl text-[0.95rem] leading-7 text-muted">
-            Her şehir için ayrı bir landing page, her hizmet için şehir bazlı detay sayfası ve aile başvurusu
-            akışına doğrudan bağlanan sade bir yapı kurduk.
+            Dadı, bebek bakıcısı, çocuk bakıcısı, yaşlı ve hasta bakımı, temizlik, şoför, aşçı, kahya ve ev yardımcısı
+            ihtiyaçları için Türkiye genelinde başvuru alıyoruz. Aşağıdaki şehirler arama kolaylığı için öne çıkarılan
+            sayfalardır; bulunduğunuz şehir listede olmasa bile bizimle iletişime geçebilirsiniz.
           </p>
+          <div className="mt-6 grid gap-3 text-sm text-navy sm:grid-cols-3">
+            <div className="rounded-2xl border border-line bg-bg px-4 py-3">
+              <strong>81 il</strong>
+              <span className="mt-1 block text-muted">Türkiye geneli talep alımı</span>
+            </div>
+            <div className="rounded-2xl border border-line bg-bg px-4 py-3">
+              <strong>6 ana kategori</strong>
+              <span className="mt-1 block text-muted">Bakım, temizlik, şoför ve ev destekleri</span>
+            </div>
+            <div className="rounded-2xl border border-line bg-bg px-4 py-3">
+              <strong>Danışman eşleştirmesi</strong>
+              <span className="mt-1 block text-muted">Şehir ve hizmete göre aday değerlendirme</span>
+            </div>
+          </div>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link href="/aile-basvurusu" className="btn-primary">
               Aile Başvurusu Yap
@@ -58,8 +73,12 @@ export default function ServiceRegionsPage() {
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="flex items-center gap-2 mb-6">
             <span className="h-px w-5 bg-[#B8860B]" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#B8860B]">Şehirler</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#B8860B]">Öne Çıkan Şehir Sayfaları</span>
           </div>
+          <p className="mb-6 max-w-3xl text-sm leading-7 text-muted">
+            Marka kapsamı Türkiye geneldir. Bu liste, en çok aranan şehirlerde hizmet ve başvuru akışını hızlandırmak için
+            hazırlanmış örnek şehir sayfalarıdır.
+          </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {locations.map((city) => (
               <Link
@@ -67,11 +86,11 @@ export default function ServiceRegionsPage() {
                 href={`/hizmet-bolgeleri/${city.slug}`}
                 className="surface group rounded-[22px] border border-line p-6 transition hover:-translate-y-0.5 hover:border-gold/30 hover:shadow-soft"
               >
-                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-trust">Şehir Sayfası</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-trust">Öne Çıkan Şehir</p>
                 <h2 className="mt-3 font-heading text-2xl font-semibold text-navy">{city.title}</h2>
                 <p className="mt-2 text-sm leading-6 text-muted">{city.description}</p>
                 <p className="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-gold transition group-hover:tracking-[0.22em]">
-                  Şehir bazlı sayfayı incele
+                  Şehir sayfasını incele
                 </p>
               </Link>
             ))}
@@ -109,8 +128,8 @@ export default function ServiceRegionsPage() {
                   ))}
                 </div>
                 <p className="mt-4 text-sm leading-7 text-muted">
-                  Şehre göre ayrı landing page’lerde bu hizmetler için detaylı açıklama, değerlendirme kriteri ve başvuru
-                  bağlantısı sunuyoruz.
+                  Bu hizmetler için Türkiye genelinde başvuru alıyoruz. Şehir sayfaları, ailelerin aradığı hizmeti daha
+                  hızlı bulması ve danışman ekibimize net talep iletmesi için hazırlanmıştır.
                 </p>
               </div>
             ))}

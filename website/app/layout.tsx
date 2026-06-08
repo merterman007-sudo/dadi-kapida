@@ -32,11 +32,11 @@ type NavigationResponse = {
 
 const defaultNavigation = [
   { label: "Hizmetlerimiz", href: "/hizmetlerimiz" },
-  { label: "SÃ¼reÃ§", href: "/aileler-icin/nasil-calisir" },
+  { label: "Süreç", href: "/aileler-icin/nasil-calisir" },
   { label: "Neden Biz", href: "/neden-dadi-kapida" },
   { label: "Blog", href: "/blog" },
   { label: "SSS", href: "/sik-sorulan-sorular" },
-  { label: "Ä°letiÅŸim", href: "/iletisim" }
+  { label: "İletişim", href: "/iletisim" }
 ];
 
 const bodyFont = Inter({
@@ -53,10 +53,10 @@ const headingFont = Cormorant_Garamond({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com"),
   title: {
-    default: "DadÄ± KapÄ±da | Profesyonel Ev Hizmetleri DanÄ±ÅŸmanlÄ±ÄŸÄ±",
-    template: "%s | DadÄ± KapÄ±da"
+    default: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
+    template: "%s | Dadı Kapıda"
   },
-  description: "DadÄ±, bebek bakÄ±cÄ±sÄ±, yaÅŸlÄ± bakÄ±cÄ±sÄ±, hasta bakÄ±cÄ±sÄ±, temizlikÃ§i, ÅŸofÃ¶r ve ev yardÄ±mcÄ±sÄ± iÃ§in gÃ¼venilir, referanslÄ± ve aileye Ã¶zel personel yerleÅŸtirme danÄ±ÅŸmanlÄ±ÄŸÄ±. TÃ¼rkiye genelinde hizmet.",
+  description: "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı. Türkiye genelinde hizmet.",
   keywords: [
     "dadı kapıda",
     "dadı",
@@ -84,19 +84,19 @@ export const metadata: Metadata = {
     }
   },
   openGraph: {
-    title: "DadÄ± KapÄ±da | Profesyonel Ev Hizmetleri DanÄ±ÅŸmanlÄ±ÄŸÄ±",
+    title: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
     description:
-      "DadÄ±, bebek bakÄ±cÄ±sÄ±, yaÅŸlÄ± bakÄ±cÄ±sÄ±, hasta bakÄ±cÄ±sÄ±, temizlikÃ§i, ÅŸofÃ¶r ve ev yardÄ±mcÄ±sÄ± iÃ§in gÃ¼venilir personel yerleÅŸtirme danÄ±ÅŸmanlÄ±ÄŸÄ±.",
+      "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı için güvenilir personel yerleştirme danışmanlığı.",
     url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com",
-    siteName: "DadÄ± KapÄ±da",
+    siteName: "Dadı Kapıda",
     locale: "tr_TR",
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
-    title: "DadÄ± KapÄ±da | Profesyonel Ev Hizmetleri DanÄ±ÅŸmanlÄ±ÄŸÄ±",
+    title: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
     description:
-      "DadÄ±, bebek bakÄ±cÄ±sÄ±, yaÅŸlÄ± bakÄ±cÄ±sÄ±, hasta bakÄ±cÄ±sÄ±, temizlikÃ§i, ÅŸofÃ¶r ve ev yardÄ±mcÄ±sÄ± iÃ§in gÃ¼venilir personel yerleÅŸtirme."
+      "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı için güvenilir personel yerleştirme."
   },
   other: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? {
@@ -130,7 +130,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <MobileCta />
         {whatsapp ? <WhatsAppButton whatsapp={whatsapp} /> : null}
         <CookieConsent />
-        {/* Tawk.to canlÄ± chat */}
+        {/* Tawk.to canlı chat */}
         <Script
           id="tawkto"
           strategy="lazyOnload"
