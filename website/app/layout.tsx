@@ -3,10 +3,10 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { SiteFooter, SiteHeader } from "../components/site-shell";
 import { WhatsAppButton } from "../components/whatsapp-button";
-import Script from "next/script";
 import { CookieConsent } from "../components/cookie-consent";
 import { MobileCta } from "../components/mobile-cta";
 import { OrganizationSchema } from "../components/structured-data";
+import { TawkChat } from "../components/tawk-chat";
 import { fetchPublic } from "../lib/api";
 
 type SiteSettings = {
@@ -130,24 +130,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <MobileCta />
         {whatsapp ? <WhatsAppButton whatsapp={whatsapp} /> : null}
         <CookieConsent />
-        {/* Tawk.to canlı chat */}
-        <Script
-          id="tawkto"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-              (function(){
-                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                s1.async=true;
-                s1.src='https://embed.tawk.to/6a2478aef81b7b1c2d8ac579/1jqf7eqv3';
-                s1.charset='UTF-8';
-                s1.setAttribute('crossorigin','*');
-                s0.parentNode.insertBefore(s1,s0);
-              })();
-            `
-          }}
-        />
+        <TawkChat />
       </body>
     </html>
   );

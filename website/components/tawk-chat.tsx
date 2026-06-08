@@ -1,0 +1,60 @@
+"use client";
+
+import Script from "next/script";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+
+const HIDE_PATHS = [
+  "/aile-basvurusu",
+  "/dadi-basvurusu",
+  "/personel-basvurusu",
+  "/iletisim",
+  "/geri-aranma-talebi",
+  "/tesekkurler"
+];
+
+type TawkApi = {
+  hideWidget?: () => void;
+  showWidget?: () => void;
+};
+
+declare global {
+  interface Window {
+    Tawk_API?: TawkApi;
+  }
+}
+
+export function TawkChat() {
+  const pathname = usePathname();
+  const hidden = HIDE_PATHS.some((path) => pathname.startsWith(path));
+
+  useEffect(() => {
+    if (hidden) {
+      window.Tawk_API?.hideWidget?.();
+    } else {
+      window.Tawk_API?.showWidget?.();
+    }
+  }, [hidden]);
+
+  if (hidden) return null;
+
+  return (
+    <Script
+      id="tawkto"
+      strategy="lazyOnload"
+      dangerouslySetInnerHTML={{
+        __html: `
+          var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+          (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/6a2478aef81b7b1c2d8ac579/1jqf7eqv3';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+          })();
+        `
+      }}
+    />
+  );
+}

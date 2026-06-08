@@ -296,6 +296,23 @@ export default function Page() {
     }
   };
 
+  const removeFinanceRecord = async (
+    kind: "invoices" | "payments" | "expenses",
+    id: string,
+    label: string
+  ) => {
+    if (!window.confirm(`${label} kaydını silmek istediğinize emin misiniz?`)) return;
+    try {
+      setError(null);
+      setInfo(null);
+      await apiFetch(`/finance/${kind}/${id}`, { method: "DELETE" });
+      await load();
+      setInfo(`${label} kaydı silindi.`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : `${label} kaydı silinemedi.`);
+    }
+  };
+
   const invoiceTotals = useMemo(() => {
     const total = invoices.reduce((sum, invoice) => sum + toNumber(invoice.amount), 0);
     const unpaid = invoices
@@ -457,6 +474,13 @@ export default function Page() {
                         >
                           {remindingInvoiceId === item.id ? "Gonderiliyor..." : "Hatirlat"}
                         </button>
+                        <button
+                          type="button"
+                          className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                          onClick={() => removeFinanceRecord("invoices", item.id, "Fatura")}
+                        >
+                          Sil
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -581,14 +605,23 @@ export default function Page() {
                   </td>
                   <td className="px-4 py-3">{item.status}</td>
                   <td className="px-4 py-3">
-                    <button
-                      type="button"
-                      className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-50"
-                      onClick={() => markExpensePaid(item.id)}
-                      disabled={item.status === "PAID"}
-                    >
-                      Odendi Isaretle
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-50"
+                        onClick={() => markExpensePaid(item.id)}
+                        disabled={item.status === "PAID"}
+                      >
+                        Odendi Isaretle
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                        onClick={() => removeFinanceRecord("expenses", item.id, "Gider")}
+                      >
+                        Sil
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -654,14 +687,23 @@ export default function Page() {
                   <td className="px-4 py-3">{item.currency}</td>
                   <td className="px-4 py-3">{item.method ?? "-"}</td>
                   <td className="px-4 py-3">
-                    <button
-                      type="button"
-                      className="rounded border border-slate-300 px-2 py-1 text-xs"
-                      onClick={() => refund(item.id)}
-                      disabled={item.status === "REFUNDED"}
-                    >
-                      Iade Et
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="rounded border border-slate-300 px-2 py-1 text-xs"
+                        onClick={() => refund(item.id)}
+                        disabled={item.status === "REFUNDED"}
+                      >
+                        Iade Et
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                        onClick={() => removeFinanceRecord("payments", item.id, "Ödeme")}
+                      >
+                        Sil
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

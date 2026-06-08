@@ -118,6 +118,17 @@ export default function TasksPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu görevi silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/tasks/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Görev silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -188,6 +199,7 @@ export default function TasksPage() {
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">Öncelik</th>
                 <th className="px-4 py-3">Termin</th>
+                <th className="px-4 py-3">İşlem</th>
               </tr>
             </thead>
             <tbody>
@@ -223,11 +235,20 @@ export default function TasksPage() {
                   <td className="px-4 py-3">
                     {item.due_at ? new Date(item.due_at).toLocaleDateString("tr-TR") : "-"}
                   </td>
+                  <td className="px-4 py-3">
+                    <button
+                      type="button"
+                      onClick={() => remove(item.id)}
+                      className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                    >
+                      Sil
+                    </button>
+                  </td>
                 </tr>
               ))}
               {items.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-5 text-slate-500" colSpan={5}>
+                  <td className="px-4 py-5 text-slate-500" colSpan={6}>
                     Görev bulunamadı.
                   </td>
                 </tr>

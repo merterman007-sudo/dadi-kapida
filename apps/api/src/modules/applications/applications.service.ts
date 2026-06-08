@@ -76,6 +76,12 @@ export class ApplicationsService {
     });
   }
 
+  async remove(id: string) {
+    await this.findOne(id);
+    await this.prisma.candidateApplication.delete({ where: { id } });
+    return { success: true };
+  }
+
   async reject(id: string) {
     return this.update(id, { status: CandidateApplicationStatus.REJECTED });
   }

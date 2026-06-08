@@ -22,6 +22,11 @@ export default function FamilyRequestsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const load = async () => {
+    const data = await apiFetch<FamilyRequest[]>(`/family-requests?page=1&limit=100`);
+    setItems(data);
+  };
+
   useEffect(() => {
     let mounted = true;
 
@@ -43,6 +48,17 @@ export default function FamilyRequestsPage() {
       mounted = false;
     };
   }, []);
+
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu aile talebini silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/family-requests/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Aile talebi silinemedi.");
+    }
+  };
 
   const filtered = useMemo(() => {
     const query = q.trim().toLocaleLowerCase("tr");
@@ -81,7 +97,7 @@ export default function FamilyRequestsPage() {
                 <th className="px-4 py-3">Lokasyon</th>
                 <th className="px-4 py-3">Öncelik</th>
                 <th className="px-4 py-3">Durum</th>
-                <th className="px-4 py-3">Öneriler</th>
+                <th className="px-4 py-3">İşlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -100,12 +116,21 @@ export default function FamilyRequestsPage() {
                   <td className="px-4 py-3">{item.priority ?? "-"}</td>
                   <td className="px-4 py-3">{familyRequestStatusLabels[item.status] ?? item.status}</td>
                   <td className="px-4 py-3">
-                    <Link
-                      href={`/family-requests/${item.id}/matches`}
-                      className="rounded border border-emerald-200 px-2 py-1 text-xs font-medium text-emerald-700"
-                    >
-                      Önerilen Adaylar
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                      <Link
+                        href={`/family-requests/${item.id}/matches`}
+                        className="rounded border border-emerald-200 px-2 py-1 text-xs font-medium text-emerald-700"
+                      >
+                        Önerilen Adaylar
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => remove(item.id)}
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                      >
+                        Sil
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -196,6 +196,29 @@ export default function ContractsPage() {
     }
   };
 
+  const removeTemplate = async (id: string) => {
+    if (!window.confirm("Bu sözleşme şablonunu silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/contract-templates/${id}`, { method: "DELETE" });
+      setSelectedTemplateId("");
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Şablon silinemedi.");
+    }
+  };
+
+  const removeContract = async (id: string) => {
+    if (!window.confirm("Bu sözleşme kaydını silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/contracts/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sözleşme silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -288,6 +311,15 @@ export default function ContractsPage() {
                 </option>
               ))}
             </select>
+            {selectedTemplateId ? (
+              <button
+                type="button"
+                onClick={() => removeTemplate(selectedTemplateId)}
+                className="mt-2 rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+              >
+                Seçili Şablonu Sil
+              </button>
+            ) : null}
           </label>
           <label className="min-w-64 flex-1 text-sm">
             <span className="text-xs font-medium text-slate-600">Yerleştirme</span>
@@ -382,6 +414,13 @@ export default function ContractsPage() {
                         className="rounded border border-red-200 px-2 py-1 text-xs text-red-700 disabled:opacity-40"
                       >
                         İptal
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeContract(contract.id)}
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-700"
+                      >
+                        Sil
                       </button>
                     </div>
                   </td>

@@ -175,6 +175,18 @@ export default function FamilyRequestMatchesPage() {
     }
   };
 
+  const removeShortlist = async () => {
+    if (!selectedShortlistId || !window.confirm("Seçili kısa listeyi silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/shortlists/${selectedShortlistId}`, { method: "DELETE" });
+      setSelectedShortlistId("");
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Kısa liste silinemedi.");
+    }
+  };
+
   const sortedResults = useMemo(
     () => [...results].sort((a, b) => b.total_score - a.total_score),
     [results]
@@ -240,6 +252,15 @@ export default function FamilyRequestMatchesPage() {
               </option>
             ))}
           </select>
+          {selectedShortlistId ? (
+            <button
+              type="button"
+              onClick={removeShortlist}
+              className="mt-2 rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+            >
+              Seçili Kısa Listeyi Sil
+            </button>
+          ) : null}
         </label>
       </div>
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { RequirePermissions } from "../../common/decorators/require-permissions.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
@@ -29,6 +29,12 @@ export class MessagesController {
     return this.service.findWebsiteSubmissions(Number(limit ?? 50));
   }
 
+  @Delete("website-submissions/:id")
+  @RequirePermissions("families.update")
+  removeWebsiteSubmission(@Param("id") id: string) {
+    return this.service.removeWebsiteSubmission(id);
+  }
+
   @Get(":id")
   @RequirePermissions("families.read")
   findOne(@Param("id") id: string) {
@@ -45,5 +51,11 @@ export class MessagesController {
   @RequirePermissions("families.update")
   update(@Param("id") id: string, @Body() dto: UpdateMessageDto) {
     return this.service.update(id, dto);
+  }
+
+  @Delete(":id")
+  @RequirePermissions("families.update")
+  remove(@Param("id") id: string) {
+    return this.service.remove(id);
   }
 }

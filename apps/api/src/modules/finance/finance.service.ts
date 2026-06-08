@@ -70,6 +70,17 @@ export class FinanceService {
     });
   }
 
+  async removeInvoice(id: string) {
+    await this.ensureInvoiceExists(id);
+    await this.prisma.$transaction([
+      this.prisma.payment.updateMany({ where: { invoice_id: id }, data: { invoice_id: null } }),
+      this.prisma.task.deleteMany({ where: { entity_type: "invoice_reminder", entity_id: id } }),
+      this.prisma.message.deleteMany({ where: { entity_type: "invoice", entity_id: id } }),
+      this.prisma.invoice.delete({ where: { id } })
+    ]);
+    return { success: true };
+  }
+
   async markInvoicePaid(id: string) {
     await this.ensureInvoiceExists(id);
     return this.prisma.invoice.update({
@@ -177,6 +188,12 @@ export class FinanceService {
     });
   }
 
+  async removePayment(id: string) {
+    await this.ensurePaymentExists(id);
+    await this.prisma.payment.delete({ where: { id } });
+    return { success: true };
+  }
+
   async updateExpense(id: string, dto: UpdateExpenseDto) {
     await this.ensureExpenseExists(id);
     return this.prisma.expense.update({
@@ -186,6 +203,12 @@ export class FinanceService {
         paid_at: dto.paid_at ? new Date(dto.paid_at) : undefined
       }
     });
+  }
+
+  async removeExpense(id: string) {
+    await this.ensureExpenseExists(id);
+    await this.prisma.expense.delete({ where: { id } });
+    return { success: true };
   }
 
   async refundPayment(id: string) {

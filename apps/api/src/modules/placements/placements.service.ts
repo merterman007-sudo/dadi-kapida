@@ -50,6 +50,23 @@ export class PlacementsService {
     });
   }
 
+  async remove(id: string) {
+    await this.findOne(id);
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.contract.updateMany({ where: { placement_id: id }, data: { placement_id: null } });
+      await tx.invoice.updateMany({ where: { placement_id: id }, data: { placement_id: null } });
+      await tx.expense.updateMany({ where: { placement_id: id }, data: { placement_id: null } });
+      await tx.placementStatusHistory.deleteMany({ where: { placement_id: id } });
+      await tx.task.deleteMany({ where: { entity_type: "PLACEMENT", entity_id: id } });
+      await tx.note.deleteMany({ where: { entity_type: "PLACEMENT", entity_id: id } });
+      await tx.message.deleteMany({ where: { entity_type: "PLACEMENT", entity_id: id } });
+      await tx.placement.delete({ where: { id } });
+    });
+
+    return { success: true };
+  }
+
   async updateStatus(id: string, dto: UpdatePlacementStatusDto, actorUserId?: string) {
     const current = await this.findOne(id);
 

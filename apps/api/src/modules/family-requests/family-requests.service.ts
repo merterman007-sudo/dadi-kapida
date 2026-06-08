@@ -95,6 +95,56 @@ export class FamilyRequestsService {
     return updated;
   }
 
+  async remove(id: string) {
+    await this.findOne(id);
+
+    const placement = await this.prisma.placement.findFirst({
+      where: { family_request_id: id },
+      select: { id: true }
+    });
+    if (placement) {
+      throw new BadRequestException(
+        "Bu talebe bağlı yerleştirme var. Önce bağlı yerleştirmeyi silin."
+      );
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      const matchRuns = await tx.matchRun.findMany({
+        where: { family_request_id: id },
+        select: { id: true }
+      });
+      const matchRunIds = matchRuns.map((row) => row.id);
+      const shortlists = await tx.shortlist.findMany({
+        where: { family_request_id: id },
+        select: { id: true }
+      });
+      const shortlistIds = shortlists.map((row) => row.id);
+
+      if (shortlistIds.length > 0) {
+        await tx.shortlistItem.deleteMany({ where: { shortlist_id: { in: shortlistIds } } });
+      }
+      await tx.shortlist.deleteMany({ where: { family_request_id: id } });
+      if (matchRunIds.length > 0) {
+        await tx.candidateMatch.deleteMany({ where: { match_run_id: { in: matchRunIds } } });
+      }
+      await tx.candidateMatch.deleteMany({ where: { family_request_id: id } });
+      await tx.matchRun.deleteMany({ where: { family_request_id: id } });
+      await tx.requestScheduleRule.deleteMany({ where: { family_request_id: id } });
+      await tx.requestRequiredSkill.deleteMany({ where: { family_request_id: id } });
+      await tx.requestRequiredCertification.deleteMany({ where: { family_request_id: id } });
+      await tx.meeting.updateMany({
+        where: { family_request_id: id },
+        data: { family_request_id: null }
+      });
+      await tx.task.deleteMany({ where: { entity_type: "FAMILY_REQUEST", entity_id: id } });
+      await tx.note.deleteMany({ where: { entity_type: "FAMILY_REQUEST", entity_id: id } });
+      await tx.message.deleteMany({ where: { entity_type: "FAMILY_REQUEST", entity_id: id } });
+      await tx.familyRequest.delete({ where: { id } });
+    });
+
+    return { success: true };
+  }
+
   private async assertFamilyExists(familyId: string) {
     const family = await this.prisma.family.findFirst({
       where: { id: familyId, deleted_at: null },

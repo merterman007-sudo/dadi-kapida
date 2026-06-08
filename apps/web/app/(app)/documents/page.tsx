@@ -69,11 +69,21 @@ export default function DocumentsPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu evrak kaydını silmek istediğinize emin misiniz?")) return;
+    try {
+      await apiFetch(`/candidate-documents/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Evrak silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Evraklar</h2>
       <div className="grid gap-2 md:grid-cols-4">
-        <input value={candidateId} onChange={(e) => setCandidateId(e.target.value)} placeholder="Candidate ID" className="rounded-lg border border-slate-300 px-3 py-2 text-sm md:col-span-2" />
+        <input value={candidateId} onChange={(e) => setCandidateId(e.target.value)} placeholder="Personel ID" className="rounded-lg border border-slate-300 px-3 py-2 text-sm md:col-span-2" />
         <button type="button" onClick={load} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">Listele</button>
       </div>
       <div className="grid gap-2 md:grid-cols-4">
@@ -102,6 +112,7 @@ export default function DocumentsPage() {
                 <td className="px-4 py-3 space-x-2">
                   <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => verify(item.id)}>Doğrula</button>
                   <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => reject(item.id)}>Reddet</button>
+                  <button type="button" className="rounded border border-red-200 px-2 py-1 text-xs text-red-600" onClick={() => remove(item.id)}>Sil</button>
                 </td>
               </tr>
             ))}

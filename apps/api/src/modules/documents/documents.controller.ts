@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { RequirePermissions } from "../../common/decorators/require-permissions.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
@@ -44,5 +44,11 @@ export class DocumentsController {
     @Body() dto: RejectCandidateDocumentDto
   ) {
     return this.service.reject(candidateDocumentId, dto);
+  }
+
+  @Delete("candidate-documents/:id")
+  @RequirePermissions("candidates.update")
+  removeDocument(@Param("id") candidateDocumentId: string) {
+    return this.service.remove(candidateDocumentId);
   }
 }

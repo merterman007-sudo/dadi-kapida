@@ -120,15 +120,14 @@ const defaultBrandContact: BrandContactForm = {
   callbackLabel: "Geri arama talebi"
 };
 
+const publicWebsiteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com").replace(/\/$/, "");
+
 function previewImageSrc(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return "";
   if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith("data:")) return trimmed;
   if (trimmed.startsWith("/")) {
-    const siteUrl = typeof window !== "undefined"
-      ? window.location.origin.replace("crm.", "")
-      : "https://dadikapida.com";
-    return `${siteUrl}${trimmed}`;
+    return `${publicWebsiteUrl}${trimmed}`;
   }
   return trimmed;
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -56,6 +57,12 @@ export class FinanceController {
     return this.service.updateInvoice(id, dto);
   }
 
+  @Delete("invoices/:id")
+  @RequirePermissions("finance.update")
+  removeInvoice(@Param("id") id: string) {
+    return this.service.removeInvoice(id);
+  }
+
   @Post("invoices/:id/mark-paid")
   @RequirePermissions("finance.update")
   markInvoicePaid(@Param("id") id: string) {
@@ -98,10 +105,22 @@ export class FinanceController {
     return this.service.updatePayment(id, dto);
   }
 
+  @Delete("payments/:id")
+  @RequirePermissions("finance.update")
+  removePayment(@Param("id") id: string) {
+    return this.service.removePayment(id);
+  }
+
   @Patch("expenses/:id")
   @RequirePermissions("finance.update")
   updateExpense(@Param("id") id: string, @Body() dto: UpdateExpenseDto) {
     return this.service.updateExpense(id, dto);
+  }
+
+  @Delete("expenses/:id")
+  @RequirePermissions("finance.update")
+  removeExpense(@Param("id") id: string) {
+    return this.service.removeExpense(id);
   }
 
   @Post("payments/:id/refund")

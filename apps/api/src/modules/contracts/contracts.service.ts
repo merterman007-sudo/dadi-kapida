@@ -80,6 +80,12 @@ export class ContractsService {
     });
   }
 
+  async removeContract(id: string) {
+    await this.findContract(id);
+    await this.prisma.contract.delete({ where: { id } });
+    return { success: true };
+  }
+
   async markSigned(id: string) {
     await this.findContract(id);
     return this.prisma.contract.update({

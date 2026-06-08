@@ -145,6 +145,28 @@ export default function ReferencesPage() {
     }
   };
 
+  const removeReference = async (referenceId: string) => {
+    if (!candidateId || !window.confirm("Bu referansı ve kontrol kayıtlarını silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/candidate-references/${referenceId}`, { method: "DELETE" });
+      await loadRefs(candidateId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Referans silinemedi.");
+    }
+  };
+
+  const removeCheck = async (checkId: string) => {
+    if (!selectedReferenceId || !window.confirm("Bu referans kontrolünü silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/reference-checks/${checkId}`, { method: "DELETE" });
+      await loadChecks(selectedReferenceId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Kontrol kaydı silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div>
@@ -221,6 +243,7 @@ export default function ReferencesPage() {
                 <th className="px-4 py-3">Telefon</th>
                 <th className="px-4 py-3">Yakinlik</th>
                 <th className="px-4 py-3">Durum</th>
+                <th className="px-4 py-3">İşlem</th>
               </tr>
             </thead>
             <tbody>
@@ -238,11 +261,23 @@ export default function ReferencesPage() {
                   <td className="px-4 py-3">
                     {referenceStatusLabels[item.status] ?? item.status}
                   </td>
+                  <td className="px-4 py-3">
+                    <button
+                      type="button"
+                      className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        void removeReference(item.id);
+                      }}
+                    >
+                      Sil
+                    </button>
+                  </td>
                 </tr>
               ))}
               {items.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-5 text-slate-500" colSpan={4}>
+                  <td className="px-4 py-5 text-slate-500" colSpan={5}>
                     {candidateId ? "Bu personelin referans kaydi yok." : "Once bir personel secin."}
                   </td>
                 </tr>
@@ -303,6 +338,13 @@ export default function ReferencesPage() {
               <p className="mt-1 text-xs text-slate-500">
                 {new Date(check.created_at).toLocaleString("tr-TR")}
               </p>
+              <button
+                type="button"
+                onClick={() => removeCheck(check.id)}
+                className="mt-2 rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+              >
+                Sil
+              </button>
             </div>
           ))}
           {checks.length === 0 ? (

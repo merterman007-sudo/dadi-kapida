@@ -83,6 +83,17 @@ export default function MeetingsPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu görüşmeyi silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/meetings/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Görüşme silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div>
@@ -174,14 +185,23 @@ export default function MeetingsPage() {
                     {new Date(item.starts_at).toLocaleString("tr-TR")}
                   </td>
                   <td className="px-4 py-3">
-                    <button
-                      type="button"
-                      className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-50"
-                      onClick={() => complete(item.id)}
-                      disabled={item.status === "COMPLETED"}
-                    >
-                      Tamamla
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-50"
+                        onClick={() => complete(item.id)}
+                        disabled={item.status === "COMPLETED"}
+                      >
+                        Tamamla
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                        onClick={() => remove(item.id)}
+                      >
+                        Sil
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

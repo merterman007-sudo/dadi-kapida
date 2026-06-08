@@ -234,6 +234,17 @@ export default function PlacementsPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu yerleştirmeyi silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/placements/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Yerleştirme silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -381,6 +392,7 @@ export default function PlacementsPage() {
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">Başlangıç</th>
                 <th className="px-4 py-3">Maaş</th>
+                <th className="px-4 py-3">İşlem</th>
               </tr>
             </thead>
             <tbody>
@@ -402,12 +414,21 @@ export default function PlacementsPage() {
                     <td className="px-4 py-3">{placementStatusLabels[item.status] ?? item.status}</td>
                     <td className="px-4 py-3">{new Date(item.start_date).toLocaleDateString("tr-TR")}</td>
                     <td className="px-4 py-3">{Number(item.agreed_salary).toLocaleString("tr-TR")} TL</td>
+                    <td className="px-4 py-3">
+                      <button
+                        type="button"
+                        onClick={() => remove(item.id)}
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                      >
+                        Sil
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
               {items.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-5 text-slate-500" colSpan={6}>
+                  <td className="px-4 py-5 text-slate-500" colSpan={7}>
                     Yerleştirme bulunamadı.
                   </td>
                 </tr>

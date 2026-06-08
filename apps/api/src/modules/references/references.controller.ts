@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseUUIDPipe,
@@ -61,5 +62,17 @@ export class ReferencesController {
   @RequirePermissions("candidates.read")
   listReferenceChecks(@Param("id", ParseUUIDPipe) referenceId: string) {
     return this.service.listReferenceChecks(referenceId);
+  }
+
+  @Delete("candidate-references/:id")
+  @RequirePermissions("candidates.update")
+  removeCandidateReference(@Param("id", ParseUUIDPipe) referenceId: string) {
+    return this.service.removeCandidateReference(referenceId);
+  }
+
+  @Delete("reference-checks/:id")
+  @RequirePermissions("candidates.update")
+  removeReferenceCheck(@Param("id", ParseUUIDPipe) checkId: string) {
+    return this.service.removeReferenceCheck(checkId);
   }
 }

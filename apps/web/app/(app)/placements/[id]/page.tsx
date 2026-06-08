@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
 
@@ -25,8 +25,19 @@ const statuses = [
   "REPLACEMENT"
 ] as const;
 
+const statusLabels: Record<(typeof statuses)[number], string> = {
+  OFFERED: "Teklif Edildi",
+  ACCEPTED: "Kabul Edildi",
+  ACTIVE: "Aktif",
+  COMPLETED: "Tamamlandı",
+  CANCELLED: "İptal Edildi",
+  TERMINATED: "Sonlandırıldı",
+  REPLACEMENT: "Değişim Sürecinde"
+};
+
 export default function Page() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const [item, setItem] = useState<Placement | null>(null);
   const [status, setStatus] = useState<(typeof statuses)[number]>("ACTIVE");
   const [reason, setReason] = useState("");
@@ -85,6 +96,20 @@ export default function Page() {
     }
   };
 
+  const remove = async () => {
+    if (!item || !window.confirm("Bu yerleştirmeyi silmek istediğinize emin misiniz?")) return;
+    try {
+      setSaving(true);
+      setError(null);
+      await apiFetch(`/placements/${item.id}`, { method: "DELETE" });
+      router.push("/placements");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Yerleştirme silinemedi.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) return <p className="text-sm text-slate-600">Yükleniyor...</p>;
   if (error) return <p className="text-sm text-red-600">{error}</p>;
   if (!item) return <p className="text-sm text-slate-600">Yerleştirme bulunamadı.</p>;
@@ -94,9 +119,9 @@ export default function Page() {
       <h2 className="text-2xl font-bold">Yerleştirme Detayı</h2>
       <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm space-y-2">
         <p><strong>ID:</strong> {item.id}</p>
-        <p><strong>Family Request:</strong> {item.family_request_id}</p>
-        <p><strong>Family:</strong> {item.family_id}</p>
-        <p><strong>Candidate:</strong> {item.candidate_id}</p>
+        <p><strong>Aile Talebi:</strong> {item.family_request_id}</p>
+        <p><strong>Aile:</strong> {item.family_id}</p>
+        <p><strong>Personel:</strong> {item.candidate_id}</p>
         <p><strong>Başlangıç:</strong> {new Date(item.start_date).toLocaleDateString("tr-TR")}</p>
         <p><strong>Maaş:</strong> {item.agreed_salary}</p>
         <p><strong>Durum:</strong> {item.status}</p>
@@ -109,7 +134,7 @@ export default function Page() {
         >
           {statuses.map((value) => (
             <option key={value} value={value}>
-              {value}
+              {statusLabels[value]}
             </option>
           ))}
         </select>
@@ -127,6 +152,14 @@ export default function Page() {
         className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white disabled:opacity-60"
       >
         Durumu Güncelle
+      </button>
+      <button
+        type="button"
+        onClick={remove}
+        disabled={saving}
+        className="ml-3 rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-700 disabled:opacity-50"
+      >
+        Sil
       </button>
     </div>
   );

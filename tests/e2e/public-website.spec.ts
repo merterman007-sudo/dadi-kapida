@@ -8,6 +8,18 @@ function stamp() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+function testPhone(prefix: string) {
+  const tail = `${Date.now()}${Math.floor(Math.random() * 1000)}`.slice(-7);
+  return `${prefix}${tail}`;
+}
+
+async function dismissCookieBanner(page: Page) {
+  const acceptButton = page.getByRole("button", { name: "Kabul Et" });
+  if (await acceptButton.isVisible().catch(() => false)) {
+    await acceptButton.click();
+  }
+}
+
 async function login(request: APIRequestContext) {
   const response = await request.post(`${API_URL}/auth/login`, {
     data: { email: ADMIN_EMAIL, password: ADMIN_PASSWORD }
@@ -25,16 +37,18 @@ async function expectNoHorizontalOverflow(page: Page) {
 async function fillFamilyApplication(page: Page) {
   const id = stamp();
   await page.goto("/aile-basvurusu");
+  await dismissCookieBanner(page);
   await expect(page.locator("h1")).toContainText(/Aileniz/);
 
   await page.locator("main input").nth(0).fill(`Playwright Aile ${id}`);
-  await page.locator('input[type="tel"]').fill(`0555${String(Date.now()).slice(-7)}`);
+  await page.locator('input[type="tel"]').fill(testPhone("0555"));
   await page.locator('input[type="email"]').fill(`family.${id}@example.com`);
   await page.locator("main input").nth(3).fill("Istanbul");
   await page.locator("main input").nth(4).fill("Kadikoy");
   await page.getByRole("button").filter({ hasText: /Devam/ }).click();
 
   await page.locator("select").first().selectOption("yatili-dadi");
+  await page.locator("select").nth(2).selectOption({ index: 1 });
   await page.locator("textarea").fill("Playwright aile basvuru testi.");
   await page.getByRole("button").filter({ hasText: /Devam/ }).click();
 
@@ -46,18 +60,20 @@ async function fillFamilyApplication(page: Page) {
 
 async function fillNannyApplication(page: Page) {
   const id = stamp();
-  await page.goto("/dadi-basvurusu");
+  await page.goto("/personel-basvurusu");
+  await dismissCookieBanner(page);
   await expect(page.locator("h1")).toContainText(/Profesyonel/);
 
   await page.locator("main input").nth(0).fill(`Playwright Aday ${id}`);
-  await page.locator('input[type="tel"]').fill(`0554${String(Date.now()).slice(-7)}`);
+  await page.locator('input[type="tel"]').fill(testPhone("0554"));
   await page.locator('input[type="email"]').fill(`nanny.${id}@example.com`);
+  await page.locator("select").first().selectOption({ index: 1 });
   await page.getByRole("button").filter({ hasText: /Devam/ }).click();
 
   await page.locator('input[type="date"]').fill("1994-04-12");
   await page.locator("main input").nth(1).fill("Istanbul");
   await page.locator("main input").nth(2).fill("Besiktas");
-  await page.locator("select").first().selectOption("3-5");
+  await page.locator("select").nth(0).selectOption("3-5");
   await page.locator("select").nth(1).selectOption("gunduzlu");
   await page.locator("textarea").fill("Playwright aday basvuru testi.");
   await page.getByRole("button").filter({ hasText: /Devam/ }).click();
@@ -76,11 +92,11 @@ test.describe("public website browser smoke", () => {
 
     if (testInfo.project.name.includes("mobile")) {
       await page.getByRole("button", { name: /men/i }).click();
-      const mobileLink = page.locator(".fixed nav a[href]").first();
+      const mobileLink = page.locator(".fixed nav a[href='/iletisim']").first();
       await expect(mobileLink).toBeVisible();
       await mobileLink.click();
     } else {
-      const firstHeaderLink = page.locator("header nav a[href]").first();
+      const firstHeaderLink = page.locator("header nav a[href='/iletisim']").first();
       await expect(firstHeaderLink).toBeVisible();
       await firstHeaderLink.click();
     }
@@ -113,8 +129,8 @@ test.describe("public website browser smoke", () => {
     await expect(page).toHaveURL(/\/hizmetlerimiz/);
 
     await page.goto("/");
-    await page.locator("a[href='/dadi-basvurusu']:visible").filter({ hasText: /D/ }).last().click();
-    await expect(page).toHaveURL(/\/dadi-basvurusu/);
+    await page.locator("a[href='/personel-basvurusu']:visible").filter({ hasText: /Personel/ }).last().click();
+    await expect(page).toHaveURL(/\/personel-basvurusu/);
     await expectNoHorizontalOverflow(page);
   });
 
@@ -129,9 +145,11 @@ test.describe("public website browser smoke", () => {
   test("contact request form submits end to end", async ({ page }) => {
     const id = stamp();
     await page.goto("/iletisim");
-    await page.waitForTimeout(2600);
+    await dismissCookieBanner(page);
+    await expect(page.getByPlaceholder("Ad soyad")).toBeVisible();
+    await page.waitForTimeout(3000);
     await page.locator("input").nth(0).fill(`Playwright Contact ${id}`);
-    await page.locator("input").nth(1).fill(`0553${String(Date.now()).slice(-7)}`);
+    await page.locator("input").nth(1).fill(testPhone("0553"));
     await page.locator("input").nth(2).fill(`contact.${id}@example.com`);
     await page.locator("textarea").fill("Playwright iletisim form testi.");
     await page.locator('input[type="checkbox"]').first().check();

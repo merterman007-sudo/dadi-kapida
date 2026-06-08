@@ -121,11 +121,13 @@ export default function FamilyApplicationPage() {
     setLoading(true);
     setError(null);
     try {
-      const { childrenCount, ...application } = form;
+      const { childrenCount, budget_min, budget_max, ...application } = form;
       void childrenCount;
       const body = {
         ...application,
         start_date: form.start_date || undefined,
+        budget_min: budget_min ? Number(budget_min) : undefined,
+        budget_max: budget_max ? Number(budget_max) : undefined,
         payload
       };
       const result = await postPublic<{ nextStep: string }>("/api/v1/public/applications/family", {

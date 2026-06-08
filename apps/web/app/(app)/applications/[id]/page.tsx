@@ -109,6 +109,20 @@ export default function ApplicationDetailPage() {
     }
   };
 
+  const remove = async () => {
+    if (!item || !window.confirm("Bu başvuruyu silmek istediğinize emin misiniz?")) return;
+    try {
+      setSaving(true);
+      setError(null);
+      await apiFetch(`/applications/${item.id}`, { method: "DELETE" });
+      router.push("/applications");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Başvuru silinemedi.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) return <p className="text-sm text-slate-600">Yükleniyor...</p>;
   if (error && !item) return <p className="text-sm text-red-600">{error}</p>;
   if (!item) return <p className="text-sm text-slate-600">Başvuru bulunamadı.</p>;
@@ -201,6 +215,14 @@ export default function ApplicationDetailPage() {
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm"
           >
             Adaya Dönüştür
+          </button>
+          <button
+            type="button"
+            onClick={remove}
+            disabled={saving}
+            className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-700 disabled:opacity-50"
+          >
+            Sil
           </button>
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
         </div>

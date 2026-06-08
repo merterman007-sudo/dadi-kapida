@@ -87,6 +87,28 @@ export default function MessagesPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu mesaj kaydını silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/messages/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Mesaj silinemedi.");
+    }
+  };
+
+  const removeWebsiteSubmission = async (id: string) => {
+    if (!window.confirm("Bu web sitesi talebini silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/messages/website-submissions/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Web sitesi talebi silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Mesajlar</h2>
@@ -140,6 +162,13 @@ export default function MessagesPage() {
                   </div>
                 </dl>
                 {message ? <p className="mt-3 rounded-lg bg-white p-3 text-sm leading-6 text-slate-700">{message}</p> : null}
+                <button
+                  type="button"
+                  onClick={() => removeWebsiteSubmission(item.id)}
+                  className="mt-3 rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                >
+                  Sil
+                </button>
               </article>
             );
           })}
@@ -176,6 +205,7 @@ export default function MessagesPage() {
               <th className="px-4 py-3">Alıcı</th>
               <th className="px-4 py-3">Konu</th>
               <th className="px-4 py-3">İçerik</th>
+              <th className="px-4 py-3">İşlem</th>
             </tr>
           </thead>
           <tbody>
@@ -186,9 +216,18 @@ export default function MessagesPage() {
                 <td className="px-4 py-3">{item.to_value ?? item.from_value ?? "-"}</td>
                 <td className="px-4 py-3">{item.subject ?? "-"}</td>
                 <td className="px-4 py-3">{item.content}</td>
+                <td className="px-4 py-3">
+                  <button
+                    type="button"
+                    onClick={() => remove(item.id)}
+                    className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                  >
+                    Sil
+                  </button>
+                </td>
               </tr>
             ))}
-            {items.length === 0 ? <tr><td className="px-4 py-5 text-slate-500" colSpan={5}>Kayıt yok.</td></tr> : null}
+            {items.length === 0 ? <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Kayıt yok.</td></tr> : null}
           </tbody>
         </table>
       </div>

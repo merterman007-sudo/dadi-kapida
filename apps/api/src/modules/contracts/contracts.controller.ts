@@ -76,6 +76,12 @@ export class ContractsController {
     return this.service.updateContract(id, dto);
   }
 
+  @Delete("contracts/:id")
+  @RequirePermissions("finance.update")
+  removeContract(@Param("id") id: string) {
+    return this.service.removeContract(id);
+  }
+
   @Post("contracts/:id/mark-signed")
   @RequirePermissions("finance.update")
   markSigned(@Param("id") id: string) {

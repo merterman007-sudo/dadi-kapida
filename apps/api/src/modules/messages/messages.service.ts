@@ -28,6 +28,25 @@ export class MessagesService {
     });
   }
 
+  async removeWebsiteSubmission(id: string) {
+    const submission = await this.prisma.websiteFormSubmission.findUnique({
+      where: { id },
+      select: { id: true, crm_entity_type: true, crm_entity_id: true }
+    });
+    if (!submission) {
+      throw new NotFoundException("Website submission not found");
+    }
+
+    await this.prisma.$transaction(async (tx) => {
+      if (submission.crm_entity_type === "Message" && submission.crm_entity_id) {
+        await tx.message.deleteMany({ where: { id: submission.crm_entity_id } });
+      }
+      await tx.websiteFormSubmission.delete({ where: { id } });
+    });
+
+    return { success: true };
+  }
+
   async findOne(id: string) {
     const message = await this.prisma.message.findUnique({ where: { id } });
     if (!message) {
@@ -55,5 +74,11 @@ export class MessagesService {
         sent_at: dto.sent_at ? new Date(dto.sent_at) : undefined
       }
     });
+  }
+
+  async remove(id: string) {
+    await this.findOne(id);
+    await this.prisma.message.delete({ where: { id } });
+    return { success: true };
   }
 }

@@ -51,6 +51,12 @@ export class DocumentsService {
     });
   }
 
+  async remove(id: string) {
+    await this.assertDocument(id);
+    await this.prisma.candidateDocument.delete({ where: { id } });
+    return { success: true };
+  }
+
   private async assertCandidate(candidateId: string) {
     const candidate = await this.prisma.candidate.findFirst({
       where: { id: candidateId, deleted_at: null },

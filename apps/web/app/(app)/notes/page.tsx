@@ -73,6 +73,17 @@ export default function NotesPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu notu silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/notes/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Not silinemedi.");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Notlar</h2>
@@ -124,13 +135,22 @@ export default function NotesPage() {
               <span className="text-xs text-slate-500">
                 {new Date(note.created_at).toLocaleString("tr-TR")}
               </span>
-              <button
-                type="button"
-                className="rounded border border-slate-300 px-2 py-1 text-xs"
-                onClick={() => pin(note.id, note.pinned)}
-              >
-                {note.pinned ? "Pin Kaldır" : "Pinle"}
-              </button>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  className="rounded border border-slate-300 px-2 py-1 text-xs"
+                  onClick={() => pin(note.id, note.pinned)}
+                >
+                  {note.pinned ? "Pin Kaldır" : "Pinle"}
+                </button>
+                <button
+                  type="button"
+                  className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                  onClick={() => remove(note.id)}
+                >
+                  Sil
+                </button>
+              </div>
             </div>
           </div>
         ))}

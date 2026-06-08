@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const HIDE_PATHS = ["/aile-basvurusu", "/dadi-basvurusu", "/personel-basvurusu", "/tesekkurler"];
+const HIDE_PATHS = [
+  "/aile-basvurusu",
+  "/dadi-basvurusu",
+  "/personel-basvurusu",
+  "/iletisim",
+  "/geri-aranma-talebi",
+  "/tesekkurler"
+];
 
 export function MobileCta() {
   const pathname = usePathname();

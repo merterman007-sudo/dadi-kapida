@@ -99,6 +99,17 @@ export default function ApplicationsPage() {
     }
   };
 
+  const remove = async (id: string) => {
+    if (!window.confirm("Bu başvuruyu silmek istediğinize emin misiniz?")) return;
+    try {
+      setError(null);
+      await apiFetch(`/applications/${id}`, { method: "DELETE" });
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Başvuru silinemedi.");
+    }
+  };
+
   const filteredNanny = useMemo(() => {
     const query = q.trim().toLocaleLowerCase("tr");
     if (!query) return nannyItems;
@@ -209,6 +220,9 @@ export default function ApplicationsPage() {
                       </button>
                       <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => runAction(item.id, "duplicate")}>
                         Mükerrer
+                      </button>
+                      <button type="button" className="rounded border border-red-200 px-2 py-1 text-xs text-red-600" onClick={() => remove(item.id)}>
+                        Sil
                       </button>
                     </div>
                   </td>

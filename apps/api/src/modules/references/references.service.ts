@@ -59,6 +59,29 @@ export class ReferencesService {
     });
   }
 
+  async removeCandidateReference(referenceId: string) {
+    await this.assertReference(referenceId);
+    await this.prisma.$transaction([
+      this.prisma.referenceCheck.deleteMany({
+        where: { candidate_reference_id: referenceId }
+      }),
+      this.prisma.candidateReference.delete({ where: { id: referenceId } })
+    ]);
+    return { success: true };
+  }
+
+  async removeReferenceCheck(checkId: string) {
+    const check = await this.prisma.referenceCheck.findUnique({
+      where: { id: checkId },
+      select: { id: true }
+    });
+    if (!check) {
+      throw new NotFoundException("Reference check not found");
+    }
+    await this.prisma.referenceCheck.delete({ where: { id: checkId } });
+    return { success: true };
+  }
+
   private async assertCandidate(candidateId: string) {
     const candidate = await this.prisma.candidate.findFirst({
       where: { id: candidateId, deleted_at: null },

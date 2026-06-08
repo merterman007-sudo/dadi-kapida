@@ -443,13 +443,13 @@ export class WebsiteService {
 
   private assertSpamChecks(honeypot?: string, submittedAt?: string) {
     if (honeypot && honeypot.trim().length > 0) {
-      throw new BadRequestException("Suspicious submission detected");
+      throw new BadRequestException("Şüpheli form gönderimi algılandı");
     }
 
     if (submittedAt) {
       const submitted = new Date(submittedAt).getTime();
       if (!Number.isNaN(submitted) && Date.now() - submitted < 2500) {
-        throw new BadRequestException("Form submitted too quickly");
+        throw new BadRequestException("Form çok hızlı gönderildi. Lütfen birkaç saniye sonra tekrar deneyin");
       }
     }
   }
@@ -464,7 +464,7 @@ export class WebsiteService {
         where: { idempotency_key: idempotencyKey }
       });
       if (existing) {
-        throw new BadRequestException("Duplicate submission");
+        throw new BadRequestException("Bu form daha önce gönderilmiş");
       }
     }
 

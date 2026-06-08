@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -54,6 +55,13 @@ export class ApplicationsController {
   @RequirePermissions("applications.read")
   update(@Param("id") id: string, @Body() dto: UpdateApplicationDto) {
     return this.applicationsService.update(id, dto);
+  }
+
+  @Delete("applications/:id")
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @RequirePermissions("applications.convert")
+  remove(@Param("id") id: string) {
+    return this.applicationsService.remove(id);
   }
 
   @Post("applications/:id/convert-to-candidate")

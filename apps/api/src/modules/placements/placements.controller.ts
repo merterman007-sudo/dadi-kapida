@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -49,6 +50,12 @@ export class PlacementsController {
   @RequirePermissions("placements.update")
   update(@Param("id") id: string, @Body() dto: UpdatePlacementDto) {
     return this.service.update(id, dto);
+  }
+
+  @Delete(":id")
+  @RequirePermissions("placements.update")
+  remove(@Param("id") id: string) {
+    return this.service.remove(id);
   }
 
   @Post(":id/status")

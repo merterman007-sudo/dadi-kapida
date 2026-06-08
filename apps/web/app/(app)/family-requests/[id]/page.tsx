@@ -1,9 +1,10 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
+import { familyRequestStatusLabels } from "@/lib/status-map";
 
 type FamilyRequest = {
   id: string;
@@ -30,6 +31,7 @@ const statuses = [
 
 export default function FamilyRequestDetailPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const [item, setItem] = useState<FamilyRequest | null>(null);
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("");
@@ -93,6 +95,20 @@ export default function FamilyRequestDetailPage() {
     }
   };
 
+  const remove = async () => {
+    if (!item || !window.confirm("Bu aile talebini silmek istediğinize emin misiniz?")) return;
+    try {
+      setSaving(true);
+      setError(null);
+      await apiFetch(`/family-requests/${item.id}`, { method: "DELETE" });
+      router.push("/family-requests");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Aile talebi silinemedi.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   if (loading) return <p className="text-sm text-slate-600">Yükleniyor...</p>;
   if (error) return <p className="text-sm text-red-600">{error}</p>;
   if (!item) return <p className="text-sm text-slate-600">Talep bulunamadı.</p>;
@@ -137,7 +153,7 @@ export default function FamilyRequestDetailPage() {
           >
             {statuses.map((value) => (
               <option key={value} value={value}>
-                {value}
+                {familyRequestStatusLabels[value] ?? value}
               </option>
             ))}
           </select>
@@ -178,6 +194,14 @@ export default function FamilyRequestDetailPage() {
             className="rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
           >
             {saving ? "Kaydediliyor..." : "Kaydet"}
+          </button>
+          <button
+            type="button"
+            onClick={remove}
+            disabled={saving}
+            className="rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-700 disabled:opacity-50"
+          >
+            Sil
           </button>
           {error ? <p className="text-sm text-red-600">{error}</p> : null}
         </div>

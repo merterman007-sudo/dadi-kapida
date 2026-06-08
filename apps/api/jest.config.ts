@@ -6,6 +6,9 @@ const config: Config = {
   roots: ["<rootDir>/src", "<rootDir>/test"],
   testMatch: ["<rootDir>/**/*.spec.ts", "<rootDir>/**/*.e2e-spec.ts"],
   moduleFileExtensions: ["ts", "js", "json"],
+  moduleNameMapper: {
+    "^@dadi-kapida/(.*)$": "<rootDir>/../../packages/$1/src/index.ts"
+  },
   clearMocks: true,
   collectCoverageFrom: [
     "src/**/*.ts",
