@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -12,6 +12,7 @@ type Application = {
   email: string | null;
   city: string | null;
   district: string | null;
+  applied_position: string | null;
   status: string;
   created_at: string;
 };
@@ -30,15 +31,15 @@ type FamilyLead = {
 
 const statusLabels: Record<string, string> = {
   NEW: "Yeni",
-  REVIEWING: "İnceleniyor",
+  REVIEWING: "Ä°nceleniyor",
   REJECTED: "Reddedildi",
-  DUPLICATE: "Mükerrer",
-  CONVERTED_TO_CANDIDATE: "Adaya Dönüştürüldü"
+  DUPLICATE: "MÃ¼kerrer",
+  CONVERTED_TO_CANDIDATE: "Adaya DÃ¶nÃ¼ÅŸtÃ¼rÃ¼ldÃ¼"
 };
 
 const familyStatusLabels: Record<string, string> = {
-  LEAD: "Yeni Başvuru",
-  ACTIVE: "Aktif Müşteri",
+  LEAD: "Yeni BaÅŸvuru",
+  ACTIVE: "Aktif MÃ¼ÅŸteri",
   INACTIVE: "Pasif",
   BLACKLISTED: "Kara Liste"
 };
@@ -63,7 +64,7 @@ export default function ApplicationsPage() {
       setNannyItems(nanny);
       setFamilyItems(family);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Veriler alınamadı.");
+      setError(err instanceof Error ? err.message : "Veriler alÄ±namadÄ±.");
     } finally {
       setLoading(false);
     }
@@ -84,7 +85,7 @@ export default function ApplicationsPage() {
           setFamilyItems(family);
         }
       } catch (err) {
-        if (mounted) setError(err instanceof Error ? err.message : "Veriler alınamadı.");
+        if (mounted) setError(err instanceof Error ? err.message : "Veriler alÄ±namadÄ±.");
       } finally {
         if (mounted) setLoading(false);
       }
@@ -104,7 +105,7 @@ export default function ApplicationsPage() {
       await apiFetch(pathMap[action], { method: "POST" });
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Aksiyon başarısız.");
+      setError(err instanceof Error ? err.message : "Aksiyon baÅŸarÄ±sÄ±z.");
     }
   };
 
@@ -112,7 +113,7 @@ export default function ApplicationsPage() {
     const query = q.trim().toLocaleLowerCase("tr");
     if (!query) return nannyItems;
     return nannyItems.filter((item) =>
-      `${item.first_name} ${item.last_name} ${item.phone} ${item.email ?? ""}`.toLocaleLowerCase("tr").includes(query)
+      `${item.first_name} ${item.last_name} ${item.phone} ${item.email ?? ""} ${item.applied_position ?? ""}`.toLocaleLowerCase("tr").includes(query)
     );
   }, [nannyItems, q]);
 
@@ -127,9 +128,9 @@ export default function ApplicationsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Başvurular</h2>
+        <h2 className="text-2xl font-bold">BaÅŸvurular</h2>
         <span className="text-sm text-slate-500">
-          {tab === "nanny" ? nannyItems.length : familyItems.length} kayıt
+          {tab === "nanny" ? nannyItems.length : familyItems.length} kayÄ±t
         </span>
       </div>
 
@@ -142,7 +143,7 @@ export default function ApplicationsPage() {
             tab === "nanny" ? "bg-white shadow text-slate-900" : "text-slate-600 hover:text-slate-900"
           }`}
         >
-          Dadı Başvuruları
+          DadÄ± BaÅŸvurularÄ±
           {nannyItems.length > 0 && (
             <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-700">
               {nannyItems.filter(i => i.status === "NEW").length}
@@ -156,7 +157,7 @@ export default function ApplicationsPage() {
             tab === "family" ? "bg-white shadow text-slate-900" : "text-slate-600 hover:text-slate-900"
           }`}
         >
-          Aile Başvuruları
+          Aile BaÅŸvurularÄ±
           {familyItems.length > 0 && (
             <span className="ml-2 rounded-full bg-orange-100 px-2 py-0.5 text-xs text-orange-700">
               {familyItems.length}
@@ -172,7 +173,7 @@ export default function ApplicationsPage() {
         className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
       />
 
-      {loading ? <p className="text-sm text-slate-600">Yükleniyor...</p> : null}
+      {loading ? <p className="text-sm text-slate-600">YÃ¼kleniyor...</p> : null}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
 
       {!loading && !error && tab === "nanny" ? (
@@ -182,9 +183,10 @@ export default function ApplicationsPage() {
               <tr>
                 <th className="px-4 py-3">Ad Soyad</th>
                 <th className="px-4 py-3">Telefon</th>
+                <th className="px-4 py-3">Pozisyon</th>
                 <th className="px-4 py-3">E-posta</th>
                 <th className="px-4 py-3">Durum</th>
-                <th className="px-4 py-3">İşlemler</th>
+                <th className="px-4 py-3">Ä°ÅŸlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -196,6 +198,7 @@ export default function ApplicationsPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3">{item.phone}</td>
+                  <td className="px-4 py-3">{item.applied_position ?? "-"}</td>
                   <td className="px-4 py-3">{item.email ?? "-"}</td>
                   <td className="px-4 py-3">
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs">
@@ -205,20 +208,20 @@ export default function ApplicationsPage() {
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-2">
                       <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => runAction(item.id, "convert")}>
-                        Adaya Dönüştür
+                        Adaya DÃ¶nÃ¼ÅŸtÃ¼r
                       </button>
                       <button type="button" className="rounded border border-red-200 px-2 py-1 text-xs text-red-600" onClick={() => runAction(item.id, "reject")}>
                         Reddet
                       </button>
                       <button type="button" className="rounded border border-slate-300 px-2 py-1 text-xs" onClick={() => runAction(item.id, "duplicate")}>
-                        Mükerrer
+                        MÃ¼kerrer
                       </button>
                     </div>
                   </td>
                 </tr>
               ))}
               {filteredNanny.length === 0 ? (
-                <tr><td className="px-4 py-5 text-slate-500" colSpan={5}>Sonuç bulunamadı.</td></tr>
+                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Kayit bulunamadi.</td></tr>
               ) : null}
             </tbody>
           </table>
@@ -230,12 +233,12 @@ export default function ApplicationsPage() {
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-slate-700">
               <tr>
-                <th className="px-4 py-3">Aile Adı</th>
-                <th className="px-4 py-3">İletişim</th>
+                <th className="px-4 py-3">Aile AdÄ±</th>
+                <th className="px-4 py-3">Ä°letiÅŸim</th>
                 <th className="px-4 py-3">Telefon</th>
-                <th className="px-4 py-3">Şehir</th>
+                <th className="px-4 py-3">Åžehir</th>
                 <th className="px-4 py-3">Durum</th>
-                <th className="px-4 py-3">İşlemler</th>
+                <th className="px-4 py-3">Ä°ÅŸlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -258,7 +261,7 @@ export default function ApplicationsPage() {
                 </tr>
               ))}
               {filteredFamily.length === 0 ? (
-                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Yeni aile başvurusu yok.</td></tr>
+                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Yeni aile baÅŸvurusu yok.</td></tr>
               ) : null}
             </tbody>
           </table>
@@ -267,3 +270,4 @@ export default function ApplicationsPage() {
     </div>
   );
 }
+

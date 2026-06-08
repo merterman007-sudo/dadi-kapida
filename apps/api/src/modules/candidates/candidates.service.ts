@@ -38,6 +38,7 @@ export class CandidatesService {
               { candidate_code: { contains: q, mode: "insensitive" } },
               { first_name: { contains: q, mode: "insensitive" } },
               { last_name: { contains: q, mode: "insensitive" } },
+              { applied_position: { contains: q, mode: "insensitive" } },
               { phone: { contains: q, mode: "insensitive" } },
               { email: { contains: q, mode: "insensitive" } }
             ]
@@ -324,6 +325,7 @@ export class CandidatesService {
       ...(dto.district !== undefined ? { district: dto.district } : {}),
       ...(dto.address !== undefined ? { address: dto.address } : {}),
       ...(dto.preferred_cities !== undefined ? { preferred_cities: dto.preferred_cities } : {}),
+      ...(dto.applied_position !== undefined ? { applied_position: dto.applied_position } : {}),
       ...(dto.education_level !== undefined ? { education_level: dto.education_level } : {}),
       ...(dto.years_of_experience !== undefined
         ? { years_of_experience: dto.years_of_experience }

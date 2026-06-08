@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,24 @@ const inputClass =
   "w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-navy placeholder:text-muted/60 outline-none focus:border-trust focus:ring-2 focus:ring-trust/20 transition";
 const labelClass = "block text-xs font-semibold uppercase tracking-[0.14em] text-trust mb-1.5";
 const requiredStar = <span className="text-red-500 ml-0.5">*</span>;
+
+const positionOptions = [
+  { value: "", label: "SeÃ§iniz" },
+  { value: "dadi", label: "DadÄ±" },
+  { value: "bebek-bakicisi", label: "Bebek BakÄ±cÄ±sÄ±" },
+  { value: "cocuk-bakicisi", label: "Ã‡ocuk BakÄ±cÄ±sÄ±" },
+  { value: "oyun-ablasi", label: "Oyun AblasÄ±" },
+  { value: "gece-dadisi", label: "Gece DadÄ±sÄ±" },
+  { value: "yasli-bakicisi", label: "YaÅŸlÄ± BakÄ±cÄ±sÄ±" },
+  { value: "hasta-bakicisi", label: "Hasta BakÄ±cÄ±sÄ±" },
+  { value: "refakatci", label: "RefakatÃ§i" },
+  { value: "temizlik-personeli", label: "Temizlik Personeli" },
+  { value: "sofor", label: "ÅžofÃ¶r" },
+  { value: "asci", label: "AÅŸÃ§Ä±" },
+  { value: "ev-yardimcisi", label: "Ev YardÄ±mcÄ±sÄ±" },
+  { value: "kahya", label: "Kahya" },
+  { value: "camasirci", label: "Ã‡amaÅŸÄ±rcÄ±" }
+];
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
@@ -28,12 +46,13 @@ function Field({ label, required, children }: { label: string; required?: boolea
 function validateStep(step: Step, form: Record<string, string | boolean>): string | null {
   if (step === 0) {
     if (!String(form.full_name).trim()) return "Ad soyad zorunludur.";
-    if (!String(form.phone).trim()) return "Telefon numarası zorunludur.";
-    if (String(form.phone).replace(/\D/g, "").length < 10) return "Geçerli bir telefon numarası girin.";
+    if (!String(form.phone).trim()) return "Telefon numarasÄ± zorunludur.";
+    if (String(form.phone).replace(/\D/g, "").length < 10) return "GeÃ§erli bir telefon numarasÄ± girin.";
+    if (!String(form.applied_position).trim()) return "Başvurmak istediğiniz pozisyonu seçin.";
   }
   if (step === 1) {
-    if (!String(form.birth_date).trim()) return "Doğum tarihi zorunludur.";
-    if (!String(form.city).trim()) return "Şehir zorunludur.";
+    if (!String(form.birth_date).trim()) return "DoÄŸum tarihi zorunludur.";
+    if (!String(form.city).trim()) return "Åžehir zorunludur.";
   }
   return null;
 }
@@ -48,6 +67,7 @@ export default function NannyApplicationPage() {
     full_name: "",
     phone: "",
     email: "",
+    applied_position: "",
     birth_date: "",
     city: "",
     district: "",
@@ -71,6 +91,9 @@ export default function NannyApplicationPage() {
         birthDate: form.birth_date,
         city: form.city,
         district: form.district
+      },
+      application: {
+        appliedPosition: form.applied_position
       },
       experience: {
         years: form.experience_years,
@@ -109,7 +132,7 @@ export default function NannyApplicationPage() {
 
   const submit = async () => {
     if (!form.consent) {
-      setError("KVKK metnini onaylamanız gereklidir.");
+      setError("KVKK metnini onaylamanÄ±z gereklidir.");
       return;
     }
     setLoading(true);
@@ -125,7 +148,7 @@ export default function NannyApplicationPage() {
       });
       router.push(result.nextStep as never);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Başvuru gönderilemedi.");
+      setError(err instanceof Error ? err.message : "BaÅŸvuru gÃ¶nderilemedi.");
     } finally {
       setLoading(false);
     }
@@ -136,10 +159,10 @@ export default function NannyApplicationPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8">
       <div className="surface rounded-[28px] p-6 md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Personel Başvurusu</p>
-        <h1 className="mt-3 text-3xl font-semibold text-navy">Profesyonel personel adayları için saygılı ve güvenilir süreç.</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Personel BaÅŸvurusu</p>
+        <h1 className="mt-3 text-3xl font-semibold text-navy">Profesyonel personel adaylarÄ± iÃ§in saygÄ±lÄ± ve gÃ¼venilir sÃ¼reÃ§.</h1>
         <p className="mt-3 text-sm leading-7 text-muted">
-          Başvurular değerlendirme sürecine alınır. Başvuru yapmak işe yerleşme garantisi oluşturmaz.
+          BaÅŸvurular deÄŸerlendirme sÃ¼recine alÄ±nÄ±r. BaÅŸvuru yapmak iÅŸe yerleÅŸme garantisi oluÅŸturmaz.
         </p>
 
         {/* Step indicator */}
@@ -164,7 +187,7 @@ export default function NannyApplicationPage() {
               <Field label="Ad Soyad" required>
                 <input
                   className={inputClass}
-                  placeholder="Örn: Fatma Demir"
+                  placeholder="Ã–rn: Fatma Demir"
                   value={form.full_name}
                   onChange={(e) => update("full_name", e.target.value)}
                 />
@@ -189,13 +212,26 @@ export default function NannyApplicationPage() {
                   />
                 </Field>
               </div>
+              <Field label="Başvurmak İstediğiniz Pozisyon" required>
+                <select
+                  className={inputClass}
+                  value={form.applied_position}
+                  onChange={(e) => update("applied_position", e.target.value)}
+                >
+                  {positionOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </Field>
             </>
           ) : null}
 
           {step === 1 ? (
             <>
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Doğum Tarihi" required>
+                <Field label="DoÄŸum Tarihi" required>
                   <input
                     type="date"
                     className={inputClass}
@@ -204,56 +240,56 @@ export default function NannyApplicationPage() {
                     onChange={(e) => update("birth_date", e.target.value)}
                   />
                 </Field>
-                <Field label="Şehir" required>
+                <Field label="Åžehir" required>
                   <input
                     className={inputClass}
-                    placeholder="İstanbul"
+                    placeholder="Ä°stanbul"
                     value={form.city}
                     onChange={(e) => update("city", e.target.value)}
                   />
                 </Field>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="İlçe">
+                <Field label="Ä°lÃ§e">
                   <input
                     className={inputClass}
-                    placeholder="Kadıköy"
+                    placeholder="KadÄ±kÃ¶y"
                     value={form.district}
                     onChange={(e) => update("district", e.target.value)}
                   />
                 </Field>
-                <Field label="Deneyim (Yıl)">
+                <Field label="Deneyim (YÄ±l)">
                   <select
                     className={inputClass}
                     value={form.experience_years}
                     onChange={(e) => update("experience_years", e.target.value)}
                   >
-                    <option value="">Seçiniz</option>
-                    <option value="0">Deneyimsiz / Yeni başlıyorum</option>
-                    <option value="1">1 yıl</option>
-                    <option value="2">2 yıl</option>
-                    <option value="3-5">3–5 yıl</option>
-                    <option value="5+">5 yıl ve üzeri</option>
+                    <option value="">SeÃ§iniz</option>
+                    <option value="0">Deneyimsiz / Yeni baÅŸlÄ±yorum</option>
+                    <option value="1">1 yÄ±l</option>
+                    <option value="2">2 yÄ±l</option>
+                    <option value="3-5">3â€“5 yÄ±l</option>
+                    <option value="5+">5 yÄ±l ve Ã¼zeri</option>
                   </select>
                 </Field>
               </div>
-              <Field label="Tercih Edilen Çalışma Tipi">
+              <Field label="Tercih Edilen Ã‡alÄ±ÅŸma Tipi">
                 <select
                   className={inputClass}
                   value={form.work_type}
                   onChange={(e) => update("work_type", e.target.value)}
                 >
-                  <option value="">Seçiniz</option>
-                  <option value="gunduzlu">Gündüzlü</option>
-                  <option value="yatili">Yatılı</option>
+                  <option value="">SeÃ§iniz</option>
+                  <option value="gunduzlu">GÃ¼ndÃ¼zlÃ¼</option>
+                  <option value="yatili">YatÄ±lÄ±</option>
                   <option value="her-ikisi">Her ikisi de uygun</option>
                   <option value="part-time">Part-time</option>
                 </select>
               </Field>
-              <Field label="Kendinizi Tanıtın">
+              <Field label="Kendinizi TanÄ±tÄ±n">
                 <textarea
                   className={`${inputClass} min-h-36 resize-none`}
-                  placeholder="Deneyimlerinizi, referanslarınızı ve çalışma beklentilerinizi kısaca yazın..."
+                  placeholder="Deneyimlerinizi, referanslarÄ±nÄ±zÄ± ve Ã§alÄ±ÅŸma beklentilerinizi kÄ±saca yazÄ±n..."
                   value={form.notes}
                   onChange={(e) => update("notes", e.target.value)}
                 />
@@ -263,23 +299,23 @@ export default function NannyApplicationPage() {
 
           {step === 2 ? (
             <div className="space-y-4 rounded-[24px] border border-line bg-ivory p-5">
-              <p className="text-sm font-semibold text-navy">Başvuru Özeti</p>
+              <p className="text-sm font-semibold text-navy">BaÅŸvuru Ã–zeti</p>
               <div className="grid gap-2 text-sm text-muted">
                 <div className="flex justify-between rounded-xl bg-white px-4 py-2">
                   <span className="font-medium text-navy">Ad Soyad</span>
-                  <span>{payload.personal.fullName || "—"}</span>
+                  <span>{payload.personal.fullName || "â€”"}</span>
                 </div>
                 <div className="flex justify-between rounded-xl bg-white px-4 py-2">
                   <span className="font-medium text-navy">Telefon</span>
-                  <span>{payload.personal.phone || "—"}</span>
+                  <span>{payload.personal.phone || "â€”"}</span>
                 </div>
                 <div className="flex justify-between rounded-xl bg-white px-4 py-2">
-                  <span className="font-medium text-navy">Şehir</span>
-                  <span>{payload.personal.city || "—"}</span>
+                  <span className="font-medium text-navy">Åžehir</span>
+                  <span>{payload.personal.city || "â€”"}</span>
                 </div>
                 {payload.experience.workType ? (
                   <div className="flex justify-between rounded-xl bg-white px-4 py-2">
-                    <span className="font-medium text-navy">Çalışma Tipi</span>
+                    <span className="font-medium text-navy">Ã‡alÄ±ÅŸma Tipi</span>
                     <span>{payload.experience.workType}</span>
                   </div>
                 ) : null}
@@ -293,8 +329,8 @@ export default function NannyApplicationPage() {
                     className="mt-0.5 h-4 w-4 cursor-pointer accent-trust"
                   />
                   <span>
-                    <Link href="/aday-aydinlatma-metni" className="underline hover:text-navy">Aday Aydınlatma Metni</Link> ve{" "}
-                    <Link href="/basvuru-sartlari" className="underline hover:text-navy">Başvuru Şartları</Link>&apos;nı okudum, onaylıyorum.{" "}
+                    <Link href="/aday-aydinlatma-metni" className="underline hover:text-navy">Aday AydÄ±nlatma Metni</Link> ve{" "}
+                    <Link href="/basvuru-sartlari" className="underline hover:text-navy">BaÅŸvuru ÅžartlarÄ±</Link>&apos;nÄ± okudum, onaylÄ±yorum.{" "}
                     <span className="text-red-500">*</span>
                   </span>
                 </label>
@@ -305,7 +341,7 @@ export default function NannyApplicationPage() {
                     onChange={(e) => update("marketing_consent", e.target.checked)}
                     className="mt-0.5 h-4 w-4 cursor-pointer accent-trust"
                   />
-                  <span>Uygun pozisyonlar ve sektör haberleri için iletişim almak istiyorum.</span>
+                  <span>Uygun pozisyonlar ve sektÃ¶r haberleri iÃ§in iletiÅŸim almak istiyorum.</span>
                 </label>
               </div>
             </div>
@@ -319,7 +355,7 @@ export default function NannyApplicationPage() {
               className="rounded-full border border-line bg-white px-5 py-3 text-sm font-medium text-navy hover:border-navy transition"
               onClick={goBack}
             >
-              ← Geri
+              â† Geri
             </button>
           ) : null}
           {step < 2 ? (
@@ -328,7 +364,7 @@ export default function NannyApplicationPage() {
               className="rounded-full bg-navy px-5 py-3 text-sm font-medium text-white hover:bg-trust transition"
               onClick={goNext}
             >
-              Devam →
+              Devam â†’
             </button>
           ) : (
             <button
@@ -337,7 +373,7 @@ export default function NannyApplicationPage() {
               onClick={submit}
               className="rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-trust disabled:bg-slate-500 disabled:text-white disabled:cursor-not-allowed"
             >
-              {loading ? "Gönderiliyor..." : "Başvuruyu Gönder"}
+              {loading ? "GÃ¶nderiliyor..." : "BaÅŸvuruyu GÃ¶nder"}
             </button>
           )}
         </div>
@@ -345,3 +381,4 @@ export default function NannyApplicationPage() {
     </div>
   );
 }
+

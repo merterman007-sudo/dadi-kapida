@@ -14,6 +14,7 @@ type CreateCandidatePayload = {
   district?: string;
   address?: string;
   preferred_cities?: string;
+  applied_position?: string;
   education_level?: string;
   years_of_experience?: number;
   expected_salary_min?: number;
@@ -72,6 +73,7 @@ export default function CandidateCreatePage() {
     const district = String(formData.get("district") ?? "").trim();
     const address = String(formData.get("address") ?? "").trim();
     const preferred_cities = String(formData.get("preferred_cities") ?? "").trim();
+    const applied_position = String(formData.get("applied_position") ?? "").trim();
     const education_level = String(formData.get("education_level") ?? "").trim();
     const source = String(formData.get("source") ?? "").trim();
     const years = String(formData.get("years_of_experience") ?? "").trim();
@@ -98,6 +100,7 @@ export default function CandidateCreatePage() {
       ...(district ? { district } : {}),
       ...(address ? { address } : {}),
       ...(preferred_cities ? { preferred_cities } : {}),
+      ...(applied_position ? { applied_position } : {}),
       ...(education_level ? { education_level } : {}),
       ...(source ? { source } : {}),
       ...(years ? { years_of_experience: Number(years) } : {}),
@@ -203,6 +206,15 @@ export default function CandidateCreatePage() {
             <input
               name="preferred_cities"
               placeholder="İstanbul, Ankara, İzmir gibi virgülle ayırın"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2"
+            />
+          </label>
+
+          <label className="space-y-1 text-sm">
+            <span>Başvurduğu Pozisyon</span>
+            <input
+              name="applied_position"
+              placeholder="Dadı, şoför, aşçı, temizlik personeli..."
               className="w-full rounded-lg border border-slate-300 px-3 py-2"
             />
           </label>

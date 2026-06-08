@@ -28,6 +28,8 @@ Kullanım akışı:
 5. Kayıt artık `Personel Profilleri` ekranında detaylı personel profili olarak görünür.
 6. Personel profilinde çalışma tercihleri, deneyim, dil bilgisi, referanslar, evraklar ve yerleştirme geçmişi takip edilir.
 
+Personel başvuru formunda adayın hangi pozisyon için başvurduğu da alınır. Örneğin dadı, bebek bakıcısı, çocuk bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlik personeli, şoför, aşçı veya ev yardımcısı olarak başvurabilir. Bu bilgi CRM'de başvuru listesinde görünür ve aday personel profiline dönüştürüldüğünde profil üzerinde kalıcı olarak taşınır.
+
 Bu akışın amacı, siteden gelen her personel başvurusunun kalıcı olarak CRM'de izlenebilmesini sağlamaktır. Başvuru dönüştürüldükten sonra personel profili operasyonel havuza alınır.
 
 ### Aile Başvurusu
@@ -107,6 +109,7 @@ Personel profilinde şu bilgiler takip edilir:
 - kimlik ve iletişim bilgileri
 - şehir / ilçe / adres
 - çalışabileceği şehirler
+- başvurduğu / uygun olduğu pozisyon
 - eğitim bilgisi
 - deneyim yılı
 - maaş beklentisi

@@ -13,6 +13,7 @@ type Candidate = {
   email: string | null;
   city: string | null;
   district: string | null;
+  applied_position: string | null;
   status: string;
   created_at: string;
 };
@@ -61,7 +62,7 @@ export default function CandidatesPage() {
     if (!query) return items;
 
     return items.filter((candidate) =>
-      `${candidate.first_name} ${candidate.last_name} ${candidate.phone} ${candidate.email ?? ""}`
+      `${candidate.first_name} ${candidate.last_name} ${candidate.phone} ${candidate.email ?? ""} ${candidate.applied_position ?? ""}`
         .toLocaleLowerCase("tr")
         .includes(query)
     );
@@ -109,6 +110,7 @@ export default function CandidatesPage() {
                 <th className="px-4 py-3">Kod</th>
                 <th className="px-4 py-3">Ad Soyad</th>
                 <th className="px-4 py-3">Telefon</th>
+                <th className="px-4 py-3">Pozisyon</th>
                 <th className="px-4 py-3">E-posta</th>
                 <th className="px-4 py-3">Lokasyon</th>
                 <th className="px-4 py-3">Durum</th>
@@ -125,6 +127,7 @@ export default function CandidatesPage() {
                     </Link>
                   </td>
                   <td className="px-4 py-3">{candidate.phone}</td>
+                  <td className="px-4 py-3">{candidate.applied_position ?? "-"}</td>
                   <td className="px-4 py-3">{candidate.email ?? "-"}</td>
                   <td className="px-4 py-3">
                     {candidate.city ?? "-"}
@@ -144,7 +147,7 @@ export default function CandidatesPage() {
               ))}
               {filtered.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-5 text-slate-500" colSpan={7}>
+                  <td className="px-4 py-5 text-slate-500" colSpan={8}>
                     Sonuç bulunamadı.
                   </td>
                 </tr>

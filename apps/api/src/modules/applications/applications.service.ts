@@ -102,6 +102,7 @@ export class ApplicationsService {
         birth_date: application.birth_date,
         city: application.city,
         district: application.district,
+        applied_position: application.applied_position,
         years_of_experience: application.experience_years,
         expected_salary_min: application.expected_salary_min,
         expected_salary_max: application.expected_salary_max,

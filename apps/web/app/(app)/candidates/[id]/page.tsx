@@ -84,6 +84,7 @@ type Candidate = {
   district: string | null;
   address: string | null;
   preferred_cities: string | null;
+  applied_position: string | null;
   education_level: string | null;
   years_of_experience: number | null;
   expected_salary_min: string | null;
@@ -113,6 +114,7 @@ type ProfileDraft = {
   district: string;
   address: string;
   preferred_cities: string;
+  applied_position: string;
   education_level: string;
   years_of_experience: string;
   expected_salary_min: string;
@@ -193,6 +195,7 @@ function createProfileDraft(candidate: Candidate): ProfileDraft {
     district: candidate.district ?? "",
     address: candidate.address ?? "",
     preferred_cities: candidate.preferred_cities ?? "",
+    applied_position: candidate.applied_position ?? "",
     education_level: candidate.education_level ?? "",
     years_of_experience: candidate.years_of_experience?.toString() ?? "",
     expected_salary_min: candidate.expected_salary_min ?? "",
@@ -311,6 +314,7 @@ export default function CandidateDetailPage() {
           district: profileDraft.district.trim() || undefined,
           address: profileDraft.address.trim() || undefined,
           preferred_cities: profileDraft.preferred_cities.trim() || undefined,
+          applied_position: profileDraft.applied_position.trim() || undefined,
           education_level: profileDraft.education_level.trim() || undefined,
           years_of_experience: profileDraft.years_of_experience
             ? Number(profileDraft.years_of_experience)
@@ -541,6 +545,7 @@ export default function CandidateDetailPage() {
             {candidate.first_name} {candidate.last_name}
           </p>
           <p className="mt-1 text-sm text-slate-600">{candidate.candidate_code}</p>
+          <p className="mt-1 text-sm text-slate-600">{candidate.applied_position ?? "Pozisyon bilgisi yok"}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--muted)]">Konum</p>
@@ -687,6 +692,18 @@ export default function CandidateDetailPage() {
                 )
               }
               placeholder="İstanbul, Ankara, İzmir..."
+              className="w-full rounded-lg border border-slate-300 px-3 py-2"
+            />
+          </label>
+
+          <label className="space-y-1 text-sm">
+            <span>Başvurduğu Pozisyon</span>
+            <input
+              value={profileDraft.applied_position}
+              onChange={(event) =>
+                setProfileDraft((current) => (current ? { ...current, applied_position: event.target.value } : current))
+              }
+              placeholder="Dadı, şoför, aşçı..."
               className="w-full rounded-lg border border-slate-300 px-3 py-2"
             />
           </label>

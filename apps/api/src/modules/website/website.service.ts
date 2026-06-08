@@ -188,12 +188,19 @@ export class WebsiteService {
         email: dto.email?.trim(),
         city: dto.city?.trim(),
         district: dto.district?.trim(),
+        applied_position: dto.applied_position.trim(),
         birth_date: dto.birth_date,
         source: dto.source ?? "WEBSITE",
-        notes: "Website nanny application"
+        notes: [
+          `Başvurulan pozisyon: ${dto.applied_position.trim()}`,
+          dto.payload && typeof dto.payload.notes === "string" ? dto.payload.notes : null
+        ]
+          .filter(Boolean)
+          .join("\n\n")
       },
       {
         ...payload,
+        appliedPosition: dto.applied_position.trim(),
         submittedFrom: "website"
       }
     );

@@ -23,6 +23,9 @@ export class CreateNannyApplicationDto {
   @IsString()
   district?: string;
 
+  @IsString()
+  applied_position!: string;
+
   @IsOptional()
   @IsString()
   source?: string;

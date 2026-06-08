@@ -13,6 +13,7 @@ type Application = {
   email: string | null;
   city: string | null;
   district: string | null;
+  applied_position: string | null;
   notes: string | null;
   status: string;
 };
@@ -114,6 +115,9 @@ export default function ApplicationDetailPage() {
         </p>
         <p className="text-sm">
           <strong>İlçe:</strong> {item.district ?? "-"}
+        </p>
+        <p className="text-sm md:col-span-2">
+          <strong>Başvurduğu Pozisyon:</strong> {item.applied_position ?? "-"}
         </p>
 
         <label className="space-y-1 text-sm md:col-span-2">

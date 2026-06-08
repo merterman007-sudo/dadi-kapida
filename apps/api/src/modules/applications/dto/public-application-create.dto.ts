@@ -34,6 +34,10 @@ export class PublicApplicationCreateDto {
   district?: string;
 
   @IsOptional()
+  @IsString()
+  applied_position?: string;
+
+  @IsOptional()
   @IsDateString()
   birth_date?: string;
 

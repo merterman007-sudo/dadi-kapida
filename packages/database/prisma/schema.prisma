@@ -259,6 +259,7 @@ model CandidateApplication {
   email                       String?
   city                        String?
   district                    String?
+  applied_position            String?
   birth_date                  DateTime?
   experience_years            Int?
   expected_salary_min         Decimal?                   @db.Decimal(12, 2)
@@ -294,6 +295,7 @@ model Candidate {
   district                    String?
   address                     String?
   preferred_cities            String?
+  applied_position            String?
   education_level             String?
   years_of_experience         Int?
   expected_salary_min         Decimal?        @db.Decimal(12, 2)

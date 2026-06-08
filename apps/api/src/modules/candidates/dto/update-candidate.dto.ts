@@ -53,6 +53,10 @@ export class UpdateCandidateDto {
 
   @IsOptional()
   @IsString()
+  applied_position?: string;
+
+  @IsOptional()
+  @IsString()
   education_level?: string;
 
   @IsOptional()

@@ -50,6 +50,10 @@ export class CreateCandidateDto {
 
   @IsOptional()
   @IsString()
+  applied_position?: string;
+
+  @IsOptional()
+  @IsString()
   education_level?: string;
 
   @IsOptional()
