@@ -1,7 +1,7 @@
 const servicePhotos: Record<string, string> = {
-  "yatili-dadi": "/images/photo-bank/seyahat-uyumlu-dadi.png",
+  "yatili-dadi": "/images/photo-bank/yatili-dadi.png",
   "gunduzlu-dadi": "/images/photo-bank/egitimli-dadi.png",
-  "bebek-bakicisi": "/images/photo-bank/cocuk-bakicisi.png",
+  "bebek-bakicisi": "/images/photo-bank/bebek-bakicisi.png",
   "yenidogan-bakimi": "/images/photo-bank/yeni-dogan-bakimi.png",
   "oyun-ablasi": "/images/photo-bank/oyun-ablasi.png",
   "egitimli-dadi": "/images/photo-bank/egitimli-dadi.png",
@@ -30,7 +30,7 @@ const servicePhotos: Record<string, string> = {
   camasirci: "/images/photo-bank/camasirci.png"
 };
 
-const PHOTO_VERSION = "20260611c";
+const PHOTO_VERSION = "20260611d";
 
 function withVersion(path: string) {
   return `${path}?v=${PHOTO_VERSION}`;
