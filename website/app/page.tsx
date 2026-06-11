@@ -244,44 +244,47 @@ export default async function HomePage() {
             </div>
 
             <div className="relative">
-              <div className="overflow-hidden rounded-[32px] border border-line bg-white shadow-lg">
-                <div className="relative min-h-[420px]">
+              <div className="relative overflow-hidden rounded-[28px] border border-line bg-white shadow-lg sm:rounded-[32px]">
+                <div className="relative h-[290px] sm:min-h-[420px]">
                   <Image
                     src={siteImages.hero}
                     alt="Aileyle danışman görüşmesi"
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover"
+                    className="object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C1015]/55 via-transparent to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                    <div className="surface rounded-[24px] p-4 sm:p-5">
-                      <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-green">
-                        <span className="rounded-full bg-bg px-3 py-1">Kurumsal yapı</span>
-                        <span className="rounded-full bg-bg px-3 py-1">Aile odaklı süreç</span>
-                      </div>
-                      <p className="mt-4 font-heading text-xl font-semibold text-ink sm:text-[1.55rem]">
-                        Doğru aday, doğru hizmet, kontrollü süreç
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-muted">
-                        Danışman ekibimiz ailelerin ihtiyacını netleştirir, güvenli ve profesyonel bir eşleştirme akışı yürütür.
-                      </p>
+                  <div className="absolute inset-0 hidden bg-gradient-to-t from-[#1C1015]/55 via-transparent to-transparent sm:block" />
+                </div>
+
+                <div className="relative bg-white p-5 sm:absolute sm:inset-x-0 sm:bottom-0 sm:bg-transparent sm:p-6">
+                  <div className="sm:surface sm:rounded-[24px] sm:p-5">
+                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-green sm:text-[11px] sm:tracking-[0.18em]">
+                      <span className="rounded-full bg-bg px-3 py-1.5">Kurumsal yapı</span>
+                      <span className="rounded-full bg-bg px-3 py-1.5">Aile odaklı süreç</span>
                     </div>
+                    <p className="mt-4 font-heading text-[1.45rem] font-semibold leading-tight text-ink sm:text-[1.55rem]">
+                      Doğru aday, doğru hizmet, kontrollü süreç
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-muted">
+                      Danışman ekibimiz ailelerin ihtiyacını netleştirir, güvenli ve profesyonel bir eşleştirme akışı yürütür.
+                    </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid grid-cols-2 gap-3">
                 {[
                   { value: "Türkiye geneli", label: "Talep alımı" },
                   { value: "Ücretsiz", label: "İlk görüşme" },
                   { value: "1:1", label: "Danışman takibi" },
                   { value: "Takip", label: "Yerleştirme sonrası" }
                 ].map((item) => (
-                  <div key={item.label} className="surface rounded-[18px] p-4">
-                    <p className="font-heading text-[1.45rem] font-semibold text-green">{item.value}</p>
-                    <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted">{item.label}</p>
+                  <div key={item.label} className="surface min-w-0 rounded-[18px] p-3.5 sm:p-4">
+                    <p className="font-heading text-lg font-semibold leading-tight text-green sm:text-[1.45rem]">{item.value}</p>
+                    <p className="mt-1 text-[9px] font-medium uppercase leading-4 tracking-[0.14em] text-muted sm:text-[11px] sm:tracking-[0.18em]">
+                      {item.label}
+                    </p>
                   </div>
                 ))}
               </div>
