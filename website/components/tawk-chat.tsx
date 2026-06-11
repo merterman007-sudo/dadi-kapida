@@ -17,6 +17,21 @@ type TawkApi = {
   hideWidget?: () => void;
   showWidget?: () => void;
   onLoad?: () => void;
+  customStyle?: {
+    zIndex?: number | string;
+    visibility?: {
+      desktop?: {
+        position?: string;
+        xOffset?: number | string;
+        yOffset?: number | string;
+      };
+      mobile?: {
+        position?: string;
+        xOffset?: number | string;
+        yOffset?: number | string;
+      };
+    };
+  };
 };
 
 declare global {
@@ -28,24 +43,10 @@ declare global {
 export function TawkChat() {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const hidden = HIDE_PATHS.some((path) => pathname.startsWith(path));
 
   useEffect(() => {
     setMounted(true);
-
-    const mediaQuery = window.matchMedia("(max-width: 1023px)");
-    const updateViewport = () => {
-      setIsMobile(mediaQuery.matches);
-    };
-
-    updateViewport();
-
-    mediaQuery.addEventListener("change", updateViewport);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateViewport);
-    };
   }, []);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export function TawkChat() {
     }
 
     const syncWidgetVisibility = () => {
-      if (hidden || isMobile) {
+      if (hidden) {
         window.Tawk_API?.hideWidget?.();
         return;
       }
@@ -71,9 +72,9 @@ export function TawkChat() {
         delete window.Tawk_API.onLoad;
       }
     };
-  }, [hidden, isMobile, mounted]);
+  }, [hidden, mounted]);
 
-  if (!mounted || hidden || isMobile) return null;
+  if (!mounted || hidden) return null;
 
   return (
     <Script
@@ -82,6 +83,21 @@ export function TawkChat() {
       dangerouslySetInnerHTML={{
         __html: `
           var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+          Tawk_API.customStyle = {
+            zIndex: '55 !important',
+            visibility: {
+              desktop: {
+                position: 'br',
+                xOffset: 20,
+                yOffset: 20
+              },
+              mobile: {
+                position: 'br',
+                xOffset: 16,
+                yOffset: 96
+              }
+            }
+          };
           (function(){
             var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
             s1.async=true;
