@@ -10,7 +10,7 @@ export type ServiceContent = {
   faqs: Array<{ question: string; answer: string }>;
 };
 
-export const servicesContent: ServiceContent[] = [
+const serviceContentEntries: ServiceContent[] = [
   {
     slug: "yatili-dadi",
     title: "Yatılı Dadı",
@@ -1011,6 +1011,10 @@ export const servicesContent: ServiceContent[] = [
     ]
   }
 ];
+
+export const servicesContent: ServiceContent[] = Array.from(
+  new Map(serviceContentEntries.map((service) => [service.slug, service])).values()
+);
 
 export function getServiceContent(slug: string): ServiceContent | undefined {
   return servicesContent.find((s) => s.slug === slug);
