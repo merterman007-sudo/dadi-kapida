@@ -16,6 +16,7 @@ const HIDE_PATHS = [
 type TawkApi = {
   hideWidget?: () => void;
   showWidget?: () => void;
+  onLoad?: () => void;
 };
 
 declare global {
@@ -52,11 +53,24 @@ export function TawkChat() {
       return;
     }
 
-    if (hidden || isMobile) {
-      window.Tawk_API?.hideWidget?.();
-    } else {
+    const syncWidgetVisibility = () => {
+      if (hidden || isMobile) {
+        window.Tawk_API?.hideWidget?.();
+        return;
+      }
+
       window.Tawk_API?.showWidget?.();
-    }
+    };
+
+    window.Tawk_API = window.Tawk_API ?? {};
+    window.Tawk_API.onLoad = syncWidgetVisibility;
+    syncWidgetVisibility();
+
+    return () => {
+      if (window.Tawk_API?.onLoad === syncWidgetVisibility) {
+        delete window.Tawk_API.onLoad;
+      }
+    };
   }, [hidden, isMobile, mounted]);
 
   if (!mounted || hidden || isMobile) return null;

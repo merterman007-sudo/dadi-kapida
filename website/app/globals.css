@@ -40,6 +40,16 @@ body {
   line-height: 1.6;
 }
 
+@media (max-width: 1023px) {
+  iframe[src*="tawk.to"],
+  iframe[title="chat widget"],
+  iframe[title*="chat"] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 /* ─── Tipografi ──────────────────────────────────────────── */
 .font-display {
   font-family: var(--font-heading, "Cormorant Garamond", Georgia, serif);

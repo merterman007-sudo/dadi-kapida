@@ -8,6 +8,8 @@ import { footerPages } from "../lib/content";
 
 type NavItem = { label: string; href: string };
 
+const BRAND_MARK_SRC = "/images/brand/dadi-kapida-mark.png";
+
 const footerServices: NavItem[] = [
   { label: "Dadı & Bebek Bakıcısı", href: "/hizmetlerimiz/yatili-dadi" },
   { label: "Yaşlı Bakıcısı", href: "/hizmetlerimiz/yasli-bakicisi" },
@@ -73,7 +75,6 @@ export function SiteHeader({
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
-  const logoUrl = brand.logoUrl?.trim();
   const supportHours = "Pzt-Cmt 09:00-19:00";
   const coverage = "Türkiye geneli";
 
@@ -144,18 +145,14 @@ export function SiteHeader({
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
-              {logoUrl ? (
-                <Image
-                  src={logoUrl}
-                  alt={brandName}
-                  width={36}
-                  height={36}
-                  className="h-full w-full object-cover"
-                  unoptimized
-                />
-              ) : (
-                "DK"
-              )}
+              <Image
+                src={BRAND_MARK_SRC}
+                alt={`${brandName} logosu`}
+                width={36}
+                height={36}
+                className="h-full w-full object-contain p-1.5"
+                priority
+              />
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-green leading-none">{brandName}</p>
@@ -344,7 +341,6 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
-  const logoUrl = brand.logoUrl?.trim();
   const trustItems = siteSettings["homepage.trust"]?.items ?? [
     "Referans Kontrolü",
     "Aileye Özel Eşleştirme",
@@ -362,18 +358,13 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
           <div>
             <div className="mb-4 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
-                {logoUrl ? (
-                  <Image
-                    src={logoUrl}
-                    alt={brandName}
-                    width={40}
-                    height={40}
-                    className="h-full w-full object-cover"
-                    unoptimized
-                  />
-                ) : (
-                  "DK"
-                )}
+                <Image
+                  src={BRAND_MARK_SRC}
+                  alt={`${brandName} logosu`}
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-contain p-2"
+                />
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-green leading-none">{brandName}</p>
