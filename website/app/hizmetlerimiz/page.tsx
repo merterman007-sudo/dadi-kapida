@@ -120,14 +120,6 @@ export default function ServicesPage() {
 
                   <p className="mt-3 text-sm leading-6 text-muted">{service.shortDescription}</p>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {service.whoIsItFor.slice(0, 2).map((item) => (
-                      <span key={item} className="rounded-full border border-line bg-bg px-3 py-1 text-[11px] font-medium text-muted">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-
                   <span className="mt-5 inline-flex items-center gap-2 text-xs font-semibold text-gold transition group-hover:gap-3">
                     Detaylı incele <Arrow />
                   </span>

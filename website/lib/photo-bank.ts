@@ -12,11 +12,17 @@ const servicePhotos: Record<string, string> = {
   camasirci: "/images/photo-bank/camasirci.png"
 };
 
+const PHOTO_VERSION = "20260611";
+
+function withVersion(path: string) {
+  return `${path}?v=${PHOTO_VERSION}`;
+}
+
 export function getServicePhoto(slug: string): string | null {
   const normalized = slug.toLowerCase();
   const exactMatch = servicePhotos[normalized];
   if (exactMatch) {
-    return exactMatch;
+    return withVersion(exactMatch);
   }
 
   const fallbackRules: Array<{ test: RegExp; photo: string }> = [
@@ -33,5 +39,5 @@ export function getServicePhoto(slug: string): string | null {
   ];
 
   const matchedRule = fallbackRules.find((rule) => rule.test.test(normalized));
-  return matchedRule?.photo ?? null;
+  return matchedRule ? withVersion(matchedRule.photo) : null;
 }

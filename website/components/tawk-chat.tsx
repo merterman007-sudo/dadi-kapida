@@ -2,7 +2,7 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const HIDE_PATHS = [
   "/aile-basvurusu",
@@ -26,17 +26,40 @@ declare global {
 
 export function TawkChat() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const hidden = HIDE_PATHS.some((path) => pathname.startsWith(path));
 
   useEffect(() => {
-    if (hidden) {
+    setMounted(true);
+
+    const mediaQuery = window.matchMedia("(max-width: 1023px)");
+    const updateViewport = () => {
+      setIsMobile(mediaQuery.matches);
+    };
+
+    updateViewport();
+
+    mediaQuery.addEventListener("change", updateViewport);
+
+    return () => {
+      mediaQuery.removeEventListener("change", updateViewport);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) {
+      return;
+    }
+
+    if (hidden || isMobile) {
       window.Tawk_API?.hideWidget?.();
     } else {
       window.Tawk_API?.showWidget?.();
     }
-  }, [hidden]);
+  }, [hidden, isMobile, mounted]);
 
-  if (hidden) return null;
+  if (!mounted || hidden || isMobile) return null;
 
   return (
     <Script
