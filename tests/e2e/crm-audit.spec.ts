@@ -2,8 +2,14 @@ import { expect, test, type APIRequestContext, type Page } from "@playwright/tes
 
 const CRM_URL = (process.env.PLAYWRIGHT_CRM_URL ?? "http://localhost:3000").replace(/\/$/, "");
 const API_URL = (process.env.PLAYWRIGHT_API_URL ?? "http://localhost:3001").replace(/\/$/, "");
-const ADMIN_EMAIL = process.env.PLAYWRIGHT_ADMIN_EMAIL ?? "admin@dadikapida.local";
-const ADMIN_PASSWORD = process.env.PLAYWRIGHT_ADMIN_PASSWORD ?? "admin123";
+const ADMIN_EMAIL = process.env.PLAYWRIGHT_ADMIN_EMAIL ?? process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.PLAYWRIGHT_ADMIN_PASSWORD ?? process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
+
+if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+  throw new Error(
+    "Missing Playwright admin credentials. Set PLAYWRIGHT_ADMIN_EMAIL/PLAYWRIGHT_ADMIN_PASSWORD or DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL/DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD."
+  );
+}
 
 const staticRoutes = [
   "/dashboard",

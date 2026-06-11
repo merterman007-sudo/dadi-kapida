@@ -83,12 +83,11 @@ close running Node/Nest/Next processes and run the command again.
 - All workspace tests: `pnpm test`
 - Pre-production smoke check: `pnpm smoke:preprod`
 
-## Default Admin (Development Only)
+## Bootstrap Admin Credentials
 
-- Email: `admin@dadikapida.local`
-- Password: `admin123`
-
-Change this password immediately in any real environment.
+Set `DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL` and `DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD`
+before running the Prisma seed in any environment that should create the initial CRM owner account.
+Do not commit real credentials to the repository.
 
 ## Phase 1 Status
 

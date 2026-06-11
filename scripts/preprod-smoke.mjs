@@ -1,6 +1,6 @@
 const DEFAULT_API_URL = process.env.SMOKE_API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001";
-const DEFAULT_EMAIL = process.env.SMOKE_ADMIN_EMAIL ?? "admin@dadikapida.local";
-const DEFAULT_PASSWORD = process.env.SMOKE_ADMIN_PASSWORD ?? "admin123";
+const DEFAULT_EMAIL = process.env.SMOKE_ADMIN_EMAIL ?? process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+const DEFAULT_PASSWORD = process.env.SMOKE_ADMIN_PASSWORD ?? process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
 
 function parseArg(flag) {
   const index = process.argv.findIndex((arg) => arg === flag);
@@ -18,6 +18,12 @@ const API_URL = trimTrailingSlash(parseArg("--api-url") ?? DEFAULT_API_URL);
 const LOGIN_EMAIL = parseArg("--email") ?? DEFAULT_EMAIL;
 const LOGIN_PASSWORD = parseArg("--password") ?? DEFAULT_PASSWORD;
 const TIMEOUT_MS = Number.parseInt(parseArg("--timeout-ms") ?? "12000", 10);
+
+if (!LOGIN_EMAIL || !LOGIN_PASSWORD) {
+  throw new Error(
+    "Missing smoke admin credentials. Set SMOKE_ADMIN_EMAIL/SMOKE_ADMIN_PASSWORD or DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL/DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD."
+  );
+}
 
 const checks = [];
 

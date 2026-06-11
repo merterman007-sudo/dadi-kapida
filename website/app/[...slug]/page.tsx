@@ -2,6 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Arrow, SectionHeading, SectionLabel } from "../../components/page-chrome";
+import { ServiceVisual } from "../../components/service-visual";
 import { WebsiteRequestForm } from "../../components/website-request-form";
 import { fetchPublic } from "../../lib/api";
 import { faqs, genericPageData, locations, services } from "../../lib/content";
@@ -111,19 +113,15 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
     if (cmsPage) {
       const sections = cmsPage.payload?.sections ?? [];
       return (
-        <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
-          <div className="relative overflow-hidden rounded-[24px] bg-[#0F1921] p-8">
-            <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-gold/10" />
-            <div className="flex items-center gap-2.5 mb-4">
-              <span className="h-px w-6 bg-gold/60" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/70">Dadi Kapida</span>
+        <div className="mx-auto max-w-5xl px-4 py-10 lg:px-8">
+          <div className="surface rounded-[32px] p-6 md:p-8 lg:p-10">
+            <div className="max-w-3xl">
+              <SectionLabel>Dadı Kapıda</SectionLabel>
+              <SectionHeading
+                title={cmsPage.hero_title ?? cmsPage.title}
+                subtitle={cmsPage.hero_subtitle ?? undefined}
+              />
             </div>
-            <h1 className="relative font-heading text-3xl font-semibold text-white md:text-4xl">
-              {cmsPage.hero_title ?? cmsPage.title}
-            </h1>
-            {cmsPage.hero_subtitle ? (
-              <p className="relative mt-3 text-sm leading-7 text-white/75">{cmsPage.hero_subtitle}</p>
-            ) : null}
           </div>
 
           {sections.length > 0 ? (
@@ -138,10 +136,11 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
           ) : null}
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/aile-basvurusu" className="rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust">
+            <Link href="/aile-basvurusu" className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust">
               Aile Başvurusu Yap
+              <Arrow white />
             </Link>
-            <Link href="/" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-navy">
+            <Link href="/" className="rounded-full border border-line bg-white px-6 py-3 text-sm font-medium text-navy transition hover:border-navy">
               Ana Sayfaya Dön
             </Link>
           </div>
@@ -169,7 +168,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
             <div className="overflow-hidden rounded-[34px] border border-line bg-white shadow-soft">
-              <Image src={siteImages.trust} alt={service.title} width={1400} height={1000} className="h-full w-full object-cover" />
+              <ServiceVisual slug={service.slug} title={service.title} framed={false} className="min-h-[360px] rounded-none" />
             </div>
           </div>
         </div>
@@ -417,10 +416,11 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
           {legalContent[key] && (
             <p className="text-xs text-muted/60 px-2">Son güncelleme: {legalContent[key].lastUpdated}</p>
           )}
-          <div className="rounded-[20px] bg-[#FDFAF5] p-5">
+          <div className="surface rounded-[20px] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-trust mb-2">Sorularınız mı var?</p>
-            <Link href="/iletisim" className="text-sm font-medium text-navy underline underline-offset-2 hover:text-trust">
-              Danışmanlarımızla iletişime geçin →
+            <Link href="/iletisim" className="inline-flex items-center gap-2 text-sm font-medium text-navy underline underline-offset-2 hover:text-trust">
+              Danışmanlarımızla iletişime geçin
+              <Arrow />
             </Link>
           </div>
         </div>
@@ -428,10 +428,11 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
 
       {/* Her sayfada CTA */}
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link href="/aile-basvurusu" className="rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust">
+        <Link href="/aile-basvurusu" className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust">
           Aile Başvurusu Yap
+          <Arrow white />
         </Link>
-        <Link href="/" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-navy">
+        <Link href="/" className="rounded-full border border-line bg-white px-6 py-3 text-sm font-medium text-navy transition hover:border-navy">
           Ana Sayfaya Dön
         </Link>
       </div>

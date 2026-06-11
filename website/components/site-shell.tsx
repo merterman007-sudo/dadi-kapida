@@ -27,6 +27,15 @@ const footerCorporate: NavItem[] = [
   { label: "İletişim", href: "/iletisim" }
 ];
 
+const familyPages: NavItem[] = [
+  { label: "Nasıl Çalışır", href: "/aileler-icin/nasil-calisir" },
+  { label: "İhtiyaç Analizi", href: "/aileler-icin/ihtiyac-analizi" },
+  { label: "Aday Seçim Süreci", href: "/aileler-icin/aday-secim-sureci" },
+  { label: "Yerleştirme Sonrası Takip", href: "/aileler-icin/yerlestirme-sonrasi-takip" },
+  { label: "Güvenlik ve Doğrulama", href: "/aileler-icin/guvenlik-ve-dogrulama" },
+  { label: "SSS", href: "/aileler-icin/sik-sorulan-sorular" }
+];
+
 type SiteSettings = {
   "global.contact"?: {
     phone?: string;
@@ -42,7 +51,10 @@ type SiteSettings = {
   "homepage.trust"?: { items?: string[] };
 };
 
-/* ─── Header ────────────────────────────────────────── */
+function normalizePhoneLink(value?: string) {
+  return value?.replace(/\D/g, "") ?? "";
+}
+
 export function SiteHeader({
   navigation,
   siteSettings
@@ -53,13 +65,18 @@ export function SiteHeader({
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
   const contact = siteSettings["global.contact"] ?? {};
   const phone = contact.phone?.trim();
+  const whatsapp = contact.whatsapp?.trim();
   const email = contact.supportEmail ?? "iletisim@dadikapida.com";
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
   const logoUrl = brand.logoUrl?.trim();
+  const supportHours = "Pzt-Cmt 09:00-19:00";
+  const coverage = "Türkiye geneli";
+
   const normalizedNavigation = navigation.map((item) =>
     item.href === "/hizmet-bolgeleri" ? { ...item, label: "Türkiye Geneli Hizmet" } : item
   );
@@ -67,52 +84,64 @@ export function SiteHeader({
     ? normalizedNavigation
     : [{ label: "Türkiye Geneli Hizmet", href: "/hizmet-bolgeleri" }, ...normalizedNavigation];
 
-  /* scroll shadow */
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* route değişince menüyü kapat */
-  useEffect(() => { setOpen(false); }, [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
-  /* menü açıkken body scroll'u engelle */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full bg-white transition-shadow duration-200 ${
-          scrolled ? "shadow-[0_1px_0_#DDE6E1,0_2px_12px_rgba(0,0,0,0.06)]" : "border-b border-line"
+        className={`sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xl transition-shadow duration-200 ${
+          scrolled ? "shadow-[0_1px_0_#EAD0D9,0_8px_24px_rgba(28,16,21,0.06)]" : "border-b border-line"
         }`}
       >
-        {/* Üst bilgi bandı */}
-        <div className="bg-green">
-          <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2 text-xs text-white/80 lg:px-8">
-            <span className="hidden tracking-widest sm:block">PROFESYONEL EV HİZMETLERİ DANIŞMANLIĞI</span>
-            <div className="flex items-center gap-5">
-              {phone && (
-                <a href={`tel:${phone.replace(/\D/g,"")}`} className="hover:text-white transition-colors">
+        <div className="border-b border-line bg-bg/95">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-2 text-[11px] text-muted lg:px-8">
+            <span className="hidden tracking-[0.22em] text-ink/70 sm:block">
+              PROFESYONEL EV HİZMETLERİ DANIŞMANLIĞI
+            </span>
+
+            <div className="flex items-center gap-4 lg:gap-5">
+              {phone ? (
+                <a href={`tel:${normalizePhoneLink(phone)}`} className="hover:text-green transition-colors">
                   {phone}
                 </a>
-              )}
-              <a href={`mailto:${email}`} className="hover:text-white transition-colors">
+              ) : null}
+              {whatsapp ? (
+                <a
+                  href={`https://wa.me/${normalizePhoneLink(whatsapp)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-green transition-colors"
+                >
+                  WhatsApp
+                </a>
+              ) : null}
+              <a href={`mailto:${email}`} className="hidden hover:text-green transition-colors md:inline-flex">
                 {email}
               </a>
+              <span className="hidden lg:inline-flex">{supportHours}</span>
+              <span className="hidden xl:inline-flex">{coverage}</span>
             </div>
           </div>
         </div>
 
-        {/* Ana nav */}
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
               {logoUrl ? (
@@ -134,18 +163,20 @@ export function SiteHeader({
             </div>
           </Link>
 
-          {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
-            {/* Hizmetlerimiz dropdown */}
             <div className="group relative">
               <Link
                 href="/hizmetlerimiz"
-                className={`flex items-center gap-1 px-3.5 py-2 rounded-full text-sm transition-colors ${
-                  isActive("/hizmetlerimiz") ? "bg-[#FAF5F7] font-semibold text-green" : "text-body hover:text-green hover:bg-[#FAF5F7]"
+                className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
+                  isActive("/hizmetlerimiz")
+                    ? "bg-[#FAF5F7] font-semibold text-green"
+                    : "text-body hover:bg-[#FAF5F7] hover:text-green"
                 }`}
               >
                 Hizmetlerimiz
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
               </Link>
               <div className="invisible absolute left-0 top-full z-50 mt-1 w-56 rounded-2xl border border-line bg-white p-2 shadow-lg opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
                 {[
@@ -155,9 +186,13 @@ export function SiteHeader({
                   { label: "Temizlik Hizmetleri", href: "/hizmetlerimiz/gunluk-temizlik" },
                   { label: "Özel Şoför", href: "/hizmetlerimiz/ozel-sofor" },
                   { label: "Ev Yardımcısı / Aşçı", href: "/hizmetlerimiz/ev-yardimcisi" },
-                  { label: "Tüm Hizmetler →", href: "/hizmetlerimiz" },
-                ].map(sub => (
-                  <Link key={sub.href} href={sub.href} className="block rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FAF5F7] hover:text-green">
+                  { label: "Tüm Hizmetler →", href: "/hizmetlerimiz" }
+                ].map((sub) => (
+                  <Link
+                    key={sub.href}
+                    href={sub.href}
+                    className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FAF5F7] hover:text-green"
+                  >
                     {sub.label}
                   </Link>
                 ))}
@@ -165,33 +200,62 @@ export function SiteHeader({
             </div>
 
             {normalizedNavigation
-              .filter(item => item.href !== "/hizmetlerimiz" && item.href !== "/hizmet-bolgeleri")
-              .map(item => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-3.5 py-2 rounded-full text-sm transition-colors ${
-                  isActive(item.href)
-                    ? "bg-[#FAF5F7] font-semibold text-green"
-                    : "text-body hover:text-green hover:bg-[#FAF5F7]"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+              .filter((item) => item.href !== "/hizmetlerimiz" && item.href !== "/hizmet-bolgeleri")
+              .map((item) =>
+                item.href === "/aileler-icin" ? (
+                  <div key={item.href} className="group relative">
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
+                        isActive(item.href)
+                          ? "bg-[#FAF5F7] font-semibold text-green"
+                          : "text-body hover:bg-[#FAF5F7] hover:text-green"
+                      }`}
+                    >
+                      {item.label}
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                    </Link>
+                    <div className="invisible absolute left-0 top-full z-50 mt-1 w-64 rounded-2xl border border-line bg-white p-2 shadow-lg opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
+                      {familyPages.map((sub) => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FAF5F7] hover:text-green"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
+                      isActive(item.href)
+                        ? "bg-[#FAF5F7] font-semibold text-green"
+                        : "text-body hover:bg-[#FAF5F7] hover:text-green"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
+
             <Link
               href="/hizmet-bolgeleri"
-              className={`px-3.5 py-2 rounded-full text-sm transition-colors ${
+              className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
                 isActive("/hizmet-bolgeleri")
                   ? "bg-[#FAF5F7] font-semibold text-green"
-                  : "text-body hover:text-green hover:bg-[#FAF5F7]"
+                  : "text-body hover:bg-[#FAF5F7] hover:text-green"
               }`}
             >
               Türkiye Geneli
             </Link>
           </nav>
 
-          {/* Desktop CTA */}
           <div className="hidden items-center gap-2 lg:flex">
             <Link href="/personel-basvurusu" className="btn-outline py-2 px-4 text-xs">
               Personel Başvurusu
@@ -201,48 +265,56 @@ export function SiteHeader({
             </Link>
           </div>
 
-          {/* Hamburger */}
           <button
             type="button"
-            onClick={() => setOpen(p => !p)}
+            onClick={() => setOpen((current) => !current)}
             aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-body transition hover:border-green hover:text-green lg:hidden"
           >
             {open ? (
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>
+                <line x1="3" y1="3" x2="13" y2="13" />
+                <line x1="13" y1="3" x2="3" y2="13" />
               </svg>
             ) : (
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                <line x1="2" y1="5" x2="14" y2="5"/><line x1="2" y1="9" x2="14" y2="9"/><line x1="2" y1="13" x2="14" y2="13"/>
+                <line x1="2" y1="5" x2="14" y2="5" />
+                <line x1="2" y1="9" x2="14" y2="9" />
+                <line x1="2" y1="13" x2="14" y2="13" />
               </svg>
             )}
           </button>
         </div>
       </header>
 
-      {/* Mobile overlay */}
-      {open && (
+      {open ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
             <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green text-white font-heading text-sm font-semibold">DK</div>
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green text-white font-heading text-sm font-semibold">
+                DK
+              </div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-green">Dadı Kapıda</p>
             </Link>
-            <button type="button" onClick={() => setOpen(false)} className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-body hover:border-green">
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-body hover:border-green"
+            >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                <line x1="3" y1="3" x2="13" y2="13"/><line x1="13" y1="3" x2="3" y2="13"/>
+                <line x1="3" y1="3" x2="13" y2="13" />
+                <line x1="13" y1="3" x2="3" y2="13" />
               </svg>
             </button>
           </div>
 
           <nav className="flex flex-col gap-0.5 overflow-y-auto px-4 py-5">
-            {mobileNavigation.map(item => (
+            {mobileNavigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`rounded-xl px-4 py-3 text-[0.95rem] font-medium transition-colors ${
-                  isActive(item.href) ? "bg-[#F7FAF8] text-green font-semibold" : "text-body hover:bg-[#F7FAF8]"
+                  isActive(item.href) ? "bg-[#F7FAF8] font-semibold text-green" : "text-body hover:bg-[#F7FAF8]"
                 }`}
               >
                 {item.label}
@@ -259,12 +331,11 @@ export function SiteHeader({
             </Link>
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 }
 
-/* ─── Footer ────────────────────────────────────────── */
 export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
   const contact = siteSettings["global.contact"] ?? {};
   const email = contact.supportEmail ?? "iletisim@dadikapida.com";
@@ -281,14 +352,15 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
     "Yerleştirme Sonrası Takip"
   ];
 
+  const supportHours = "Pzt-Cmt 09:00-19:00";
+  const coverage = "Türkiye geneli";
+
   return (
     <footer className="border-t border-line bg-white">
       <div className="mx-auto max-w-7xl px-5 py-12 lg:px-8">
-        {/* Ana footer grid */}
         <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-          {/* Brand */}
           <div>
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-4 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
                 {logoUrl ? (
                   <Image
@@ -308,11 +380,15 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
                 <p className="text-[11px] text-muted mt-0.5">{tagline}</p>
               </div>
             </div>
-            <p className="text-sm leading-7 text-muted max-w-xs">
+            <p className="max-w-xs text-sm leading-7 text-muted">
               Aileler için güvenilir, referanslı ve aileye özel dadı yerleştirme danışmanlığı. Türkiye genelinde hizmet.
             </p>
+            <div className="mt-4 flex flex-wrap gap-2 text-[11px] text-muted">
+              <span className="rounded-full border border-line bg-bg px-3 py-1">{supportHours}</span>
+              <span className="rounded-full border border-line bg-bg px-3 py-1">{coverage}</span>
+            </div>
             <div className="mt-5 flex flex-wrap gap-2">
-              {trustItems.slice(0, 4).map(item => (
+              {trustItems.slice(0, 4).map((item) => (
                 <span key={item} className="rounded-full border border-line bg-bg px-2.5 py-1 text-[10px] font-medium text-muted">
                   {item}
                 </span>
@@ -320,55 +396,69 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
             </div>
           </div>
 
-          {/* Hizmetler */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink mb-3">Hizmetler</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-ink">Hizmetler</p>
             <div className="space-y-2 text-sm text-muted">
               {footerServices.map(({ label, href }) => (
-                <Link key={href} href={href} className="block hover:text-green transition-colors">{label}</Link>
+                <Link key={href} href={href} className="block transition-colors hover:text-green">
+                  {label}
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* Kurumsal */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink mb-3">Kurumsal</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-ink">Kurumsal</p>
             <div className="space-y-2 text-sm text-muted">
               {footerCorporate.map(({ label, href }) => (
-                <Link key={href} href={href} className="block hover:text-green transition-colors">{label}</Link>
+                <Link key={href} href={href} className="block transition-colors hover:text-green">
+                  {label}
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* İletişim */}
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink mb-3">İletişim</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-ink">İletişim</p>
             <div className="space-y-2 text-sm text-muted">
-              <a href={`mailto:${email}`} className="block hover:text-green transition-colors">{email}</a>
-              {phone && <a href={`tel:${phone.replace(/\D/g,"")}`} className="block hover:text-green transition-colors">{phone}</a>}
-              {whatsapp && (
-                <a href={`https://wa.me/${whatsapp.replace(/\D/g,"")}`} target="_blank" rel="noreferrer" className="block hover:text-green transition-colors">
+              <a href={`mailto:${email}`} className="block transition-colors hover:text-green">
+                {email}
+              </a>
+              {phone ? (
+                <a href={`tel:${normalizePhoneLink(phone)}`} className="block transition-colors hover:text-green">
+                  {phone}
+                </a>
+              ) : null}
+              {whatsapp ? (
+                <a
+                  href={`https://wa.me/${normalizePhoneLink(whatsapp)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block transition-colors hover:text-green"
+                >
                   WhatsApp
                 </a>
-              )}
+              ) : null}
+              <p className="pt-1 text-xs text-muted/70">{supportHours}</p>
             </div>
             <div className="mt-5 space-y-2">
-              <Link href="/aile-basvurusu" className="btn-primary w-full justify-center text-xs py-2.5 px-4">
+              <Link href="/aile-basvurusu" className="btn-primary w-full justify-center px-4 py-2.5 text-xs">
                 Aile Başvurusu
               </Link>
-              <Link href="/personel-basvurusu" className="btn-outline w-full justify-center text-xs py-2.5 px-4">
+              <Link href="/personel-basvurusu" className="btn-outline w-full justify-center px-4 py-2.5 text-xs">
                 Personel Başvurusu
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Alt çizgi */}
-        <div className="mt-10 border-t border-line pt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-xs text-muted">
+        <div className="mt-10 flex flex-col gap-3 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Dadı Kapıda. Tüm hakları saklıdır.</p>
           <div className="flex flex-wrap gap-4">
-            {footerPages.map(p => (
-              <Link key={p.href} href={p.href} className="hover:text-green transition-colors">{p.label}</Link>
+            {footerPages.map((page) => (
+              <Link key={page.href} href={page.href} className="transition-colors hover:text-green">
+                {page.label}
+              </Link>
             ))}
           </div>
         </div>

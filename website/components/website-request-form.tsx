@@ -84,25 +84,77 @@ export function WebsiteRequestForm({ kind }: WebsiteRequestFormProps) {
   };
 
   return (
-    <div className="mt-8 surface rounded-[28px] p-6 md:p-8">
-      <p className="text-sm font-semibold text-navy">{labels.title}</p>
-      <p className="mt-2 text-sm leading-7 text-muted">{labels.message}</p>
-      {error ? <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p> : null}
-      <div className="mt-5 grid gap-4">
-        <div className="grid gap-4 md:grid-cols-2">
-          <input className="rounded-2xl border border-line px-4 py-3" placeholder="Ad soyad" value={form.full_name} onChange={(event) => update("full_name", event.target.value)} />
-          <input className="rounded-2xl border border-line px-4 py-3" placeholder="Telefon" value={form.phone} onChange={(event) => update("phone", event.target.value)} />
+    <div className="surface mt-8 rounded-[28px] p-6 md:p-8">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-ink">{labels.title}</p>
+          <p className="mt-2 text-sm leading-7 text-muted">{labels.message}</p>
         </div>
+        <span className="rounded-full bg-[#FAF5F7] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-green">
+          Hızlı dönüş
+        </span>
+      </div>
+
+      {error ? (
+        <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </p>
+      ) : null}
+
+      <div className="mt-6 grid gap-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <input className="rounded-2xl border border-line px-4 py-3" placeholder="E-posta" value={form.email} onChange={(event) => update("email", event.target.value)} />
-          <input className="rounded-2xl border border-line px-4 py-3" placeholder="Uygun zaman" value={form.preferred_time} onChange={(event) => update("preferred_time", event.target.value)} />
+          <input
+            className="w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none placeholder:text-muted/60 transition focus:border-trust focus:ring-2 focus:ring-trust/20"
+            placeholder="Ad soyad"
+            value={form.full_name}
+            onChange={(event) => update("full_name", event.target.value)}
+          />
+          <input
+            className="w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none placeholder:text-muted/60 transition focus:border-trust focus:ring-2 focus:ring-trust/20"
+            placeholder="Telefon"
+            value={form.phone}
+            onChange={(event) => update("phone", event.target.value)}
+          />
         </div>
-        <textarea className="min-h-32 rounded-2xl border border-line px-4 py-3" placeholder="Kısa not" value={form.message} onChange={(event) => update("message", event.target.value)} />
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <input
+            className="w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none placeholder:text-muted/60 transition focus:border-trust focus:ring-2 focus:ring-trust/20"
+            placeholder="E-posta"
+            value={form.email}
+            onChange={(event) => update("email", event.target.value)}
+          />
+          <input
+            className="w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none placeholder:text-muted/60 transition focus:border-trust focus:ring-2 focus:ring-trust/20"
+            placeholder="Uygun zaman"
+            value={form.preferred_time}
+            onChange={(event) => update("preferred_time", event.target.value)}
+          />
+        </div>
+
+        <textarea
+          className="min-h-32 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm text-ink outline-none placeholder:text-muted/60 transition focus:border-trust focus:ring-2 focus:ring-trust/20"
+          placeholder="Kısa not"
+          value={form.message}
+          onChange={(event) => update("message", event.target.value)}
+        />
+
         <label className="flex items-start gap-3 text-sm text-muted">
-          <input type="checkbox" checked={form.consent} onChange={(event) => update("consent", event.target.checked)} />
+          <input
+            type="checkbox"
+            checked={form.consent}
+            onChange={(event) => update("consent", event.target.checked)}
+            className="mt-0.5 h-4 w-4 cursor-pointer accent-trust"
+          />
           KVKK aydınlatma metnini okudum ve talebimin işlenmesini onaylıyorum.
         </label>
-        <button type="button" disabled={loading || !form.full_name || !form.consent || (!form.phone && !form.email)} onClick={submit} className="w-fit rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-trust disabled:bg-slate-500 disabled:text-white">
+
+        <button
+          type="button"
+          disabled={loading || !form.full_name || !form.consent || (!form.phone && !form.email)}
+          onClick={submit}
+          className="inline-flex w-fit items-center gap-2 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-trust disabled:bg-slate-500 disabled:text-white"
+        >
           {loading ? "Gönderiliyor..." : labels.button}
         </button>
       </div>

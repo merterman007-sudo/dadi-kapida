@@ -20,6 +20,13 @@
 
 const prisma = new PrismaClient();
 const DEMO_SOURCE = "DEMO_SEED_V1";
+const bootstrapAdminEmail = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+
+if (!bootstrapAdminEmail) {
+  throw new Error(
+    "Missing bootstrap admin email. Set DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL before running prisma demo seed."
+  );
+}
 
 type CandidateSeed = {
   firstName: string;
@@ -375,7 +382,7 @@ async function cleanupDemoData() {
 
 async function main() {
   const owner = await prisma.user.findUnique({
-    where: { email: "admin@dadikapida.local" },
+    where: { email: bootstrapAdminEmail },
     select: { id: true }
   });
 

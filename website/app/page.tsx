@@ -1,349 +1,301 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { FaqAccordion } from "../components/faq-accordion";
-import { QuickApply } from "../components/quick-apply";
-import { blogPosts } from "../lib/blog";
+import { ServiceVisual } from "../components/service-visual";
+import { WebsiteRequestForm } from "../components/website-request-form";
 import { fetchPublic } from "../lib/api";
+import { faqs } from "../lib/content";
 import { resolveSiteImages, type WebsiteSettingsWithImages } from "../lib/images";
-import {
-  differenceCards, faqs, locationsPreview,
-  processPreview, securityCards, servicesPreview
-} from "../lib/content";
-import { serviceAngles, testimonialCards } from "../lib/site";
+import { servicesContent } from "../lib/services-content";
 
 export const metadata: Metadata = {
-  title: "Dadı Kapıda | Profesyonel Dadı Yerleştirme Danışmanlığı",
-  description: "Yatılı ve gündüzlü dadı arayan aileler için güvenilir, referanslı ve aileye özel profesyonel yerleştirme danışmanlığı. İstanbul ve Türkiye genelinde hizmet.",
+  title: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
+  description:
+    "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför, aşçı, kahya ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı."
 };
 
-/* ──────────────────────────────────────────────────
-   Yardımcı bileşenler
-────────────────────────────────────────────────── */
+const featuredServiceSlugs = [
+  "yatili-dadi",
+  "bebek-bakicisi",
+  "yasli-bakicisi",
+  "hasta-bakicisi",
+  "gunluk-temizlik",
+  "ozel-sofor",
+  "asci",
+  "ev-yardimcisi",
+  "refakatci",
+  "kahya",
+  "camasirci"
+];
 
-function Label({ t, light }: { t: string; light?: boolean }) {
+type HomeSiteSettings = WebsiteSettingsWithImages & {
+  "global.contact"?: {
+    phone?: string;
+    whatsapp?: string;
+    supportEmail?: string;
+  };
+};
+
+const trustPills = [
+  "Referans kontrolü",
+  "Aileye özel eşleştirme",
+  "Gizlilik ve KVKK",
+  "Yerleştirme sonrası takip"
+];
+
+const whyItems = [
+  {
+    title: "Referans ve geçmiş kontrolü",
+    description: "Her adayın deneyimini, referanslarını ve çalışma geçmişini aileye sunmadan önce doğruluyoruz."
+  },
+  {
+    title: "İhtiyaca göre eşleştirme",
+    description: "Tek tip liste yerine, çalışma düzeni ve beklentilere göre uygun adayları seçip öneriyoruz."
+  },
+  {
+    title: "Gizlilik ve net süreç",
+    description: "KVKK hassasiyeti, açık iletişim ve kontrollü ilerleyen danışmanlık akışıyla güven sağlıyoruz."
+  },
+  {
+    title: "Yerleştirme sonrası takip",
+    description: "İlk haftalardaki uyumu düzenli kontrol ediyor, gerektiğinde süreci yeniden destekliyoruz."
+  }
+];
+
+const howItWorks = [
+  {
+    step: "01",
+    title: "İhtiyacınızı paylaşın",
+    description: "Aile başvurusu ya da kısa iletişim formu ile beklentinizi ve çalışma düzeninizi bize iletin."
+  },
+  {
+    step: "02",
+    title: "Danışman analiz etsin",
+    description: "Ekibimiz talebi inceler, doğru hizmet kategorisini netleştirir ve uygun aday havuzunu hazırlar."
+  },
+  {
+    step: "03",
+    title: "Adayları birlikte değerlendirelim",
+    description: "Referans ve uyum açısından elenen adaylar arasından size en uygun seçenekleri paylaşırız."
+  },
+  {
+    step: "04",
+    title: "Yerleştirme ve takip",
+    description: "Tanışma, karar ve yerleştirme sonrasında da süreci takip ederek uyumu destekleriz."
+  }
+];
+
+const testimonials = [
+  {
+    quote:
+      "Süreç sakin, net ve profesyoneldi. İhtiyacımızı doğru anladılar ve bize gerçekten uygun bir aday sundular.",
+    author: "Aile Müşterisi",
+    service: "Aşçı desteği"
+  },
+  {
+    quote:
+      "İletişim çok düzenliydi. İlk görüşmeden yerleştirmeye kadar her adımda ne olacağını biliyorduk.",
+    author: "Kurumsal Aile",
+    service: "Yatılı dadı"
+  },
+  {
+    quote:
+      "Özellikle referans ve güven tarafında çok titiz davrandılar. Bu bizim için belirleyici oldu.",
+    author: "Anadolu Ailesi",
+    service: "Yaşlı bakıcısı"
+  }
+];
+
+function SectionLabel({ children }: { children: string }) {
   return (
-    <p className={`text-[10px] font-bold uppercase tracking-[0.28em] flex items-center gap-2 ${light ? "text-[#B8860B]/80" : "text-[#B8860B]"}`}>
-      <span className="h-px w-5 bg-current opacity-60" />{t}
+    <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-gold flex items-center gap-2">
+      <span className="h-px w-5 bg-current opacity-60" />
+      {children}
     </p>
   );
 }
 
-function H({
-  size = 2,
-  children,
-  light,
-  className = ""
+function SectionTitle({
+  eyebrow,
+  title,
+  subtitle,
+  centered = false,
+  light = false
 }: {
-  size?: 1 | 2 | 3;
-  children: React.ReactNode;
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  centered?: boolean;
   light?: boolean;
-  className?: string;
 }) {
-  const cls = `font-heading font-semibold leading-tight ${light ? "text-white" : "text-ink"} ${
-    size === 1 ? "text-4xl sm:text-5xl lg:text-[3.5rem]" :
-    size === 2 ? "text-3xl sm:text-[2.2rem]" :
-    "text-xl sm:text-2xl"
-  } ${className}`;
-  if (size === 1) return <h1 className={cls}>{children}</h1>;
-  if (size === 2) return <h2 className={cls}>{children}</h2>;
-  return <h3 className={cls}>{children}</h3>;
+  return (
+    <div className={centered ? "mx-auto max-w-2xl text-center" : ""}>
+      {eyebrow ? <SectionLabel>{eyebrow}</SectionLabel> : null}
+      <h2 className={`mt-3 font-heading text-3xl font-semibold leading-tight sm:text-[2.2rem] ${light ? "text-white" : "text-ink"}`}>
+        {title}
+      </h2>
+      {subtitle ? <p className={`mt-3 text-sm leading-7 ${light ? "text-white/75" : "text-muted"}`}>{subtitle}</p> : null}
+    </div>
+  );
 }
 
 function Arrow({ white }: { white?: boolean }) {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0">
-      <path d="M2 7h10M8 3l4 4-4 4" stroke={white ? "white" : "currentColor"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M2 7h10M8 3l4 4-4 4" stroke={white ? "white" : "currentColor"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-function Check({ green }: { green?: boolean }) {
+function Check() {
   return (
-    <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${green ? "bg-[#8C5368]/10" : "bg-[#B8860B]/12"}`}>
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10">
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-        <path d="M2 6.5l2.5 2.5 5.5-5" stroke={green ? "#8C5368" : "#B8860B"} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="#8C5368" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
   );
 }
 
-/* ──────────────────────────────────────────────────
-   SAYFA
-────────────────────────────────────────────────── */
 export default async function HomePage() {
-  const siteSettings = await fetchPublic<WebsiteSettingsWithImages>("/api/v1/public/site-settings", {});
+  const siteSettings = await fetchPublic<HomeSiteSettings>("/api/v1/public/site-settings", {});
   const siteImages = resolveSiteImages(siteSettings);
+  const contact = siteSettings["global.contact"] ?? {};
+  const phone = contact.phone?.trim();
+  const whatsapp = contact.whatsapp?.trim();
+  const supportEmail = contact.supportEmail ?? "iletisim@dadikapida.com";
+
+  const featuredServices = featuredServiceSlugs
+    .map((slug) => servicesContent.find((service) => service.slug === slug))
+    .filter((service): service is (typeof servicesContent)[number] => Boolean(service));
 
   return (
     <>
-      {/* ═══════ HERO ═══════════════════════════════════ */}
       <section className="relative overflow-hidden bg-white">
-        {/* Arka plan fotoğrafı — sağ yarı */}
-        <div className="absolute right-0 top-0 hidden h-full w-[48%] lg:block">
+        <div className="absolute inset-y-0 right-0 hidden w-[42%] lg:block">
           <Image
             src={siteImages.hero}
-            alt="Profesyonel dadı danışmanlığı"
+            alt="Profesyonel ev hizmetleri danışmanlığı"
             fill
             priority
-            sizes="48vw"
+            sizes="42vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/18 to-transparent" />
         </div>
 
-        {/* İçerik */}
-        <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-14 lg:px-8 lg:pb-20 lg:pt-20">
-          <div className="max-w-xl">
-            <Label t="Dadı Kapıda · Profesyonel Ev Hizmetleri" />
-            <H size={1} className="mt-5">
-              Aileniz için{" "}
-              <span className="text-green relative">
-                güvenilir
-                <span className="absolute -bottom-1 left-0 w-full h-[3px] bg-[#B8860B] rounded-full" />
-              </span>
-              , referanslı<br />personeli birlikte bulalım.
-            </H>
-            <p className="mt-5 text-[1rem] leading-8 text-muted max-w-md">
-              Dadı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför veya ev yardımcısı ihtiyacınızda; deneyim, referans ve güven odaklı eşleştirme yapıyoruz.
-            </p>
-
-            {/* Trust rozetler */}
-            <div className="mt-5 flex flex-wrap gap-2">
-              {["Referans Kontrolü", "Adli Sicil Kontrolü", "Süreç Takibi", "Ücretsiz Görüşme"].map(t => (
-                <span key={t} className="flex items-center gap-1.5 rounded-full border border-line bg-bg px-3 py-1.5 text-[11px] font-medium text-muted">
-                  <Check green /> {t}
-                </span>
-              ))}
-            </div>
-
-            {/* CTA butonlar */}
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/aile-basvurusu" className="btn-primary">
-                Aile Başvurusu Yap <Arrow white />
-              </Link>
-              <Link href="/personel-basvurusu" className="btn-outline">
-                Personel Başvurusu
-              </Link>
-              <Link href="/iletisim" className="hidden items-center gap-1.5 py-3 text-sm text-muted hover:text-green transition-colors lg:flex">
-                Önce danışmanla görüşeyim →
-              </Link>
-            </div>
-            <p className="mt-3 text-[11px] text-muted/60">
-              Başvuru 4–6 dk sürer. Danışman ekibimiz sizinle iletişime geçer.
-            </p>
-          </div>
-
-          {/* Hızlı başvuru formu */}
-          <div className="mt-10 max-w-3xl">
-            <QuickApply />
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ İSTATİSTİK ════════════════════════════ */}
-      <div className="border-y border-line bg-white">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid grid-cols-2 divide-x divide-line sm:grid-cols-4">
-            {[
-              { v: "4–6 dk",   l: "Başvuru süresi" },
-              { v: "1:1",      l: "Danışman takibi" },
-              { v: "Ücretsiz", l: "İlk görüşme" },
-              { v: "Takip",    l: "Yerleştirme sonrası" },
-            ].map(s => (
-              <div key={s.l} className="px-5 py-6 text-center">
-                <p className="font-heading text-[1.6rem] font-semibold text-green">{s.v}</p>
-                <p className="mt-0.5 text-[11px] font-medium uppercase tracking-widest text-muted">{s.l}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ═══════ FARK YARATANLAR ═══════════════════════ */}
-      <section className="py-20 lg:py-28 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-            {/* Metin */}
-            <div>
-              <Label t="Fark" />
-              <H size={2} className="mt-3">
-                Dadı bulmak değil, doğru kişiyi ailenize kazandırmak önemlidir.
-              </H>
-              <p className="mt-4 text-[0.95rem] leading-7 text-muted">
-                Her başvuru ardında ihtiyaç analizi, referans kontrolü ve yerleştirme sonrası takip yer alır.
+        <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-14 lg:px-8 lg:pb-16 lg:pt-20">
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="max-w-2xl">
+              <SectionLabel>Dadı Kapıda · Profesyonel Ev Hizmetleri</SectionLabel>
+              <h1 className="mt-5 max-w-xl font-heading text-4xl font-semibold leading-[1.05] text-ink sm:text-5xl lg:text-[3.9rem]">
+                Eviniz için güvenilir ve profesyonel personel desteği
+              </h1>
+              <p className="mt-5 max-w-xl text-[1rem] leading-8 text-muted">
+                Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlik, şoför, aşçı ve ev yardımcısı ihtiyaçlarında;
+                aileye özel değerlendirme, referans kontrolü ve danışman eşliğinde ilerleyen bir eşleştirme süreci sunuyoruz.
               </p>
-              <div className="mt-7 grid gap-2.5 sm:grid-cols-2">
-                {differenceCards.map((item, i) => (
-                  <div key={item} className="card flex items-start gap-3 p-4">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green font-heading text-[10px] font-bold text-white">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
+
+              <div className="mt-6 flex flex-wrap gap-2.5">
+                {trustPills.map((pill) => (
+                  <span
+                    key={pill}
+                    className="flex items-center gap-2 rounded-full border border-line bg-bg px-3 py-1.5 text-[11px] font-medium text-muted"
+                  >
+                    <Check />
+                    {pill}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href="/aile-basvurusu" className="btn-primary">
+                  Aile Başvurusu Yap <Arrow white />
+                </Link>
+                <Link href="/iletisim" className="btn-outline">
+                  Danışmanla Görüş
+                </Link>
+                {whatsapp ? (
+                  <a
+                    href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3 text-sm font-semibold text-green transition hover:bg-[#FAF5F7]"
+                  >
+                    WhatsApp&apos;tan Yaz <Arrow />
+                  </a>
+                ) : null}
+              </div>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {[
+                  "Referans doğrulama",
+                  "Aileye özel eşleştirme",
+                  "Gizlilik ve KVKK",
+                  "Yerleştirme sonrası takip"
+                ].map((item) => (
+                  <div key={item} className="surface flex items-start gap-3 rounded-[18px] p-4">
+                    <Check />
                     <p className="text-sm font-medium leading-6 text-ink">{item}</p>
                   </div>
                 ))}
               </div>
-              <Link href="/aile-basvurusu" className="btn-primary mt-7 inline-flex">
-                Aile Başvurusu Yap <Arrow white />
-              </Link>
             </div>
 
-            {/* Fotoğraf grid */}
-            <div className="grid grid-cols-2 grid-rows-2 gap-3 h-[460px]">
-              {/* Büyük sol */}
-              <div className="relative row-span-2 overflow-hidden rounded-xl2 shadow-md">
-                <Image src={siteImages.process} alt="Dadı danışmanlık süreci" fill sizes="250px" className="object-cover" />
-                {/* Üstüne bilgi kartı */}
-                <div className="absolute bottom-4 left-4 right-4 card p-3 bg-white/95 backdrop-blur-sm">
-                  <div className="flex items-center gap-2.5">
-                    <Check green />
-                    <div>
-                      <p className="text-[11px] font-bold text-green">Referans doğrulandı</p>
-                      <p className="text-[10px] text-muted">Her aday için yapılır</p>
+            <div className="relative">
+              <div className="overflow-hidden rounded-[32px] border border-line bg-white shadow-lg">
+                <div className="relative min-h-[420px]">
+                  <Image
+                    src={siteImages.hero}
+                    alt="Aileyle danışman görüşmesi"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C1015]/55 via-transparent to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                    <div className="surface rounded-[24px] p-4 sm:p-5">
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-green">
+                        <span className="rounded-full bg-bg px-3 py-1">Kurumsal yapı</span>
+                        <span className="rounded-full bg-bg px-3 py-1">Aile odaklı süreç</span>
+                      </div>
+                      <p className="mt-4 font-heading text-xl font-semibold text-ink sm:text-[1.55rem]">
+                        Doğru aday, doğru hizmet, kontrollü süreç
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-muted">
+                        Danışman ekibimiz ailelerin ihtiyacını netleştirir, güvenli ve profesyonel bir eşleştirme akışı yürütür.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-              {/* Sağ üst */}
-              <div className="relative overflow-hidden rounded-xl2 shadow-sm">
-                <Image src={siteImages.hero} alt="Aile danışman görüşmesi" fill sizes="200px" className="object-cover" />
-              </div>
-              {/* Sağ alt — yeşil panel */}
-              <div className="flex flex-col justify-between rounded-xl2 bg-green p-5">
-                <Label t="Güven" light />
-                <div>
-                  <p className="font-heading text-base font-semibold text-white leading-snug">
-                    İstanbul ve Türkiye genelinde profesyonel hizmet
-                  </p>
-                  <p className="mt-1 text-[11px] text-white/75">Danışman eşliğinde süreç</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ═══════ SÜREÇ ═════════════════════════════════ */}
-      <section className="section-dark-deeper py-20 lg:py-28">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-14 lg:grid-cols-[280px_1fr] lg:items-start">
-            {/* Sol */}
-            <div className="lg:sticky lg:top-24">
-              <Label t="Süreç" light />
-              <H size={2} light className="mt-3">
-                Aileler için süreç nasıl ilerler?
-              </H>
-              <p className="mt-3 text-sm leading-7 text-white/75">Her adım danışman eşliğinde, sakin ve kontrollü biçimde ilerler.</p>
-              <Link href="/aile-basvurusu" className="btn-gold mt-6 inline-flex">
-                Şimdi Başvur <Arrow />
-              </Link>
-            </div>
-            {/* Timeline */}
-            <div className="relative space-y-2 pl-8">
-              <div className="absolute left-3 top-4 bottom-4 w-px bg-gradient-to-b from-[#B8860B]/60 via-[#B8860B]/20 to-transparent" />
-              {processPreview.map((step, i) => (
-                <div key={step} className="relative flex items-start gap-5 rounded-xl2 border border-white/8 bg-white/5 p-4 hover:border-[#B8860B]/20 transition-colors">
-                  <span className="absolute -left-[22px] flex h-4 w-4 items-center justify-center rounded-full border border-[#B8860B]/40 bg-[#6D3D51]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#B8860B]" />
-                  </span>
-                  <span className="font-heading text-2xl font-semibold text-[#E5B84B] w-7 shrink-0 leading-none pt-0.5">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="text-sm font-medium text-white/72 pt-0.5">{step}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ HİZMETLER ═════════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <Label t="Hizmetlerimiz" />
-              <H size={2} className="mt-3">Ailenizin ihtiyacına göre personel çözümleri</H>
-            </div>
-            <Link href="/hizmetlerimiz" className="btn-outline self-start sm:self-auto shrink-0">
-              Tüm hizmetler →
-            </Link>
-          </div>
-
-          <div className="mt-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {servicesPreview.slice(0, 8).map((svc, i) => {
-              const symbols = ["✦","◈","❋","◉","✧","⬡","◇","✦"];
-              return (
-                <Link key={svc.slug} href={`/hizmetlerimiz/${svc.slug}`}
-                  className="card card-hover group block p-5"
-                >
-                  <div className="mb-3.5 flex h-10 w-10 items-center justify-center rounded-full border border-line bg-bg text-green text-sm transition-colors group-hover:border-green/20 group-hover:bg-[#8C5368]/5">
-                    {symbols[i % symbols.length]}
-                  </div>
-                  <p className="font-heading text-[0.92rem] font-semibold text-ink">{svc.title}</p>
-                  <p className="mt-1.5 text-sm leading-6 text-muted">{svc.description}</p>
-                  <span className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-[#B8860B] group-hover:gap-2.5 transition-all">
-                    Detaylı bilgi <Arrow />
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ AİLE CTA — FOTOĞRAFLI ════════════════ */}
-      <section className="py-12 lg:py-16 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid overflow-hidden rounded-xl3 border border-line shadow-lg lg:grid-cols-[1fr_1.1fr]">
-            {/* Fotoğraf */}
-            <div className="relative min-h-[300px]">
-              <Image src={siteImages.trust} alt="Güvenilir dadı seçimi" fill sizes="50vw" className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#8C5368]/55 to-transparent" />
-              <div className="absolute bottom-6 left-6 max-w-[200px]">
-                <p className="font-heading text-xl font-semibold text-white leading-tight">
-                  Güven odaklı,<br />danışman eşliğinde.
-                </p>
-              </div>
-            </div>
-
-            {/* İçerik */}
-            <div className="bg-white p-7 lg:p-10">
-              <Label t="İlk Adım" />
-              <H size={2} className="mt-3">Doğru adayı bulmak için önce ailenizi tanımamız gerekir.</H>
-              <p className="mt-3 text-sm leading-7 text-muted">İhtiyaç analizi, aday değerlendirmesi ve süreç takibi — her adım danışman eşliğinde ilerler.</p>
-              <div className="mt-5 space-y-2">
-                {serviceAngles.map(a => (
-                  <div key={a.title} className="flex items-start gap-3 rounded-card border border-line bg-bg p-3.5">
-                    <Check green />
-                    <div>
-                      <p className="text-sm font-semibold text-ink">{a.title}</p>
-                      <p className="text-xs leading-5 text-muted">{a.description}</p>
-                    </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {[
+                  { value: "Türkiye geneli", label: "Talep alımı" },
+                  { value: "Ücretsiz", label: "İlk görüşme" },
+                  { value: "1:1", label: "Danışman takibi" },
+                  { value: "Takip", label: "Yerleştirme sonrası" }
+                ].map((item) => (
+                  <div key={item.label} className="surface rounded-[18px] p-4">
+                    <p className="font-heading text-[1.45rem] font-semibold text-green">{item.value}</p>
+                    <p className="mt-1 text-[11px] font-medium uppercase tracking-[0.18em] text-muted">{item.label}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/aile-basvurusu" className="btn-primary">Aile Başvurusu Yap <Arrow white /></Link>
-                <Link href="/iletisim" className="btn-outline">Görüşme iste</Link>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═══════ GÜVENLİK ══════════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-white">
+      <section className="border-y border-line bg-bg">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="mx-auto max-w-xl text-center">
-            <Label t="Güven" />
-            <H size={2} className="mt-3">Seçim sürecinde neye baktığımızı saklamıyoruz.</H>
-            <p className="mt-3 text-sm leading-7 text-muted">Kayıt, referans ve iletişim kalitesini görünür hale getiriyoruz.</p>
-          </div>
-          <div className="mx-auto mt-9 grid max-w-3xl gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-            {securityCards.map(item => (
-              <div key={item} className="card flex items-center gap-3 p-4">
-                <Check green />
+          <div className="grid grid-cols-1 gap-4 py-6 sm:grid-cols-2 lg:grid-cols-4">
+            {trustPills.map((item) => (
+              <div key={item} className="surface flex items-center gap-3 rounded-[18px] px-4 py-3">
+                <Check />
                 <p className="text-sm font-medium text-ink">{item}</p>
               </div>
             ))}
@@ -351,183 +303,245 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ═══════ REFERANSLAR ═══════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-[#FAF5F7]">
+      <section className="py-20 lg:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="h-px w-6 bg-gold/60" />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/80">Referanslar</span>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <SectionTitle
+              eyebrow="Hizmetler"
+              title="Her hizmet için ayrı görsel, ayrı anlatım"
+              subtitle="Hizmet kartlarında aynı görselin tekrar etmemesi için merkezi bir eşleşme kullanıyoruz."
+            />
+            <Link href="/hizmetlerimiz" className="btn-outline self-start sm:self-auto">
+              Tüm hizmetler →
+            </Link>
           </div>
-          <H size={2} className="max-w-lg">Ailelerle kurulan ilişkiler uzun solukludur.</H>
-          <p className="mt-3 max-w-lg text-sm leading-7 text-muted">Bize duydukları güveni, kendi sözleriyle aktarıyorlar.</p>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredServices.map((service) => (
+              <Link
+                key={service.slug}
+                href={`/hizmetlerimiz/${service.slug}`}
+                className="group block overflow-hidden rounded-[30px] border border-line bg-white transition hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(28,16,21,0.08)]"
+              >
+                <ServiceVisual slug={service.slug} title={service.title} compact framed={false} className="rounded-none" />
+                <div className="p-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-heading text-[1.15rem] font-semibold text-ink">{service.title}</p>
+                    <span className="rounded-full bg-[#FAF5F7] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-green">
+                      Premium
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm leading-6 text-muted">{service.shortDescription}</p>
+                  <span className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-gold transition group-hover:gap-3">
+                    Detaylı incele <Arrow />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 lg:py-28 bg-bg">
+        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+            <SectionTitle
+              eyebrow="Neden Dadı Kapıda?"
+              title="Güven veren danışmanlık yaklaşımı"
+              subtitle="Ailelerin yalnızca aday değil, süreci yöneten profesyonel bir ekip aradığını biliyoruz."
+            />
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {whyItems.map((item) => (
+                <div key={item.title} className="surface rounded-[24px] p-5">
+                  <p className="font-heading text-lg font-semibold text-ink">{item.title}</p>
+                  <p className="mt-2 text-sm leading-7 text-muted">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-dark-deeper py-20 lg:py-28">
+        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="grid gap-14 lg:grid-cols-[280px_1fr] lg:items-start">
+            <SectionTitle
+              eyebrow="Nasıl Çalışır?"
+              title="Süreç 4 adımda ilerler"
+              subtitle="Açık, kontrollü ve danışman eşliğinde ilerleyen bir yapı kurduk."
+              light
+            />
+
+            <div className="relative space-y-3 pl-8">
+              <div className="absolute left-3 top-4 bottom-4 w-px bg-gradient-to-b from-[#B8860B]/60 via-[#B8860B]/20 to-transparent" />
+              {howItWorks.map((item) => (
+                <div
+                  key={item.step}
+                  className="relative flex items-start gap-5 rounded-[24px] border border-white/8 bg-white/6 p-5 transition hover:border-[#B8860B]/25"
+                >
+                  <span className="absolute -left-[22px] flex h-4 w-4 items-center justify-center rounded-full border border-[#B8860B]/40 bg-[#6D3D51]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#B8860B]" />
+                  </span>
+                  <span className="font-heading text-2xl font-semibold text-[#E5B84B] w-7 shrink-0 leading-none pt-0.5">
+                    {item.step}
+                  </span>
+                  <div>
+                    <p className="font-semibold text-white">{item.title}</p>
+                    <p className="mt-1 text-sm leading-7 text-white/72">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 lg:py-28 bg-white">
+        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.05fr] lg:items-center">
+            <div className="overflow-hidden rounded-[32px] border border-line bg-white shadow-lg">
+              <div className="relative min-h-[320px]">
+                <Image
+                  src={siteImages.process}
+                  alt="Danışmanlık ve yerleştirme süreci"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#8C5368]/50 to-transparent" />
+                <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-green backdrop-blur-sm">
+                  Güven odaklı süreç
+                </div>
+                <div className="absolute bottom-5 left-5 right-5 surface rounded-[24px] p-4">
+                  <p className="font-heading text-lg font-semibold text-ink">Aileye özel danışman eşleşmesi</p>
+                  <p className="mt-2 text-sm leading-6 text-muted">
+                    İhtiyaç analizinden yerleştirme sonrası takibe kadar her aşama tek bir düzen içinde ilerler.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <SectionTitle
+                eyebrow="Öne Çıkan Hizmet"
+                title="Doğru adayı bulmak için önce ailenizi iyi anlamamız gerekir"
+                subtitle="Aday havuzu kadar, beklentinin doğru tanımlanması da sonucu belirler."
+              />
+              <div className="mt-6 space-y-3">
+                {[
+                  "Hizmet türü ve çalışma düzeni netleştirilir.",
+                  "Referans, deneyim ve iletişim dengesi değerlendirilir.",
+                  "Aileye uygun kısa liste danışman tarafından sunulur.",
+                  "Yerleştirme sonrası ilk haftalarda düzenli takip yapılır."
+                ].map((text) => (
+                  <div key={text} className="surface flex items-start gap-3 rounded-[22px] p-4">
+                    <Check />
+                    <p className="text-sm leading-7 text-ink">{text}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link href="/aile-basvurusu" className="btn-primary">
+                  Aile Başvurusu Yap <Arrow white />
+                </Link>
+                <Link href="/iletisim" className="btn-outline">
+                  Görüşme iste
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 lg:py-28 bg-bg">
+        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <SectionTitle
+            eyebrow="Müşteri Yorumları"
+            title="Süreçte en çok güven veren şey net iletişim"
+            subtitle="Gerçekçi, sade ve güven odaklı geri bildirimleri önemsiyoruz."
+          />
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {testimonialCards.map((item, i) => (
-              <blockquote
-                key={item.author}
-                className="relative flex flex-col rounded-[20px] border border-[#EAD0D9] bg-white p-7 shadow-sm"
-              >
-                {/* Tırnak işareti - dekoratif */}
-                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FAF5F7] border border-[#EAD0D9]">
+            {testimonials.map((item) => (
+              <blockquote key={item.author} className="surface flex flex-col rounded-[24px] p-6">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FAF5F7] border border-line">
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
-                    <path d="M0 12V7.2C0 5.04 0.56 3.28 1.68 1.92 2.8 0.64 4.32 0 6.24 0v2.4C5.28 2.4 4.56 2.72 4.08 3.36 3.6 3.92 3.36 4.72 3.36 5.76H6.24V12H0ZM9.76 12V7.2C9.76 5.04 10.32 3.28 11.44 1.92 12.56 0.64 14.08 0 16 0v2.4C15.04 2.4 14.32 2.72 13.84 3.36 13.36 3.92 13.12 4.72 13.12 5.76H16V12H9.76Z" fill="#8C5368" fillOpacity="0.25"/>
+                    <path
+                      d="M0 12V7.2C0 5.04 0.56 3.28 1.68 1.92 2.8 0.64 4.32 0 6.24 0v2.4C5.28 2.4 4.56 2.72 4.08 3.36 3.6 3.92 3.36 4.72 3.36 5.76H6.24V12H0ZM9.76 12V7.2C9.76 5.04 10.32 3.28 11.44 1.92 12.56 0.64 14.08 0 16 0v2.4C15.04 2.4 14.32 2.72 13.84 3.36 13.36 3.92 13.12 4.72 13.12 5.76H16V12H9.76Z"
+                      fill="#8C5368"
+                      fillOpacity="0.25"
+                    />
                   </svg>
                 </div>
 
-                <p className="flex-1 font-heading text-[1.05rem] leading-[1.75] text-ink italic">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
+                <p className="flex-1 font-heading text-[1.05rem] leading-[1.75] text-ink italic">&ldquo;{item.quote}&rdquo;</p>
 
-                <footer className="mt-6 flex items-center gap-3 border-t border-[#EAD0D9] pt-5">
+                <footer className="mt-6 flex items-center gap-3 border-t border-line pt-5">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8C5368] font-heading text-sm font-bold text-white">
                     {item.author[0]}
                   </div>
                   <div>
                     <p className="text-xs font-bold text-ink">{item.author}</p>
-                    <p className="text-[10px] text-muted mt-0.5">Doğrulanmış müşteri</p>
+                    <p className="mt-0.5 text-[10px] text-muted">{item.service}</p>
                   </div>
                   <div className="ml-auto flex gap-0.5">
-                    {[...Array(5)].map((_, s) => (
-                      <svg key={s} width="10" height="10" viewBox="0 0 10 10" fill="#B8860B"><path d="M5 0l1.12 3.44H9.76l-2.94 2.13 1.12 3.44L5 7 2.06 9.01l1.12-3.44L.24 3.44H3.88z"/></svg>
+                    {[...Array(5)].map((_, index) => (
+                      <svg key={index} width="10" height="10" viewBox="0 0 10 10" fill="#B8860B">
+                        <path d="M5 0l1.12 3.44H9.76l-2.94 2.13 1.12 3.44L5 7 2.06 9.01l1.12-3.44L.24 3.44H3.88z" />
+                      </svg>
                     ))}
                   </div>
                 </footer>
               </blockquote>
             ))}
           </div>
-
-          {/* Güven rozeti */}
-          <div className="mt-10 flex flex-wrap items-center gap-6 rounded-[16px] border border-[#EAD0D9] bg-white px-6 py-4">
-            <p className="text-xs font-semibold text-ink">Gizlilik odaklı çalışma</p>
-            <span className="h-4 w-px bg-[#EAD0D9]" />
-            <p className="text-xs text-muted">Tüm müşteri bilgileri gizli tutulmaktadır. Paylaşılan yorumlar, bilgi değişimi için aile onayı alınarak yer almaktadır.</p>
-          </div>
         </div>
       </section>
 
-      {/* ═══════ PERSONEL İÇİN ══════════════════════════ */}
       <section className="py-20 lg:py-28 bg-white">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid overflow-hidden rounded-xl3 border border-line shadow-lg lg:grid-cols-[0.6fr_1fr]">
-            <div className="relative min-h-[260px]">
-              <Image src={siteImages.hero} alt="Profesyonel personel adayları" fill sizes="40vw" className="object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-green/60 to-transparent" />
-            </div>
-            <div className="bg-white p-7 lg:p-10">
-              <Label t="Personel İçin" />
-              <H size={2} className="mt-3">Saygılı ve net bir başvuru süreci</H>
-              <p className="mt-3 text-sm leading-7 text-muted">Deneyiminizi, referanslarınızı ve çalışma beklentinizi paylaşın. Uygun aile eşleşmeleri için değerlendirme başlasın.</p>
-              <p className="mt-1.5 text-xs text-muted/60">Başvurular değerlendirme sürecine alınır. İşe yerleşme garantisi oluşturmaz.</p>
-              <div className="mt-5 grid grid-cols-2 gap-2">
-                {["Referans ve çalışma geçmişi", "Belge ve kimlik doğrulama", "İletişim kalitesi", "Aile uyum analizi"].map(s => (
-                  <div key={s} className="flex items-center gap-2 rounded-card border border-line bg-bg p-3">
-                    <Check green />
-                    <p className="text-xs font-medium text-ink">{s}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/personel-basvurusu" className="btn-primary">Personel Başvurusu Yap <Arrow white /></Link>
-                <Link href="/dadilar-icin" className="btn-outline">Süreci incele</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ BLOG ══════════════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-bg">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <Label t="Rehberler" />
-              <H size={2} className="mt-3">Aileler ve adaylar için pratik içerikler</H>
-            </div>
-            <Link href="/blog" className="btn-outline self-start sm:self-auto shrink-0">Tüm yazılar →</Link>
-          </div>
-          <div className="mt-9 grid gap-4 md:grid-cols-3">
-            {blogPosts.slice(0, 3).map(post => (
-              <Link key={post.slug} href={`/blog/${post.slug}`} className="card card-hover group block overflow-hidden">
-                <div className="relative h-44 overflow-hidden">
-                  <Image src={post.image} alt={post.title} fill sizes="400px" className="object-cover transition duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/30 to-transparent" />
-                  <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold text-green backdrop-blur-sm">
-                    {post.category}
-                  </span>
-                </div>
-                <div className="p-5">
-                  <p className="font-heading text-[0.92rem] font-semibold text-ink">{post.title}</p>
-                  <p className="mt-2 text-sm leading-6 text-muted">{post.excerpt}</p>
-                  <span className="mt-4 flex items-center gap-1.5 text-xs font-bold text-[#B8860B] group-hover:gap-2.5 transition-all">
-                    Devamını oku <Arrow />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ SSS ═══════════════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
-            <div className="lg:sticky lg:top-24">
-              <Label t="SSS" />
-              <H size={2} className="mt-3">Ailelerin en çok sorduğu sorular</H>
-              <p className="mt-3 text-sm leading-7 text-muted">Daha fazlası için SSS sayfamızı ziyaret edebilirsiniz.</p>
-              <Link href="/sik-sorulan-sorular" className="btn-outline mt-5 inline-flex">Tüm sorular →</Link>
-            </div>
+          <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+            <SectionTitle
+              eyebrow="Sık Sorulan Sorular"
+              title="Ailelerin en çok sorduğu sorular"
+              subtitle="Bilmeyi en çok önemsediğiniz noktaları açık ve sade şekilde yanıtlıyoruz."
+            />
             <FaqAccordion faqs={faqs} />
           </div>
         </div>
       </section>
 
-      {/* ═══════ LOKASYONLAR ════════════════════════════ */}
-      <section className="border-y border-line py-12 lg:py-16 bg-bg">
+      <section className="py-20 lg:py-28 bg-bg">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <Label t="Türkiye Geneli Hizmet" />
-          <H size={2} className="mt-3 mb-7">Tüm Türkiye&apos;de profesyonel dadı hizmeti</H>
-          <div className="flex flex-wrap gap-2">
-            {locationsPreview.map(loc => (
-              <Link
-                key={loc.slug}
-                href={`/hizmet-bolgeleri/${loc.slug}`}
-                className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink hover:border-rose hover:text-rose hover:bg-rose/5 transition-colors"
-              >
-                {loc.title}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+            <div className="space-y-4">
+              <SectionTitle
+                eyebrow="Başvuru / İletişim"
+                title="Danışmanla hızlıca görüşmek ister misiniz?"
+                subtitle="Kısa formu doldurun, ekibimiz uygun zamanda size dönüş yapsın."
+              />
+              <div className="surface rounded-[28px] p-6">
+                <div className="space-y-3 text-sm text-muted">
+                  {phone ? <p>Telefon: {phone}</p> : null}
+                  {whatsapp ? <p>WhatsApp: {whatsapp}</p> : null}
+                  <p>E-posta: {supportEmail}</p>
+                  <p>Çalışma saatleri: Pazartesi - Cumartesi 09:00 - 19:00</p>
+                  <p>Hizmet bölgesi: Türkiye geneli</p>
+                </div>
 
-      {/* ═══════ FINAL CTA ═════════════════════════════ */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="relative overflow-hidden rounded-xl3 bg-green p-10 lg:p-16">
-            {/* Dekor */}
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/5" />
-            <div className="pointer-events-none absolute right-10 top-10 h-32 w-32 rounded-full border border-white/4" />
-
-            <div className="divider-gold mb-10" />
-            <div className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
-              <div className="max-w-xl">
-                <Label t="Başlayalım" light />
-                <H size={2} light className="mt-3">
-                  Aileniz için doğru dadıyı profesyonel bir süreçle bulmaya başlayın.
-                </H>
-              </div>
-              <div className="flex shrink-0 flex-col gap-3">
-                <Link href="/aile-basvurusu" className="btn-gold">
-                  Aile Başvurusu Yap <Arrow />
-                </Link>
-                <Link href="/geri-aranma-talebi" className="rounded-full border border-white/40 bg-white/10 px-8 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-white/16">
-                  Geri Aranma Talebi
-                </Link>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <Link href="/aile-basvurusu" className="btn-primary">
+                    Aile Başvurusu Yap <Arrow white />
+                  </Link>
+                  <Link href="/personel-basvurusu" className="btn-outline">
+                    Personel Başvurusu Yap
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="divider-gold mt-10" />
+
+            <WebsiteRequestForm kind="contact" />
           </div>
         </div>
       </section>

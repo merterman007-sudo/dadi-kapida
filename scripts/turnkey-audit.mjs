@@ -1,13 +1,19 @@
 const DEFAULT_WEBSITE_URL = process.env.AUDIT_WEBSITE_URL ?? "http://localhost:3002";
 const DEFAULT_CRM_URL = process.env.AUDIT_CRM_URL ?? "http://localhost:3000";
 const DEFAULT_API_URL = process.env.AUDIT_API_URL ?? "http://localhost:3001";
-const DEFAULT_EMAIL = process.env.AUDIT_ADMIN_EMAIL ?? "admin@dadikapida.local";
-const DEFAULT_PASSWORD = process.env.AUDIT_ADMIN_PASSWORD ?? "admin123";
+const DEFAULT_EMAIL = process.env.AUDIT_ADMIN_EMAIL ?? process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+const DEFAULT_PASSWORD = process.env.AUDIT_ADMIN_PASSWORD ?? process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
 const TIMEOUT_MS = Number.parseInt(process.env.AUDIT_TIMEOUT_MS ?? "15000", 10);
 
 const websiteUrl = trimTrailingSlash(DEFAULT_WEBSITE_URL);
 const crmUrl = trimTrailingSlash(DEFAULT_CRM_URL);
 const apiUrl = trimTrailingSlash(DEFAULT_API_URL);
+
+if (!DEFAULT_EMAIL || !DEFAULT_PASSWORD) {
+  throw new Error(
+    "Missing audit admin credentials. Set AUDIT_ADMIN_EMAIL/AUDIT_ADMIN_PASSWORD or DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL/DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD."
+  );
+}
 
 const results = [];
 

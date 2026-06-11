@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { postPublic } from "../../lib/api";
 import { FormProgress } from "../../components/form-progress";
+import { SectionLabel, SectionHeading } from "../../components/page-chrome";
 
 type Step = 0 | 1 | 2;
 
@@ -146,11 +147,22 @@ export default function FamilyApplicationPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10 lg:px-8">
       <div className="surface rounded-[28px] p-6 md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Aile Başvurusu</p>
-        <h1 className="mt-3 text-3xl font-semibold text-navy">Aileniz için doğru desteği birlikte bulalım.</h1>
-        <p className="mt-3 text-sm leading-7 text-muted">
-          Başvurunuzu adım adım tamamlayın, danışman ekibimiz uygun adaylar için süreci başlatsın.
-        </p>
+        <SectionLabel>Aile Başvurusu</SectionLabel>
+        <SectionHeading
+          title="Aileniz için doğru desteği birlikte bulalım."
+          subtitle="Başvurunuzu adım adım tamamlayın, danışman ekibimiz uygun adaylar için süreci başlatsın."
+        />
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-line bg-white px-4 py-3 text-sm text-muted">
+            İhtiyacınıza uygun aday eşleştirmesi
+          </div>
+          <div className="rounded-2xl border border-line bg-white px-4 py-3 text-sm text-muted">
+            Danışman eşliğinde kontrollü süreç
+          </div>
+          <div className="rounded-2xl border border-line bg-white px-4 py-3 text-sm text-muted">
+            KVKK uyumlu başvuru akışı
+          </div>
+        </div>
 
         {/* Step indicator */}
         <div className="mt-6">

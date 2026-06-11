@@ -18,11 +18,7 @@ export default function LoginPage() {
   const setAccessToken = useSessionStore((state) => state.setAccessToken);
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      email: "admin@dadikapida.local",
-      password: "admin123"
-    }
+    resolver: zodResolver(schema)
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -52,11 +48,13 @@ export default function LoginPage() {
         <h1 className="mt-2 text-3xl font-bold">Dadı Kapıda CRM</h1>
         <p className="mt-2 text-sm text-[var(--muted)]">Personel girişi ile devam edin.</p>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-6 space-y-4" autoComplete="off">
           <div>
             <label className="mb-2 block text-sm font-medium">E-posta</label>
             <input
               className="w-full rounded-xl border px-3 py-2.5 text-sm outline-none transition focus:border-[#8dbcf0]"
+              autoComplete="off"
+              placeholder="E-posta adresiniz"
               {...form.register("email")}
             />
           </div>
@@ -66,6 +64,8 @@ export default function LoginPage() {
             <input
               type="password"
               className="w-full rounded-xl border px-3 py-2.5 text-sm outline-none transition focus:border-[#8dbcf0]"
+              autoComplete="new-password"
+              placeholder="Şifreniz"
               {...form.register("password")}
             />
           </div>

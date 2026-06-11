@@ -8,7 +8,19 @@ import { createTestApp } from "./utils/create-test-app";
 describe("RBAC Matrix (e2e)", () => {
   const prisma = new PrismaClient();
   const readonlyEmail = "e2e.readonly@dadikapida.local";
-  const readonlyPassword = "admin123";
+  const readonlyPassword = process.env.DADI_KAPIDA_RBAC_READONLY_PASSWORD ?? process.env.PLAYWRIGHT_READONLY_PASSWORD;
+  const ownerEmail = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+  const ownerPassword = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
+
+  if (!readonlyPassword) {
+    throw new Error("Missing readonly test password. Set DADI_KAPIDA_RBAC_READONLY_PASSWORD or PLAYWRIGHT_READONLY_PASSWORD.");
+  }
+
+  if (!ownerEmail || !ownerPassword) {
+    throw new Error(
+      "Missing bootstrap admin credentials. Set DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL and DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD."
+    );
+  }
 
   let app: INestApplication;
   let ownerToken: string;
@@ -60,8 +72,8 @@ describe("RBAC Matrix (e2e)", () => {
 
     const ownerLogin = await loginAndGetAccessToken(
       app,
-      "admin@dadikapida.local",
-      "admin123"
+      ownerEmail,
+      ownerPassword
     );
     const readonlyLogin = await loginAndGetAccessToken(
       app,

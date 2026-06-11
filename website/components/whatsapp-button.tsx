@@ -11,7 +11,7 @@ export function WhatsAppButton({ whatsapp }: { whatsapp: string }) {
       target="_blank"
       rel="noreferrer"
       aria-label="WhatsApp ile iletişime geç"
-      className="fixed bottom-20 left-4 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 lg:bottom-6 lg:left-6"
+      className="fixed bottom-24 right-4 z-[60] flex h-14 w-14 items-center justify-center rounded-full border border-white/20 shadow-[0_16px_36px_rgba(0,0,0,0.18)] transition-transform hover:scale-110 active:scale-95 lg:bottom-6 lg:right-6"
       style={{ backgroundColor: "#25D366" }}
     >
       <svg viewBox="0 0 24 24" fill="white" width="28" height="28">

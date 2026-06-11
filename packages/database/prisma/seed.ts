@@ -2,6 +2,14 @@ import * as argon2 from "argon2";
 import { PrismaClient, UserStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
+const bootstrapAdminEmail = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+const bootstrapAdminPassword = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
+
+if (!bootstrapAdminEmail || !bootstrapAdminPassword) {
+  throw new Error(
+    "Missing bootstrap admin credentials. Set DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL and DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD before running prisma seed."
+  );
+}
 
 const rolePermissions: Record<string, string[]> = {
   Owner: [
@@ -148,9 +156,9 @@ async function main() {
     }
   }
 
-  const ownerPasswordHash = await argon2.hash("admin123");
+  const ownerPasswordHash = await argon2.hash(bootstrapAdminPassword);
   const owner = await prisma.user.upsert({
-    where: { email: "admin@dadikapida.local" },
+    where: { email: bootstrapAdminEmail },
     update: {
       password_hash: ownerPasswordHash,
       status: UserStatus.ACTIVE
@@ -158,7 +166,7 @@ async function main() {
     create: {
       first_name: "System",
       last_name: "Admin",
-      email: "admin@dadikapida.local",
+      email: bootstrapAdminEmail,
       password_hash: ownerPasswordHash,
       status: UserStatus.ACTIVE
     }

@@ -6,13 +6,21 @@ import { createTestApp } from "./utils/create-test-app";
 describe("Deletion Flow (e2e)", () => {
   let app: INestApplication;
   let token: string;
+  const ownerEmail = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
+  const ownerPassword = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
+
+  if (!ownerEmail || !ownerPassword) {
+    throw new Error(
+      "Missing bootstrap admin credentials. Set DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL and DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD."
+    );
+  }
 
   beforeAll(async () => {
     app = await createTestApp();
     const login = await loginAndGetAccessToken(
       app,
-      "admin@dadikapida.local",
-      "admin123"
+      ownerEmail,
+      ownerPassword
     );
     expect(login.status).toBe(201);
     token = login.token as string;
