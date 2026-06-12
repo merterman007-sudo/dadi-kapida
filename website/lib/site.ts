@@ -123,7 +123,7 @@ export const faqs: FaqItem[] = [
   { question: "Adli sicil kontrolü yapılıyor mu?", answer: "Evet. Tüm personelden adli sicil belgesi talep edilmekte ve değerlendirme sürecinde dikkate alınmaktadır." },
   { question: "Referans kontrolü nasıl yapılıyor?", answer: "Adayın önceki işverenlerinin iletişim bilgileri alınır, telefon veya yazılı olarak referans teyidi yapılır. Referansı doğrulanamayan adaylar önerilmez." },
   { question: "Kimlik doğrulama yapılıyor mu?", answer: "Evet. Tüm adayların kimlik belgeleri incelenir, nüfus cüzdanı veya pasaport kopyası alınır." },
-  { question: "Personel hakkında şikayetim olursa ne yapmalıyım?", answer: "Danışmanınızı arayın veya iletisim@dadikapida.com adresine yazın. Şikayetler 24 saat içinde değerlendirmeye alınır." },
+  { question: "Personel hakkında şikayetim olursa ne yapmalıyım?", answer: "Danışmanınızı arayın veya dadikapida@gmail.com adresine yazın. Şikayetler 24 saat içinde değerlendirmeye alınır." },
 
   // SİGORTA & YASAL
   { question: "Sigortalı personel sağlıyor musunuz?", answer: "Evet. Türkiye iş kanunu kapsamında personelin SGK kaydının yapılmasını öneriyor ve bu konuda bilgilendirme yapıyoruz. Resmi istihdam her iki taraf için güvence sağlar." },

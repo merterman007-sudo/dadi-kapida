@@ -5,6 +5,7 @@ import { FaqAccordion } from "../components/faq-accordion";
 import { ServiceVisual } from "../components/service-visual";
 import { WebsiteRequestForm } from "../components/website-request-form";
 import { fetchPublic } from "../lib/api";
+import { defaultContact } from "../lib/contact";
 import { faqs } from "../lib/content";
 import { resolveSiteImages, type WebsiteSettingsWithImages } from "../lib/images";
 import { servicesContent } from "../lib/services-content";
@@ -162,9 +163,9 @@ export default async function HomePage() {
   const siteSettings = await fetchPublic<HomeSiteSettings>("/api/v1/public/site-settings", {});
   const siteImages = resolveSiteImages(siteSettings);
   const contact = siteSettings["global.contact"] ?? {};
-  const phone = contact.phone?.trim();
-  const whatsapp = contact.whatsapp?.trim();
-  const supportEmail = contact.supportEmail ?? "iletisim@dadikapida.com";
+  const phone = contact.phone?.trim() || defaultContact.phone;
+  const whatsapp = contact.whatsapp?.trim() || defaultContact.whatsapp;
+  const supportEmail = contact.supportEmail?.trim() || defaultContact.supportEmail;
 
   const featuredServices = featuredServiceSlugs
     .map((slug) => servicesContent.find((service) => service.slug === slug))

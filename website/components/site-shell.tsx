@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { defaultContact } from "../lib/contact";
 import { footerPages } from "../lib/content";
 
 type NavItem = { label: string; href: string };
@@ -69,9 +70,9 @@ export function SiteHeader({
   const [scrolled, setScrolled] = useState(false);
 
   const contact = siteSettings["global.contact"] ?? {};
-  const phone = contact.phone?.trim();
-  const whatsapp = contact.whatsapp?.trim();
-  const email = contact.supportEmail ?? "iletisim@dadikapida.com";
+  const phone = contact.phone?.trim() || defaultContact.phone;
+  const whatsapp = contact.whatsapp?.trim() || defaultContact.whatsapp;
+  const email = contact.supportEmail?.trim() || defaultContact.supportEmail;
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
@@ -335,9 +336,9 @@ export function SiteHeader({
 
 export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
   const contact = siteSettings["global.contact"] ?? {};
-  const email = contact.supportEmail ?? "iletisim@dadikapida.com";
-  const phone = contact.phone?.trim();
-  const whatsapp = contact.whatsapp?.trim();
+  const email = contact.supportEmail?.trim() || defaultContact.supportEmail;
+  const phone = contact.phone?.trim() || defaultContact.phone;
+  const whatsapp = contact.whatsapp?.trim() || defaultContact.whatsapp;
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
   const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";

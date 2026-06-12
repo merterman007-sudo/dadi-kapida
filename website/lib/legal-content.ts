@@ -34,7 +34,7 @@ export const legalContent: Record<string, LegalPage> = {
       },
       {
         heading: "6. Veri Sahibi Olarak Haklarınız",
-        body: `KVKK'nın 11. maddesi kapsamında aşağıdaki haklara sahipsiniz:\n\n• Kişisel verilerinizin işlenip işlenmediğini öğrenme\n• İşlenmişse buna ilişkin bilgi talep etme\n• İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme\n• Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri öğrenme\n• Eksik veya yanlış işlenmişse düzeltilmesini isteme\n• Silinmesini veya yok edilmesini isteme\n• Yapılan işlemlerin aktarıldığı üçüncü kişilere bildirilmesini isteme\n• Münhasıran otomatik sistemlerle analiz edilmesi suretiyle ortaya çıkan sonuca itiraz etme\n• Hukuka aykırı işlenmesi nedeniyle uğradığı zararın giderilmesini talep etme\n\nBu haklarınızı kullanmak için info@dadikapida.com adresine yazılı olarak başvurabilirsiniz.`
+        body: `KVKK'nın 11. maddesi kapsamında aşağıdaki haklara sahipsiniz:\n\n• Kişisel verilerinizin işlenip işlenmediğini öğrenme\n• İşlenmişse buna ilişkin bilgi talep etme\n• İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme\n• Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri öğrenme\n• Eksik veya yanlış işlenmişse düzeltilmesini isteme\n• Silinmesini veya yok edilmesini isteme\n• Yapılan işlemlerin aktarıldığı üçüncü kişilere bildirilmesini isteme\n• Münhasıran otomatik sistemlerle analiz edilmesi suretiyle ortaya çıkan sonuca itiraz etme\n• Hukuka aykırı işlenmesi nedeniyle uğradığı zararın giderilmesini talep etme\n\nBu haklarınızı kullanmak için dadikapida@gmail.com adresine yazılı olarak başvurabilirsiniz.`
       }
     ]
   },
@@ -68,7 +68,7 @@ export const legalContent: Record<string, LegalPage> = {
       },
       {
         heading: "7. İletişim",
-        body: `Gizlilik politikamız hakkında sorularınız için info@dadikapida.com adresinden bize ulaşabilirsiniz.`
+        body: `Gizlilik politikamız hakkında sorularınız için dadikapida@gmail.com adresinden bize ulaşabilirsiniz.`
       }
     ]
   },
@@ -142,7 +142,7 @@ export const legalContent: Record<string, LegalPage> = {
       },
       {
         heading: "5. Haklarınız",
-        body: `KVKK'nın 11. maddesi kapsamındaki haklarınızı kullanmak için info@dadikapida.com adresine başvurabilirsiniz.`
+        body: `KVKK'nın 11. maddesi kapsamındaki haklarınızı kullanmak için dadikapida@gmail.com adresine başvurabilirsiniz.`
       }
     ]
   },
@@ -168,7 +168,7 @@ export const legalContent: Record<string, LegalPage> = {
       },
       {
         heading: "5. Haklarınız",
-        body: `KVKK'nın 11. maddesi kapsamındaki haklarınızı kullanmak için info@dadikapida.com adresine başvurabilirsiniz.`
+        body: `KVKK'nın 11. maddesi kapsamındaki haklarınızı kullanmak için dadikapida@gmail.com adresine başvurabilirsiniz.`
       }
     ]
   },
@@ -178,7 +178,7 @@ export const legalContent: Record<string, LegalPage> = {
     sections: [
       {
         heading: "Açık Rıza Beyanı",
-        body: `Dadı Kapıda'ya başvuru yaparak veya hizmetlerinden yararlanarak aşağıdaki konularda açık rızanızı vermiş sayılırsınız:\n\n• Kişisel verilerinizin yukarıda belirtilen amaçlarla işlenmesi\n• Hizmet sürecinde ilgili taraflarla paylaşılması\n• Tanıtım ve bilgilendirme amaçlı elektronik ileti gönderilmesi (yalnızca bu seçeneği başvuru formunda onaylayanlar için)\n\nBu rızanızı dilediğiniz zaman info@dadikapida.com adresine yazılı bildirimle geri çekebilirsiniz. Rızanızın geri çekilmesi, geri çekme tarihinden önceki işlemlerin hukuka aykırı olduğu anlamına gelmez.`
+        body: `Dadı Kapıda'ya başvuru yaparak veya hizmetlerinden yararlanarak aşağıdaki konularda açık rızanızı vermiş sayılırsınız:\n\n• Kişisel verilerinizin yukarıda belirtilen amaçlarla işlenmesi\n• Hizmet sürecinde ilgili taraflarla paylaşılması\n• Tanıtım ve bilgilendirme amaçlı elektronik ileti gönderilmesi (yalnızca bu seçeneği başvuru formunda onaylayanlar için)\n\nBu rızanızı dilediğiniz zaman dadikapida@gmail.com adresine yazılı bildirimle geri çekebilirsiniz. Rızanızın geri çekilmesi, geri çekme tarihinden önceki işlemlerin hukuka aykırı olduğu anlamına gelmez.`
       }
     ]
   },

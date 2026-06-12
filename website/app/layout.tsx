@@ -8,6 +8,7 @@ import { MobileCta } from "../components/mobile-cta";
 import { OrganizationSchema } from "../components/structured-data";
 import { TawkChat } from "../components/tawk-chat";
 import { fetchPublic } from "../lib/api";
+import { defaultContact } from "../lib/contact";
 
 type SiteSettings = {
   "global.contact"?: {
@@ -118,7 +119,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     ...defaultNavigation.filter((defaultItem) => !navigation.items.some((item) => item.href === defaultItem.href))
   ];
 
-  const whatsapp = siteSettings["global.contact"]?.whatsapp ?? "";
+  const whatsapp = siteSettings["global.contact"]?.whatsapp?.trim() || defaultContact.whatsapp;
 
   return (
     <html lang="tr">

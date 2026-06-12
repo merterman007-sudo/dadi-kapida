@@ -114,9 +114,9 @@ const defaultBrandContact: BrandContactForm = {
   brandName: "Dadı Kapıda",
   tagline: "Güven odaklı yerleştirme",
   logoUrl: "",
-  supportEmail: "iletisim@dadikapida.com",
-  phone: "",
-  whatsapp: "",
+  supportEmail: "dadikapida@gmail.com",
+  phone: "0545 310 05 59",
+  whatsapp: "+90 545 310 05 59",
   callbackLabel: "Geri arama talebi"
 };
 

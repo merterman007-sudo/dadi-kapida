@@ -977,10 +977,10 @@ async function main() {
         key: "global.contact",
         group: "global",
         value: {
-          phone: "",
-          whatsapp: "",
+          phone: "0545 310 05 59",
+          whatsapp: "+90 545 310 05 59",
           callbackLabel: "Geri arama talebi",
-          supportEmail: "iletisim@dadikapida.com"
+          supportEmail: "dadikapida@gmail.com"
         } as Prisma.InputJsonValue
       },
       {
