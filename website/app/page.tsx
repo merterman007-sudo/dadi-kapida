@@ -13,7 +13,10 @@ import { servicesContent } from "../lib/services-content";
 export const metadata: Metadata = {
   title: "Dadı Kapıda | Profesyonel Ev Hizmetleri Danışmanlığı",
   description:
-    "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför, aşçı, kahya ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı."
+    "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför, aşçı, kahya ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı.",
+  alternates: {
+    canonical: "/"
+  }
 };
 
 const featuredServiceSlugs = [
