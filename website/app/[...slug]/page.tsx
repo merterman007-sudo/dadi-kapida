@@ -17,6 +17,7 @@ type CmsPage = {
   hero_subtitle?: string | null;
   seo_title?: string | null;
   meta_description?: string | null;
+  canonical_url?: string | null;
   payload?: {
     sections?: Array<{
       type?: string;
@@ -89,12 +90,18 @@ export async function generateMetadata({
     if (!cmsPage) return {};
     return {
       title: cmsPage.seo_title ?? cmsPage.title,
-      description: cmsPage.meta_description ?? cmsPage.hero_subtitle ?? cmsPage.title
+      description: cmsPage.meta_description ?? cmsPage.hero_subtitle ?? cmsPage.title,
+      alternates: {
+        canonical: cmsPage.canonical_url ?? `https://dadikapida.com/${key}`
+      }
     };
   }
   return {
     title: item.title,
-    description: item.subtitle
+    description: item.subtitle,
+    alternates: {
+      canonical: `https://dadikapida.com/${key}`
+    }
   };
 }
 

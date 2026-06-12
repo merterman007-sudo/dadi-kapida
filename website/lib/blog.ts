@@ -333,13 +333,14 @@ export const blogPosts: BlogPost[] = [
 
 export const blogCategories = [
   { slug: "dadi-secme-rehberi", title: "Dadı Seçme Rehberi" },
-  { slug: "yasli-bakim", title: "Yaşlı Bakım" },
-  { slug: "hasta-bakim", title: "Hasta Bakım" },
-  { slug: "temizlik-hizmetleri", title: "Temizlik Hizmetleri" },
-  { slug: "sofor-hizmetleri", title: "Şoför Hizmetleri" },
-  { slug: "ev-yardimcilari", title: "Ev Yardımcıları" },
+  { slug: "gunduzlu-dadi", title: "Gündüzlü Dadı" },
+  { slug: "guvenlik-ve-referans-kontrolu", title: "Güvenlik ve Referans Kontrolü" },
+  { slug: "bebek-bakimi", title: "Bebek Bakımı" },
   { slug: "aileler-icin-rehber", title: "Aileler İçin Rehber" },
-  { slug: "sehir-rehberleri", title: "Şehir Rehberleri" },
-  { slug: "guvenlik-ve-referans", title: "Güvenlik ve Referans" },
-  { slug: "maas-ve-ucretler", title: "Maaş ve Ücretler" }
+  { slug: "istanbul-dadi-rehberi", title: "İstanbul Dadı Rehberi" },
+  { slug: "maas-ve-calisma-duzeni", title: "Maaş ve Çalışma Düzeni" },
+  { slug: "yatili-dadi", title: "Yatılı Dadı" },
+  { slug: "maas-ve-ucretler", title: "Maaş ve Ücretler" },
+  { slug: "sofor-hizmetleri", title: "Şoför Hizmetleri" },
+  { slug: "ev-yardimcilari", title: "Ev Yardımcıları" }
 ];

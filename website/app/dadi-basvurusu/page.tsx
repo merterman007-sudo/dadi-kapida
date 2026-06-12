@@ -162,6 +162,7 @@ export default function NannyApplicationPage() {
       <div className="surface rounded-[28px] p-6 md:p-8">
         <SectionLabel>Personel Başvurusu</SectionLabel>
         <SectionHeading
+          as="h1"
           title="Profesyonel personel adayları için saygılı ve güvenilir süreç."
           subtitle="Başvurular değerlendirme sürecine alınır. Başvuru yapmak işe yerleşme garantisi oluşturmaz."
         />

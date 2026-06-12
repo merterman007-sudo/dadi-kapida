@@ -70,9 +70,6 @@ export const metadata: Metadata = {
     "ev yardımcısı",
     "personel yerleştirme"
   ],
-  alternates: {
-    canonical: process.env.NEXT_PUBLIC_SITE_URL ?? "https://dadikapida.com"
-  },
   robots: {
     index: true,
     follow: true,

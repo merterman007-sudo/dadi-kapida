@@ -426,9 +426,15 @@ export default function WebsiteSettingsPage() {
 
       const body = new FormData();
       body.append("file", file);
+      const accessToken = window.localStorage.getItem("crm_access_token");
+      const headers = new Headers();
+      if (accessToken) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
+      }
 
       const response = await fetch("/api/website-media", {
         method: "POST",
+        headers,
         body
       });
       const payload = (await response.json()) as { path?: string; error?: string };

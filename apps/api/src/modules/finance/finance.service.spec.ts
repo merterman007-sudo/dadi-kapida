@@ -78,16 +78,21 @@ describe("FinanceService", () => {
   });
 
   it("builds finance trend rows", async () => {
+    const paymentDate = new Date();
+    paymentDate.setHours(10, 0, 0, 0);
+    const refundDate = new Date(paymentDate);
+    refundDate.setHours(12, 0, 0, 0);
+
     prisma.payment.findMany.mockResolvedValue([
       {
         amount: 1200,
         status: PaymentStatus.PAID,
-        paid_at: new Date("2026-06-01T10:00:00.000Z")
+        paid_at: paymentDate
       },
       {
         amount: 200,
         status: PaymentStatus.REFUNDED,
-        paid_at: new Date("2026-06-01T12:00:00.000Z")
+        paid_at: refundDate
       }
     ]);
 

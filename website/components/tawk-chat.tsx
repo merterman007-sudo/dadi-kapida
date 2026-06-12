@@ -103,7 +103,6 @@ export function TawkChat() {
             s1.async=true;
             s1.src='https://embed.tawk.to/6a2478aef81b7b1c2d8ac579/1jqf7eqv3';
             s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
             s0.parentNode.insertBefore(s1,s0);
           })();
         `

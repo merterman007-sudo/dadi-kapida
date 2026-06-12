@@ -298,26 +298,66 @@ async function auditCmsAndMedia(token) {
   const currentContact = (settings.payload?.data ?? []).find((row) => row.key === "global.contact")?.value ?? {};
 
   const whatsappValue = "+905550001122";
-  const update = await apiRequest("/api/v1/admin/website/settings", {
-    method: "PATCH",
-    token,
-    body: {
-      key: "global.contact",
-      group: "global",
-      value: { ...currentContact, whatsapp: whatsappValue, callbackLabel: marker }
+  let updated = false;
+  try {
+    const update = await apiRequest("/api/v1/admin/website/settings", {
+      method: "PATCH",
+      token,
+      body: {
+        key: "global.contact",
+        group: "global",
+        value: { ...currentContact, whatsapp: whatsappValue, callbackLabel: marker }
+      }
+    });
+    updated = update.response.status === 200;
+    addResult("CMS", "update WhatsApp/contact setting", updated ? "pass" : "fail", `HTTP ${update.response.status}`);
+
+    const publicSettings = await apiRequest("/api/v1/public/site-settings");
+    const reflected = publicSettings.payload?.data?.["global.contact"]?.whatsapp === whatsappValue;
+    addResult("CMS", "contact setting reflects in public API", reflected ? "pass" : "fail");
+
+    const anonymousBlob = new Blob(["not-an-image"], { type: "text/plain" });
+    const anonymousForm = new FormData();
+    anonymousForm.append("file", anonymousBlob, "bad.txt");
+    const anonymousMediaResponse = await fetchWithTimeout(`${crmUrl}/api/website-media`, {
+      method: "POST",
+      body: anonymousForm
+    });
+    addResult(
+      "Security",
+      "media upload rejects anonymous user",
+      anonymousMediaResponse.status === 401 ? "pass" : "fail",
+      `HTTP ${anonymousMediaResponse.status}`
+    );
+
+    const blob = new Blob(["not-an-image"], { type: "text/plain" });
+    const form = new FormData();
+    form.append("file", blob, "bad.txt");
+    const mediaResponse = await fetchWithTimeout(`${crmUrl}/api/website-media`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${token}` },
+      body: form
+    });
+    addResult("Security", "media upload rejects non-image", mediaResponse.status === 400 ? "pass" : "fail", `HTTP ${mediaResponse.status}`);
+  } finally {
+    if (updated) {
+      const restore = await apiRequest("/api/v1/admin/website/settings", {
+        method: "PATCH",
+        token,
+        body: {
+          key: "global.contact",
+          group: "global",
+          value: currentContact
+        }
+      });
+      addResult(
+        "CMS",
+        "restore contact setting after audit",
+        restore.response.status === 200 ? "pass" : "fail",
+        `HTTP ${restore.response.status}`
+      );
     }
-  });
-  addResult("CMS", "update WhatsApp/contact setting", update.response.status === 200 ? "pass" : "fail", `HTTP ${update.response.status}`);
-
-  const publicSettings = await apiRequest("/api/v1/public/site-settings");
-  const reflected = publicSettings.payload?.data?.["global.contact"]?.whatsapp === whatsappValue;
-  addResult("CMS", "contact setting reflects in public API", reflected ? "pass" : "fail");
-
-  const blob = new Blob(["not-an-image"], { type: "text/plain" });
-  const form = new FormData();
-  form.append("file", blob, "bad.txt");
-  const mediaResponse = await fetchWithTimeout(`${crmUrl}/api/website-media`, { method: "POST", body: form });
-  addResult("Security", "media upload rejects non-image", mediaResponse.status === 400 ? "pass" : "fail", `HTTP ${mediaResponse.status}`);
+  }
 }
 
 async function auditCmsContent(token) {

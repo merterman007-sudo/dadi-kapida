@@ -1,6 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Arrow, SectionHeading, SectionLabel } from "../../../../components/page-chrome";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  return {
+    title: `${slug.replaceAll("-", " ")} etiketi`,
+    robots: {
+      index: false,
+      follow: true
+    }
+  };
+}
 
 export default async function BlogTagPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

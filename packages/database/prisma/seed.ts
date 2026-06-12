@@ -2,14 +2,17 @@ import * as argon2 from "argon2";
 import { PrismaClient, UserStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const bootstrapAdminEmail = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
-const bootstrapAdminPassword = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD;
 
-if (!bootstrapAdminEmail || !bootstrapAdminPassword) {
-  throw new Error(
-    "Missing bootstrap admin credentials. Set DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL and DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD before running prisma seed."
-  );
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
 }
+
+const bootstrapAdminEmail = requiredEnv("DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL");
+const bootstrapAdminPassword = requiredEnv("DADI_KAPIDA_BOOTSTRAP_ADMIN_PASSWORD");
 
 const rolePermissions: Record<string, string[]> = {
   Owner: [

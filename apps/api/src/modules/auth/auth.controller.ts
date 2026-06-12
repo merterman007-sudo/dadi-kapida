@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Ip, Post, Req, UseGuards } from "@nestjs/common";
+import { Throttle } from "@nestjs/throttler";
 import { CurrentUser } from "../../common/decorators/current-user.decorator";
 import { JwtAuthGuard } from "../../common/guards/jwt-auth.guard";
 import type { AuthenticatedUser } from "../../common/interfaces/authenticated-user.interface";
@@ -12,11 +13,13 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("login")
+  @Throttle({ default: { ttl: 60_000, limit: 5 } })
   login(@Body() dto: LoginDto, @Ip() ip: string, @Req() req: { headers: { [k: string]: string } }) {
     return this.authService.login(dto, ip, req.headers["user-agent"]);
   }
 
   @Post("refresh")
+  @Throttle({ default: { ttl: 60_000, limit: 20 } })
   refresh(@Body() dto: RefreshDto) {
     return this.authService.refresh(dto.refreshToken);
   }

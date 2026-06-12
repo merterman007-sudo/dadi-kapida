@@ -13,18 +13,22 @@ export function SectionHeading({
   title,
   subtitle,
   centered = false,
-  light = false
+  light = false,
+  as = "h2"
 }: {
   title: ReactNode;
   subtitle?: ReactNode;
   centered?: boolean;
   light?: boolean;
+  as?: "h1" | "h2";
 }) {
+  const Heading = as;
+
   return (
     <div className={centered ? "mx-auto max-w-2xl text-center" : ""}>
-      <h2 className={`font-heading text-3xl font-semibold leading-tight sm:text-[2.2rem] ${light ? "text-white" : "text-ink"}`}>
+      <Heading className={`font-heading text-3xl font-semibold leading-tight sm:text-[2.2rem] ${light ? "text-white" : "text-ink"}`}>
         {title}
-      </h2>
+      </Heading>
       {subtitle ? <p className={`mt-3 text-sm leading-7 ${light ? "text-white/75" : "text-muted"}`}>{subtitle}</p> : null}
     </div>
   );
@@ -47,4 +51,3 @@ export function Check() {
     </span>
   );
 }
-

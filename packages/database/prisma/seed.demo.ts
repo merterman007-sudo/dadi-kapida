@@ -20,13 +20,16 @@
 
 const prisma = new PrismaClient();
 const DEMO_SOURCE = "DEMO_SEED_V1";
-const bootstrapAdminEmail = process.env.DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL;
 
-if (!bootstrapAdminEmail) {
-  throw new Error(
-    "Missing bootstrap admin email. Set DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL before running prisma demo seed."
-  );
+function requiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
 }
+
+const bootstrapAdminEmail = requiredEnv("DADI_KAPIDA_BOOTSTRAP_ADMIN_EMAIL");
 
 type CandidateSeed = {
   firstName: string;

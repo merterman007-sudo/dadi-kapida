@@ -149,6 +149,7 @@ export default function FamilyApplicationPage() {
       <div className="surface rounded-[28px] p-6 md:p-8">
         <SectionLabel>Aile Başvurusu</SectionLabel>
         <SectionHeading
+          as="h1"
           title="Aileniz için doğru desteği birlikte bulalım."
           subtitle="Başvurunuzu adım adım tamamlayın, danışman ekibimiz uygun adaylar için süreci başlatsın."
         />

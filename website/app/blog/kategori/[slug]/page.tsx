@@ -1,12 +1,28 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { blogCategories, blogPosts } from "../../../../lib/blog";
 import { Arrow, SectionHeading, SectionLabel } from "../../../../components/page-chrome";
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const category = blogCategories.find((item) => item.slug === slug);
+  if (!category) return {};
+
+  return {
+    title: category.title,
+    description: `${category.title} kategorisindeki Dadı Kapıda rehber yazıları.`,
+    alternates: {
+      canonical: `https://dadikapida.com/blog/kategori/${category.slug}`
+    }
+  };
+}
+
 export default async function BlogCategoryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const category = blogCategories.find((item) => item.slug === slug);
   if (!category) return notFound();
+  const categoryPosts = blogPosts.filter((post) => post.category === category.title);
 
   return (
     <section className="bg-bg py-16 lg:py-24">
@@ -18,7 +34,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ s
         </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {blogPosts.map((post) => (
+          {categoryPosts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="surface rounded-[28px] p-6 transition hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(28,16,21,0.08)]">
               <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-trust">{post.category}</p>
               <p className="mt-2 font-heading text-lg font-semibold text-ink">{post.title}</p>

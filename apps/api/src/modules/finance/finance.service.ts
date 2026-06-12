@@ -16,6 +16,13 @@ type FinanceTrendPoint = {
   net: number;
 };
 
+function localDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 type ExpenseRow = {
   id: string;
   type: ExpenseType;
@@ -257,7 +264,7 @@ export class FinanceService {
     for (let i = 0; i < safeDays; i += 1) {
       const d = new Date(start);
       d.setDate(start.getDate() + i);
-      const isoDate = d.toISOString().slice(0, 10);
+      const isoDate = localDateKey(d);
       const row: FinanceTrendPoint = {
         date: isoDate,
         label: d.toLocaleDateString("tr-TR", { day: "2-digit", month: "2-digit" }),
@@ -271,7 +278,7 @@ export class FinanceService {
 
     for (const payment of payments) {
       if (!payment.paid_at) continue;
-      const key = payment.paid_at.toISOString().slice(0, 10);
+      const key = localDateKey(payment.paid_at);
       const row = map.get(key);
       if (!row) continue;
       const amount = Number(payment.amount);

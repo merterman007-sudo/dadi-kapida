@@ -6,7 +6,6 @@ const pages = [
   "/",
   "/aile-basvurusu",
   "/personel-basvurusu",
-  "/dadi-basvurusu",
   "/geri-aranma-talebi",
   "/online-gorusme-talebi",
   "/aileler-icin",
@@ -60,7 +59,7 @@ const pages = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.WEBSITE_PUBLIC_URL ?? "http://localhost:3002";
+  const baseUrl = process.env.WEBSITE_PUBLIC_URL ?? "https://dadikapida.com";
   const lastModified = new Date();
   const staticRoutes = pages.map((path) => ({ url: `${baseUrl}${path}`, lastModified }));
   const serviceRoutes = services.map((item) => ({ url: `${baseUrl}/hizmetlerimiz/${item.slug}`, lastModified }));
