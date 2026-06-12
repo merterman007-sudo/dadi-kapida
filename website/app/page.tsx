@@ -258,7 +258,7 @@ export default async function HomePage() {
                 </div>
 
                 <div className="relative bg-white p-5 sm:absolute sm:inset-x-0 sm:bottom-0 sm:bg-transparent sm:p-6">
-                  <div className="sm:surface sm:rounded-[24px] sm:p-5">
+                  <div className="rounded-[22px] border border-line/90 bg-white/95 p-4 shadow-[0_16px_40px_rgba(28,16,21,0.10)] backdrop-blur-md sm:rounded-[24px] sm:p-5">
                     <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-green sm:text-[11px] sm:tracking-[0.18em]">
                       <span className="rounded-full bg-bg px-3 py-1.5">Kurumsal yapı</span>
                       <span className="rounded-full bg-bg px-3 py-1.5">Aile odaklı süreç</span>
