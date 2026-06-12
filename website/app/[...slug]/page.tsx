@@ -241,14 +241,6 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         </div>
         <h1 className="relative font-heading text-3xl font-semibold text-white md:text-4xl">{item.title}</h1>
         <p className="relative mt-3 text-sm leading-7 text-white/80">{item.subtitle}</p>
-        {isLegalPage ? (
-          <p className="relative mt-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1.5 text-xs text-gold/90">
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-              <path d="M8 2l.9 5.4h4.6L9.1 10l1.8 4.4L8 12l-2.9 2.4 1.8-4.4L2.5 7.4H7L8 2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-            </svg>
-            Bu sayfa hukuki danışmanlık gerektirmektedir. Resmi metin değildir.
-          </p>
-        ) : null}
       </div>
 
       {/* Süreç sayfası için özel içerik */}

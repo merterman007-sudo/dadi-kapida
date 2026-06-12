@@ -189,7 +189,7 @@ export const genericPageData = {
   },
   "rehberler/evde-bakici-sigorta-rehberi": {
     title: "Evde Bakıcı Sigorta Rehberi",
-    subtitle: "Yasal ve operasyonel konular için ön bilgilendirme; resmi metin değildir."
+    subtitle: "Evde bakım hizmetlerinde sigorta sürecine ilişkin temel bilgiler."
   },
   "iletisim": {
     title: "İletişim",
@@ -221,43 +221,43 @@ export const genericPageData = {
   },
   "kvkk-aydinlatma-metni": {
     title: "KVKK Aydınlatma Metni",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Kişisel verilerinizin işlenmesi, korunması ve haklarınıza ilişkin bilgilendirme."
   },
   "gizlilik-politikasi": {
     title: "Gizlilik Politikası",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Kişisel verilerinizi nasıl topladığımız, kullandığımız ve koruduğumuz hakkında bilgi."
   },
   "cerez-politikasi": {
     title: "Çerez Politikası",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Web sitemizde kullanılan çerezler ve tercihlerinizi yönetme seçenekleri."
   },
   "acik-riza-metni": {
     title: "Açık Rıza Metni",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Kişisel verilerin işlenmesine ilişkin açık rıza ve tercihlerinize dair bilgilendirme."
   },
   "kullanim-sartlari": {
     title: "Kullanım Şartları",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Web sitemizin ve hizmetlerimizin kullanımına ilişkin temel şartlar."
   },
   "basvuru-sartlari": {
     title: "Başvuru Şartları",
-    subtitle: "Aile ve dadı başvuruları için ön bilgilendirme; hukuki ve operasyonel metinler panelden güncellenmelidir."
+    subtitle: "Aile ve personel başvurularının değerlendirilmesine ilişkin koşullar."
   },
   "aday-aydinlatma-metni": {
     title: "Aday Aydınlatma Metni",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Personel adaylarının kişisel verilerinin işlenmesine ilişkin bilgilendirme."
   },
   "aile-aydinlatma-metni": {
     title: "Aile Aydınlatma Metni",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Aile başvurularında kişisel verilerin işlenmesine ilişkin bilgilendirme."
   },
   "veri-sahibi-basvuru-formu": {
     title: "Veri Sahibi Başvuru Formu",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Kişisel verilerinize ilişkin taleplerinizi bize iletebileceğiniz başvuru kanalları."
   },
   "yasal-bilgilendirme": {
     title: "Yasal Bilgilendirme",
-    subtitle: "Bu metin örnek amaçlıdır ve hukuki kontrol gerektirir."
+    subtitle: "Dadı Kapıda hizmetleri ve web sitesi kullanımına ilişkin yasal bilgiler."
   }
 } as const;
 
