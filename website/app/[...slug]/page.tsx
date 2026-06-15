@@ -8,7 +8,7 @@ import { WebsiteRequestForm } from "../../components/website-request-form";
 import { fetchPublic } from "../../lib/api";
 import { faqs, genericPageData, locations, services } from "../../lib/content";
 import { legalContent } from "../../lib/legal-content";
-import { resolveSiteImages, type WebsiteSettingsWithImages } from "../../lib/images";
+import { defaultSiteImages, resolveSiteImages, type WebsiteSettingsWithImages } from "../../lib/images";
 
 type CmsPage = {
   slug: string;
@@ -278,7 +278,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
           <section className="grid overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_24px_65px_rgba(28,16,21,0.12)] lg:grid-cols-[1.08fr_0.92fr]">
             <div className="relative min-h-[390px] lg:min-h-[470px]">
               <Image
-                src={siteImages.process}
+                src={defaultSiteImages.process}
                 alt="Aileye özel personel değerlendirme görüşmesi"
                 fill
                 sizes="(max-width: 1024px) 100vw, 55vw"
