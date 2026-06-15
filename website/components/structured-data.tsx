@@ -5,7 +5,7 @@ export function OrganizationSchema() {
     name: "Dadı Kapıda",
     description: "Profesyonel yatılı ve gündüzlü dadı yerleştirme danışmanlığı. İstanbul ve Türkiye genelinde güvenilir, referanslı aday eşleştirmesi.",
     url: "https://dadikapida.com",
-    logo: "https://dadikapida.com/images/site/logo.png",
+    logo: "https://dadikapida.com/images/brand/dadi-kapida-logo-square.png",
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
@@ -107,7 +107,7 @@ export function ArticleSchema({
       url: "https://dadikapida.com",
       logo: {
         "@type": "ImageObject",
-        url: "https://dadikapida.com/images/site/logo.png"
+        url: "https://dadikapida.com/images/brand/dadi-kapida-logo-square.png"
       }
     },
     inLanguage: "tr-TR"

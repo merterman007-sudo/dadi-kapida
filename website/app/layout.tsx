@@ -58,6 +58,10 @@ export const metadata: Metadata = {
     template: "%s | Dadı Kapıda"
   },
   description: "Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı için güvenilir, referanslı ve aileye özel personel yerleştirme danışmanlığı. Türkiye genelinde hizmet.",
+  icons: {
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "96x96" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }]
+  },
   keywords: [
     "dadı kapıda",
     "dadı",
