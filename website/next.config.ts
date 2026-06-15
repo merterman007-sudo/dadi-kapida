@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   typedRoutes: false,
+  images: {
+    localPatterns: [
+      {
+        pathname: "/images/**"
+      }
+    ]
+  },
   async rewrites() {
     if (process.env.NODE_ENV === "production") {
       return [];

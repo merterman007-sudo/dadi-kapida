@@ -9,10 +9,10 @@
   --gold:    #B8860B;   /* koyu amber/altın */
   --gold-lt: #FBF0F2;   /* çok açık pembe/şeftali bg */
   --ink:     #1C1015;   /* neredeyse siyah, pembe tonu */
-  --body:    #4A3840;   /* gövde metni */
-  --muted:   #7C606B;   /* soluk/ikincil metin */
-  --line:    #EAD0D9;   /* border/çizgi */
-  --bg:      #FAF5F7;   /* sayfa arka planı */
+  --body:    #402F36;   /* gövde metni */
+  --muted:   #684C57;   /* ikincil metin */
+  --line:    #DFC0CB;   /* border/çizgi */
+  --bg:      #F8F1F4;   /* sayfa arka planı */
   --white:   #FFFFFF;
 
   /* Geriye dönük uyumluluk aliasları */

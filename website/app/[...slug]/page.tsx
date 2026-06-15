@@ -230,7 +230,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
   const isLegalPage = ["kvkk-aydinlatma-metni","gizlilik-politikasi","cerez-politikasi","acik-riza-metni","kullanim-sartlari","basvuru-sartlari","aday-aydinlatma-metni","aile-aydinlatma-metni","veri-sahibi-basvuru-formu","yasal-bilgilendirme"].includes(key);
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-12 lg:px-8">
+    <div className={`mx-auto px-6 py-12 lg:px-8 ${key === "neden-dadi-kapida" ? "max-w-6xl" : "max-w-5xl"}`}>
       {/* Hero card */}
       <div className="relative overflow-hidden rounded-[24px] bg-[#8C5368] p-8">
         <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/15" />
@@ -274,24 +274,100 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
 
       {/* Neden Dadı Kapıda sayfası için özel içerik */}
       {!requestFormKind && !isLegalPage && key === "neden-dadi-kapida" ? (
-        <div className="mt-8 space-y-3">
-          {[
-            { icon: "✓", title: "Referans kontrolü şart", desc: "Hiçbir aday referansları doğrulanmadan önerilmez. Geçmiş iş yerlerinden bilgi alır, deneyimi teyit ederiz." },
-            { icon: "✓", title: "Aileye özel eşleştirme", desc: "Standart bir liste değil, senin düzenine, çocuğuna ve beklentine göre özelleştirilmiş aday önerisi." },
-            { icon: "✓", title: "Yerleştirme sonrası takip", desc: "İşin bittiği yer bizim için başlangıçtır. İlk haftalar boyunca süreci takip eder, sorunları birlikte çözeriz." },
-            { icon: "✓", title: "Gizlilik ve KVKK uyumu", desc: "Aile ve aday bilgileri yalnızca eşleştirme sürecinde ve karşılıklı onay dahilinde paylaşılır." },
-            { icon: "✓", title: "Ücretsiz ilk görüşme", desc: "Ücret yalnızca başarılı yerleştirme gerçekleştiğinde geçerlidir. İlk danışmanlık görüşmesi tamamen ücretsiz." },
-            { icon: "✓", title: "Türkiye geneli hizmet", desc: "İstanbul, Ankara, İzmir, Antalya ve tüm büyük şehirlerde aynı kalite ve standartla hizmet veriyoruz." }
-          ].map((item) => (
-            <div key={item.title} className="flex gap-4 rounded-[18px] border border-line bg-white p-5">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10 text-sm font-bold text-[#8C5368]">{item.icon}</div>
-              <div>
-                <p className="font-heading text-base font-semibold text-navy">{item.title}</p>
-                <p className="mt-1.5 text-sm leading-6 text-muted">{item.desc}</p>
+        <div className="mt-8 space-y-8">
+          <section className="grid overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_24px_65px_rgba(28,16,21,0.12)] lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="relative min-h-[390px] lg:min-h-[470px]">
+              <Image
+                src={siteImages.process}
+                alt="Aileye özel personel değerlendirme görüşmesi"
+                fill
+                sizes="(max-width: 1024px) 100vw, 55vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#211117]/75 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0C969]">Aileye özel değerlendirme</p>
+                <p className="mt-3 max-w-xl font-heading text-2xl font-semibold leading-tight sm:text-3xl">
+                  Doğru personeli bulmak, önce doğru soruları sormakla başlar.
+                </p>
               </div>
             </div>
-          ))}
-          <div className="mt-4 flex flex-wrap gap-3 pt-2">
+
+            <div className="flex flex-col justify-center bg-[#FFFDFD] p-7 sm:p-10">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gold">Profesyonel danışmanlık</p>
+              <h2 className="mt-4 font-heading text-3xl font-semibold leading-tight text-ink">
+                Aday havuzu değil, yönetilen bir yerleştirme süreci
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-muted">
+                İhtiyaç analizi, aday ön değerlendirmesi, referans doğrulaması ve görüşme planlaması tek bir danışmanlık
+                akışında ilerler. Böylece aile yalnızca seçenek görmez; karar verirken profesyonel destek alır.
+              </p>
+
+              <div className="mt-7 divide-y divide-line border-y border-line">
+                {[
+                  "İhtiyaca göre hazırlanan aday kısa listesi",
+                  "Kontrollü görüşme ve karar süreci",
+                  "Yerleştirme sonrasında düzenli takip"
+                ].map((item, index) => (
+                  <div key={item} className="flex items-center gap-4 py-4">
+                    <span className="font-heading text-xl font-semibold text-gold">0{index + 1}</span>
+                    <p className="text-sm font-semibold text-ink">{item}</p>
+                  </div>
+                ))}
+              </div>
+
+              <Link href="/aile-basvurusu" className="btn-primary mt-7 self-start">
+                İhtiyacınızı Paylaşın
+                <Arrow white />
+              </Link>
+            </div>
+          </section>
+
+          <section className="overflow-hidden border border-[#744257] bg-[#6D3D51] shadow-[0_20px_55px_rgba(28,16,21,0.14)]">
+            <div className="border-b border-white/15 px-6 py-5 sm:px-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0C969]">Dadı Kapıda yaklaşımı</p>
+              <h2 className="mt-2 font-heading text-2xl font-semibold text-white">Rakamlarla hizmet kapsamımız</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-7 text-white/75">
+                Farklı ihtiyaçları aynı danışmanlık standardı, kontrollü değerlendirme ve düzenli takip yaklaşımıyla karşılıyoruz.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                { value: `${services.length}+`, label: "Hizmet modeli", detail: "Bakım, ev desteği ve profesyonel personel" },
+                { value: `${locations.length}`, label: "Öne çıkan şehir", detail: "Şehir ve hizmet bazlı ulaşılabilir sayfalar" },
+                { value: "6", label: "Kontrol başlığı", detail: "Kimlikten referansa uzanan değerlendirme" },
+                { value: "1:1", label: "Danışman takibi", detail: "İhtiyaç analizinden yerleştirme sonrasına" }
+              ].map((stat) => (
+                <div key={stat.label} className="border-b border-white/15 p-6 last:border-b-0 sm:border-r sm:[&:nth-child(2)]:border-r-0 lg:border-b-0 lg:[&:nth-child(2)]:border-r lg:last:border-r-0">
+                  <p className="font-heading text-4xl font-semibold text-[#F0C969]">{stat.value}</p>
+                  <p className="mt-2 text-sm font-bold text-white">{stat.label}</p>
+                  <p className="mt-2 text-xs leading-6 text-white/65">{stat.detail}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            {[
+              { icon: "✓", title: "Referans kontrolü şart", desc: "Hiçbir aday referansları doğrulanmadan önerilmez. Geçmiş iş yerlerinden bilgi alır, deneyimi teyit ederiz." },
+              { icon: "✓", title: "Aileye özel eşleştirme", desc: "Standart bir liste değil, senin düzenine, çocuğuna ve beklentine göre özelleştirilmiş aday önerisi." },
+              { icon: "✓", title: "Yerleştirme sonrası takip", desc: "İşin bittiği yer bizim için başlangıçtır. İlk haftalar boyunca süreci takip eder, sorunları birlikte çözeriz." },
+              { icon: "✓", title: "Gizlilik ve KVKK uyumu", desc: "Aile ve aday bilgileri yalnızca eşleştirme sürecinde ve karşılıklı onay dahilinde paylaşılır." },
+              { icon: "✓", title: "Ücretsiz ilk görüşme", desc: "Ücret yalnızca başarılı yerleştirme gerçekleştiğinde geçerlidir. İlk danışmanlık görüşmesi tamamen ücretsiz." },
+              { icon: "✓", title: "Türkiye geneli hizmet", desc: "İstanbul, Ankara, İzmir, Antalya ve tüm büyük şehirlerde aynı kalite ve standartla hizmet veriyoruz." }
+            ].map((item) => (
+              <div key={item.title} className="flex gap-4 rounded-[18px] border border-line bg-white p-5">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10 text-sm font-bold text-[#8C5368]">{item.icon}</div>
+                <div>
+                  <p className="font-heading text-base font-semibold text-navy">{item.title}</p>
+                  <p className="mt-1.5 text-sm leading-6 text-muted">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-3 pt-2">
             <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">
               Ücretsiz Danışmanlık Al →
             </Link>

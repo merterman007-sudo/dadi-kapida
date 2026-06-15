@@ -297,13 +297,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-line bg-bg">
+      <section className="border-y border-line bg-[#F3E7EC]">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid grid-cols-1 gap-4 py-6 sm:grid-cols-2 lg:grid-cols-4">
-            {trustPills.map((item) => (
-              <div key={item} className="surface flex items-center gap-3 rounded-[18px] px-4 py-3">
-                <Check />
-                <p className="text-sm font-medium text-ink">{item}</p>
+            {trustPills.map((item, index) => (
+              <div key={item} className="flex items-center gap-3 border-l-2 border-[#8C5368] bg-white px-4 py-3 shadow-sm">
+                <span className="font-heading text-xl font-semibold text-gold">0{index + 1}</span>
+                <p className="text-sm font-semibold text-ink">{item}</p>
               </div>
             ))}
           </div>
@@ -315,8 +315,8 @@ export default async function HomePage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <SectionTitle
               eyebrow="Hizmetler"
-              title="Her hizmet için ayrı görsel, ayrı anlatım"
-              subtitle="Hizmet kartlarında aynı görselin tekrar etmemesi için merkezi bir eşleşme kullanıyoruz."
+              title="İhtiyacınızı ilk bakışta bulabileceğiniz hizmetler"
+              subtitle="Her hizmet alanını kendi çalışma ortamı ve uzmanlığıyla gösteriyor, doğru kategoriye hızlıca ulaşmanızı sağlıyoruz."
             />
             <Link href="/hizmetlerimiz" className="btn-outline self-start sm:self-auto">
               Tüm hizmetler →
@@ -328,10 +328,10 @@ export default async function HomePage() {
               <Link
                 key={service.slug}
                 href={`/hizmetlerimiz/${service.slug}`}
-                className="group block overflow-hidden rounded-[30px] border border-line bg-white transition hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(28,16,21,0.08)]"
+                className="group block overflow-hidden rounded-[24px] border border-line bg-white shadow-[0_8px_28px_rgba(28,16,21,0.06)] transition hover:-translate-y-1 hover:border-[#C893A5] hover:shadow-[0_22px_52px_rgba(28,16,21,0.13)]"
               >
-                <ServiceVisual slug={service.slug} title={service.title} compact framed={false} className="rounded-none" />
-                <div className="p-5">
+                <ServiceVisual slug={service.slug} title={service.title} framed={false} className="min-h-[310px] rounded-none sm:min-h-[340px]" />
+                <div className="border-t border-line p-5">
                   <div className="flex items-center justify-between gap-3">
                     <p className="font-heading text-[1.15rem] font-semibold text-ink">{service.title}</p>
                     <span className="rounded-full bg-[#FAF5F7] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-green">
@@ -349,22 +349,53 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 lg:py-28 bg-bg">
+      <section className="overflow-hidden bg-bg py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-            <SectionTitle
-              eyebrow="Neden Dadı Kapıda?"
-              title="Güven veren danışmanlık yaklaşımı"
-              subtitle="Ailelerin yalnızca aday değil, süreci yöneten profesyonel bir ekip aradığını biliyoruz."
-            />
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] shadow-[0_28px_70px_rgba(28,16,21,0.16)]">
+              <Image
+                src={siteImages.trust}
+                alt="Güvenli ve düzenli ev hizmetleri danışmanlığı"
+                fill
+                sizes="(max-width: 1024px) 100vw, 52vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#27151C]/80 via-[#27151C]/18 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0C969]">Kontrollü değerlendirme</p>
+                <p className="mt-3 max-w-lg font-heading text-2xl font-semibold leading-tight sm:text-3xl">
+                  Güven, yalnızca söylenen değil her adımda doğrulanan bir süreçtir.
+                </p>
+              </div>
+            </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {whyItems.map((item) => (
-                <div key={item.title} className="surface rounded-[24px] p-5">
-                  <p className="font-heading text-lg font-semibold text-ink">{item.title}</p>
-                  <p className="mt-2 text-sm leading-7 text-muted">{item.description}</p>
-                </div>
-              ))}
+            <div>
+              <SectionTitle
+                eyebrow="Neden Dadı Kapıda?"
+                title="Aday listesinden fazlasını sunuyoruz"
+                subtitle="Ailenizin ihtiyacını anlayan, adayları değerlendiren ve yerleştirme sonrasını takip eden profesyonel bir ekip süreci yönetir."
+              />
+
+              <div className="mt-8 divide-y divide-line border-y border-line">
+                {whyItems.map((item, index) => (
+                  <div key={item.title} className="grid grid-cols-[42px_1fr] gap-4 py-5">
+                    <span className="font-heading text-2xl font-semibold text-gold">0{index + 1}</span>
+                    <div>
+                      <p className="font-heading text-xl font-semibold text-ink">{item.title}</p>
+                      <p className="mt-2 text-sm leading-7 text-muted">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link href="/guvenlik-ve-dogrulama" className="btn-primary">
+                  Kontrol Sürecini İncele <Arrow white />
+                </Link>
+                <Link href="/hakkimizda" className="btn-outline">
+                  Bizi Tanıyın
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -372,34 +403,36 @@ export default async function HomePage() {
 
       <section className="section-dark-deeper py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <div className="grid gap-14 lg:grid-cols-[280px_1fr] lg:items-start">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <SectionTitle
               eyebrow="Nasıl Çalışır?"
-              title="Süreç 4 adımda ilerler"
-              subtitle="Açık, kontrollü ve danışman eşliğinde ilerleyen bir yapı kurduk."
+              title="İlk görüşmeden yerleştirme sonrasına kadar yanınızdayız"
+              subtitle="Her aşamanın sorumlusu, amacı ve sonraki adımı bellidir."
               light
             />
+            <Link
+              href="/aileler-icin/aday-secim-sureci"
+              className="inline-flex self-start items-center gap-2 border-b border-white/55 pb-1 text-sm font-semibold text-white transition hover:border-white"
+            >
+              Tüm süreci görün <Arrow white />
+            </Link>
+          </div>
 
-            <div className="relative space-y-3 pl-8">
-              <div className="absolute left-3 top-4 bottom-4 w-px bg-gradient-to-b from-[#B8860B]/60 via-[#B8860B]/20 to-transparent" />
-              {howItWorks.map((item) => (
-                <div
-                  key={item.step}
-                  className="relative flex items-start gap-5 rounded-[24px] border border-white/8 bg-white/6 p-5 transition hover:border-[#B8860B]/25"
-                >
-                  <span className="absolute -left-[22px] flex h-4 w-4 items-center justify-center rounded-full border border-[#B8860B]/40 bg-[#6D3D51]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#B8860B]" />
+          <div className="mt-10 grid gap-px overflow-hidden border border-white/15 bg-white/15 md:grid-cols-2 lg:grid-cols-4">
+            {howItWorks.map((item) => (
+              <div key={item.step} className="group relative min-h-[270px] bg-[#75445A] p-6 transition hover:bg-[#815066]">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading text-4xl font-semibold text-[#F0C969]">{item.step}</span>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition group-hover:bg-white group-hover:text-[#6D3D51]">
+                    <Arrow />
                   </span>
-                  <span className="font-heading text-2xl font-semibold text-[#E5B84B] w-7 shrink-0 leading-none pt-0.5">
-                    {item.step}
-                  </span>
-                  <div>
-                    <p className="font-semibold text-white">{item.title}</p>
-                    <p className="mt-1 text-sm leading-7 text-white/72">{item.description}</p>
-                  </div>
                 </div>
-              ))}
-            </div>
+                <div className="mt-14">
+                  <p className="font-heading text-xl font-semibold text-white">{item.title}</p>
+                  <p className="mt-3 text-sm leading-7 text-white/80">{item.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -461,18 +494,30 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="py-20 lg:py-28 bg-bg">
+      <section className="border-y border-line bg-[#F3E7EC] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <SectionTitle
-            eyebrow="Müşteri Yorumları"
-            title="Süreçte en çok güven veren şey net iletişim"
-            subtitle="Gerçekçi, sade ve güven odaklı geri bildirimleri önemsiyoruz."
-          />
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <SectionTitle
+              eyebrow="Ailelerin Deneyimi"
+              title="Güven, süreç boyunca kurulan iletişimle başlar"
+              subtitle="Ailelerin değerlendirme ve yerleştirme sürecindeki deneyimlerini dinliyoruz."
+            />
+            <div className="flex items-center gap-3 border-l-2 border-gold pl-4">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, index) => (
+                  <svg key={index} width="15" height="15" viewBox="0 0 10 10" fill="#B8860B">
+                    <path d="M5 0l1.12 3.44H9.76l-2.94 2.13 1.12 3.44L5 7 2.06 9.01l1.12-3.44L.24 3.44H3.88z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink">Danışmanlık deneyimi</p>
+            </div>
+          </div>
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {testimonials.map((item) => (
-              <blockquote key={item.author} className="surface flex flex-col rounded-[24px] p-6">
-                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FAF5F7] border border-line">
+              <blockquote key={item.author} className="flex min-h-[320px] flex-col border-t-4 border-[#8C5368] bg-white p-6 shadow-[0_14px_38px_rgba(28,16,21,0.08)]">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#F3E7EC]">
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
                     <path
                       d="M0 12V7.2C0 5.04 0.56 3.28 1.68 1.92 2.8 0.64 4.32 0 6.24 0v2.4C5.28 2.4 4.56 2.72 4.08 3.36 3.6 3.92 3.36 4.72 3.36 5.76H6.24V12H0ZM9.76 12V7.2C9.76 5.04 10.32 3.28 11.44 1.92 12.56 0.64 14.08 0 16 0v2.4C15.04 2.4 14.32 2.72 13.84 3.36 13.36 3.92 13.12 4.72 13.12 5.76H16V12H9.76Z"

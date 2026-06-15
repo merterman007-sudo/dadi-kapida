@@ -24,7 +24,7 @@ const servicePhotos: Record<string, string> = {
   "ozel-sofor": "/images/photo-bank/ozel-sofor.png",
   "makam-soforu": "/images/photo-bank/makam-soforu.png",
   asci: "/images/photo-bank/asci.png",
-  "ev-yardimcisi": "/images/photo-bank/aile-soforu.png",
+  "ev-yardimcisi": "/images/photo-bank/camasirci.png",
   refakatci: "/images/photo-bank/ameliyat-sonrasi-destek.png",
   kahya: "/images/photo-bank/kahya.png",
   camasirci: "/images/photo-bank/camasirci.png"
