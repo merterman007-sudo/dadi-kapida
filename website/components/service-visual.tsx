@@ -11,9 +11,9 @@ type ServiceVisualProps = {
 };
 
 const palette = {
-  rose: "#8C5368",
-  roseDark: "#6D3D51",
-  gold: "#B8860B",
+  rose: "#E9185B",
+  roseDark: "#BF1047",
+  gold: "#D69A2D",
   white: "#FFFFFF"
 } as const;
 

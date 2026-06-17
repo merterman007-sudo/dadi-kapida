@@ -179,7 +179,7 @@ export function QuickApply() {
           <button
             type="button"
             onClick={handleSubmit}
-            className="flex w-full items-center justify-center gap-2 bg-navy px-7 py-4 text-sm font-semibold text-white transition hover:bg-[#163C2A] lg:rounded-none lg:w-auto"
+            className="flex w-full items-center justify-center gap-2 bg-green px-7 py-4 text-sm font-semibold text-white transition hover:bg-[#BF1047] lg:rounded-none lg:w-auto"
           >
             {tab === "family" ? "Aile Başvurusu Yap" : "Personel Başvurusu Yap"}
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none">

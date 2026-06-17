@@ -82,7 +82,7 @@ export default async function ThanksPage({ params }: { params: Promise<{ slug: s
         <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border border-line bg-ivory shadow-soft">
             <svg width="34" height="34" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-              <path d="M8 18l6 6 14-14" stroke="#8C5368" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M8 18l6 6 14-14" stroke="var(--rose)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
 
@@ -102,10 +102,10 @@ export default async function ThanksPage({ params }: { params: Promise<{ slug: s
             <div className="mt-4 space-y-3">
               {config.steps.map((step, index) => (
                 <div key={step} className="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10 font-heading text-[11px] font-bold text-[#8C5368]">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green/10 font-heading text-[11px] font-bold text-green">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-sm text-navy">{step}</p>
+                  <p className="text-sm text-ink">{step}</p>
                 </div>
               ))}
             </div>
@@ -114,14 +114,14 @@ export default async function ThanksPage({ params }: { params: Promise<{ slug: s
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href={config.primaryAction.href}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-navy px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-trust"
+              className="btn-primary justify-center"
             >
               {config.primaryAction.label}
               <Arrow white />
             </Link>
             <Link
               href={config.secondaryAction.href}
-              className="inline-flex items-center justify-center rounded-full border border-line bg-white px-7 py-3.5 text-sm font-medium text-navy transition hover:border-navy"
+              className="btn-outline justify-center"
             >
               {config.secondaryAction.label}
             </Link>

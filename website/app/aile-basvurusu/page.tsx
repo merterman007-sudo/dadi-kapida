@@ -406,7 +406,7 @@ export default function FamilyApplicationPage() {
           {step > 0 ? (
             <button
               type="button"
-              className="rounded-full border border-line bg-white px-5 py-3 text-sm font-medium text-navy hover:border-navy transition"
+              className="btn-outline"
               onClick={goBack}
             >
               ← Geri
@@ -415,7 +415,7 @@ export default function FamilyApplicationPage() {
           {step < 2 ? (
             <button
               type="button"
-              className="rounded-full bg-navy px-5 py-3 text-sm font-medium text-white hover:bg-trust transition"
+              className="btn-primary"
               onClick={goNext}
             >
               Devam →
@@ -425,7 +425,7 @@ export default function FamilyApplicationPage() {
               type="button"
               disabled={loading || !form.consent}
               onClick={submit}
-              className="rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-trust disabled:bg-slate-500 disabled:text-white disabled:cursor-not-allowed"
+              className="btn-primary disabled:cursor-not-allowed"
             >
               {loading ? "Gönderiliyor..." : "Başvuruyu Gönder"}
             </button>

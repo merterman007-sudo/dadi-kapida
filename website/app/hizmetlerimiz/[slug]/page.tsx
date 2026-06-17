@@ -130,9 +130,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               <div className="mt-5 grid gap-3">
                 {service.whoIsItFor.map((item) => (
                   <div key={item} className="surface flex items-start gap-3 rounded-[22px] p-4">
-                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-green/10">
                       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                        <path d="M2 6l2.5 2.5 5.5-5.5" stroke="#8C5368" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M2 6l2.5 2.5 5.5-5.5" stroke="var(--rose)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </span>
                     <p className="text-sm font-medium text-ink">{item}</p>
@@ -206,19 +206,19 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
           <aside className="space-y-4">
             <div className="sticky top-24 space-y-4">
-              <div className="rounded-[28px] bg-navy p-6">
+              <div className="rounded-[28px] border border-line bg-white p-6 shadow-[0_18px_46px_rgba(7,27,58,0.08)]">
                 <SectionLabel>Başvuru Yap</SectionLabel>
-                <p className="mt-3 font-heading text-2xl font-semibold leading-tight text-white">
+                <p className="mt-3 font-heading text-2xl font-semibold leading-tight text-ink">
                   Ailenize uygun adayları birlikte bulalım
                 </p>
-                <p className="mt-3 text-sm leading-7 text-white/72">
+                <p className="mt-3 text-sm leading-7 text-muted">
                   Başvuru 4-6 dakikada tamamlanır. Danışman ekibimiz sizinle iletişime geçer.
                 </p>
                 <div className="mt-5 space-y-2">
-                  <Link href="/aile-basvurusu" className="btn-gold w-full justify-center">
+                  <Link href="/aile-basvurusu" className="btn-primary w-full justify-center">
                     Aile Başvurusu Yap
                   </Link>
-                  <Link href="/iletisim" className="inline-flex w-full justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-medium text-white/72 transition hover:border-white/35 hover:text-white">
+                  <Link href="/iletisim" className="btn-outline w-full justify-center">
                     Önce Görüşelim
                   </Link>
                 </div>

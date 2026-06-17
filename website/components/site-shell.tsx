@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -8,8 +7,6 @@ import { defaultContact } from "../lib/contact";
 import { footerPages } from "../lib/content";
 
 type NavItem = { label: string; href: string };
-
-const BRAND_MARK_SRC = "/images/brand/dadi-kapida-logo-square.png";
 
 const footerServices: NavItem[] = [
   { label: "Dadı & Bebek Bakıcısı", href: "/hizmetlerimiz/yatili-dadi" },
@@ -39,6 +36,14 @@ const familyPages: NavItem[] = [
   { label: "SSS", href: "/aileler-icin/sik-sorulan-sorular" }
 ];
 
+const desktopNavigationItems: NavItem[] = [
+  { label: "Süreç", href: "/aileler-icin/nasil-calisir" },
+  { label: "Neden Biz", href: "/neden-dadi-kapida" },
+  { label: "Hakkımızda", href: "/hakkimizda" },
+  { label: "SSS", href: "/sik-sorulan-sorular" },
+  { label: "İletişim", href: "/iletisim" }
+];
+
 type SiteSettings = {
   "global.contact"?: {
     phone?: string;
@@ -58,6 +63,54 @@ function normalizePhoneLink(value?: string) {
   return value?.replace(/\D/g, "") ?? "";
 }
 
+function BrandSymbol({ compact = false }: { compact?: boolean }) {
+  return (
+    <span
+      className={`relative flex shrink-0 items-center justify-center rounded-[18px] border-2 border-green bg-white text-green shadow-[0_12px_28px_rgba(233,24,91,0.14)] ${
+        compact ? "h-10 w-10" : "h-11 w-11"
+      }`}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 48 48" className={compact ? "h-7 w-7" : "h-8 w-8"} fill="none">
+        <path
+          d="M10 22.5 24 10l14 12.5V39a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V22.5Z"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M24 34s-9-5.7-9-11.2A5.2 5.2 0 0 1 24 19a5.2 5.2 0 0 1 9 3.8C33 28.3 24 34 24 34Z"
+          fill="currentColor"
+        />
+      </svg>
+    </span>
+  );
+}
+
+function BrandLockup({ compact = false }: { compact?: boolean }) {
+  return (
+    <span className="flex items-center gap-3">
+      <BrandSymbol compact={compact} />
+      <span className="min-w-0">
+        <span
+          className={`block whitespace-nowrap font-extrabold leading-none tracking-[0.01em] text-ink ${
+            compact ? "text-lg" : "text-xl"
+          }`}
+        >
+          dadı <span className="text-green">kapıda</span>
+        </span>
+        <span
+          className={`mt-1 block whitespace-nowrap font-bold uppercase leading-none tracking-[0.28em] text-muted ${
+            compact ? "text-[9px]" : "text-[9px]"
+          }`}
+        >
+          Danışmanlık Hizmetleri
+        </span>
+      </span>
+    </span>
+  );
+}
+
 export function SiteHeader({
   navigation,
   siteSettings
@@ -70,7 +123,6 @@ export function SiteHeader({
   const [scrolled, setScrolled] = useState(false);
 
   const contact = siteSettings["global.contact"] ?? {};
-  const phone = contact.phone?.trim() || defaultContact.phone;
   const whatsapp = contact.whatsapp?.trim() || defaultContact.whatsapp;
   const email = contact.supportEmail?.trim() || defaultContact.supportEmail;
   const brand = siteSettings["website.brand"] ?? {};
@@ -119,11 +171,6 @@ export function SiteHeader({
             </span>
 
             <div className="flex items-center gap-4 lg:gap-5">
-              {phone ? (
-                <a href={`tel:${normalizePhoneLink(phone)}`} className="hover:text-green transition-colors">
-                  {phone}
-                </a>
-              ) : null}
               {whatsapp ? (
                 <a
                   href={`https://wa.me/${normalizePhoneLink(whatsapp)}`}
@@ -144,25 +191,8 @@ export function SiteHeader({
         </div>
 
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[18px] bg-white text-white font-heading text-sm font-semibold shrink-0 shadow-[0_10px_26px_rgba(233,24,91,0.14)]">
-              <Image
-                src={BRAND_MARK_SRC}
-                alt={`${brandName} logosu`}
-                width={48}
-                height={48}
-                className="h-full w-full object-contain p-1"
-                priority
-              />
-            </div>
-            <div>
-              <p className="text-xl font-extrabold tracking-[0.02em] text-ink leading-none">
-                dadı <span className="text-green">kapıda</span>
-              </p>
-              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.36em] text-muted leading-none">
-                Danışmanlık Hizmetleri
-              </p>
-            </div>
+          <Link href="/" className="group shrink-0" aria-label={`${brandName} ana sayfa`}>
+            <BrandLockup />
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
@@ -210,77 +240,26 @@ export function SiteHeader({
               </div>
             </div>
 
-            {normalizedNavigation
-              .filter((item) => item.href !== "/" && item.href !== "/hizmetlerimiz" && item.href !== "/hizmet-bolgeleri")
-              .map((item) =>
-                item.href === "/aileler-icin" ? (
-                  <div key={item.href} className="group relative">
-                    <Link
-                      href={item.href}
-                      className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
-                        isActive(item.href)
-                          ? "font-semibold text-green"
-                          : "text-body hover:text-green"
-                      }`}
-                    >
-                      {item.label}
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M3 4.5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                      </svg>
-                    </Link>
-                    <div className="invisible absolute left-0 top-full z-50 mt-1 w-64 rounded-2xl border border-line bg-white p-2 shadow-lg opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
-                      {familyPages.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FFF3F7] hover:text-green"
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
-                      isActive(item.href)
-                        ? "font-semibold text-green"
-                        : "text-body hover:text-green"
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                )
-              )}
-
-            <Link
-              href="/hizmet-bolgeleri"
-              className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
-                isActive("/hizmet-bolgeleri")
-                  ? "font-semibold text-green"
-                  : "text-body hover:text-green"
-              }`}
-            >
-              Türkiye Geneli
-            </Link>
+            {desktopNavigationItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`whitespace-nowrap rounded-full px-3 py-2 text-sm transition-colors ${
+                  isActive(item.href)
+                    ? "font-semibold text-green"
+                    : "text-body hover:text-green"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
-            {phone ? (
-              <a
-                href={`tel:${normalizePhoneLink(phone)}`}
-                className="group hidden min-w-max items-center gap-2 whitespace-nowrap rounded-full border border-green px-5 py-2.5 text-sm font-extrabold text-ink transition hover:bg-green hover:text-white 2xl:inline-flex"
-              >
-                <span className="text-green transition group-hover:text-white">☎</span>
-                {phone}
-              </a>
-            ) : null}
-            <Link href="/personel-basvurusu" className="btn-outline px-4 py-2.5 text-xs">
+            <Link href="/personel-basvurusu" className="btn-outline px-3.5 py-2.5 text-[11px]">
               Personel Başvurusu
             </Link>
-            <Link href="/aile-basvurusu" className="btn-primary px-5 py-2.5 text-xs">
+            <Link href="/aile-basvurusu" className="btn-primary px-4 py-2.5 text-[11px]">
               Aile Başvurusu
             </Link>
           </div>
@@ -310,17 +289,8 @@ export function SiteHeader({
       {open ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] bg-white shadow-[0_10px_26px_rgba(233,24,91,0.14)]">
-                <Image
-                  src={BRAND_MARK_SRC}
-                  alt={`${brandName} logosu`}
-                  width={40}
-                  height={40}
-                  className="h-full w-full object-contain"
-                />
-              </div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-green">Dadı Kapıda</p>
+            <Link href="/" className="flex items-center gap-3" aria-label={`${brandName} ana sayfa`}>
+              <BrandLockup compact />
             </Link>
             <button
               type="button"
@@ -386,19 +356,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
         <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] bg-white text-white font-heading text-sm font-semibold shrink-0 shadow-[0_10px_26px_rgba(233,24,91,0.12)]">
-                <Image
-                  src={BRAND_MARK_SRC}
-                  alt={`${brandName} logosu`}
-                  width={40}
-                  height={40}
-                  className="h-full w-full object-contain"
-                />
-              </div>
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-green leading-none">{brandName}</p>
-                <p className="text-[11px] text-muted mt-0.5">{tagline}</p>
-              </div>
+              <BrandLockup compact />
             </div>
             <p className="max-w-xs text-sm leading-7 text-muted">
               Aileler için güvenilir, referanslı ve aileye özel dadı yerleştirme danışmanlığı. Türkiye genelinde hizmet.
@@ -444,11 +402,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
               <a href={`mailto:${email}`} className="block transition-colors hover:text-green">
                 {email}
               </a>
-              {phone ? (
-                <a href={`tel:${normalizePhoneLink(phone)}`} className="block transition-colors hover:text-green">
-                  {phone}
-                </a>
-              ) : null}
+              {phone ? <span className="block">{phone}</span> : null}
               {whatsapp ? (
                 <a
                   href={`https://wa.me/${normalizePhoneLink(whatsapp)}`}

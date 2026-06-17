@@ -22,13 +22,13 @@ export function MobileCta() {
       <div className="flex gap-2">
         <Link
           href="/aile-basvurusu"
-          className="flex-1 rounded-full bg-navy py-3 text-center text-sm font-semibold text-white transition active:opacity-80"
+          className="flex-1 rounded-full bg-green py-3 text-center text-sm font-semibold text-white shadow-[0_10px_24px_rgba(233,24,91,0.24)] transition active:opacity-80"
         >
           Aile Başvurusu
         </Link>
         <Link
           href="/personel-basvurusu"
-          className="flex-1 rounded-full border border-line bg-white py-3 text-center text-sm font-medium text-navy transition active:opacity-80"
+          className="flex-1 rounded-full border border-green bg-white py-3 text-center text-sm font-semibold text-ink transition active:opacity-80"
         >
           Personel Başvurusu
         </Link>

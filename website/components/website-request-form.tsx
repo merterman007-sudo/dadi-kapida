@@ -153,7 +153,7 @@ export function WebsiteRequestForm({ kind }: WebsiteRequestFormProps) {
           type="button"
           disabled={loading || !form.full_name || !form.consent || (!form.phone && !form.email)}
           onClick={submit}
-          className="inline-flex w-fit items-center gap-2 rounded-full bg-navy px-5 py-3 text-sm font-semibold text-white transition hover:bg-trust disabled:bg-slate-500 disabled:text-white"
+          className="inline-flex w-fit items-center gap-2 rounded-full bg-green px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(233,24,91,0.20)] transition hover:bg-[#BF1047] disabled:bg-slate-500 disabled:text-white disabled:shadow-none"
         >
           {loading ? "Gönderiliyor..." : labels.button}
         </button>

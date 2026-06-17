@@ -137,7 +137,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <div className="surface rounded-[28px] p-6">
                   <SectionLabel>Yazar</SectionLabel>
                   <div className="mt-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#8C5368]/10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green/10">
                       <span className="text-sm font-semibold text-green">DK</span>
                     </div>
                     <div>
@@ -210,4 +210,3 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     </>
   );
 }
-

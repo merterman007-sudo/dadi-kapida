@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="surface w-full rounded-[32px] p-6 md:p-8 lg:p-10">
         <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full border border-line bg-ivory shadow-soft">
-            <span className="font-heading text-3xl font-semibold text-[#8C5368]">404</span>
+            <span className="font-heading text-3xl font-semibold text-green">404</span>
           </div>
 
           <div className="mt-6">
@@ -22,14 +22,14 @@ export default function NotFound() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust"
+              className="btn-primary justify-center"
             >
               Ana Sayfaya Dön
               <Arrow white />
             </Link>
             <Link
               href="/iletisim"
-              className="inline-flex items-center justify-center rounded-full border border-line bg-white px-6 py-3 text-sm font-medium text-navy transition hover:border-navy"
+              className="btn-outline justify-center"
             >
               İletişime Geç
             </Link>

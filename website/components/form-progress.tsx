@@ -35,7 +35,7 @@ export function FormProgress({ steps, current, completedSteps, onGoTo }: FormPro
             >
               <div
                 className={`flex h-7 w-7 items-center justify-center rounded-full border text-[11px] font-bold transition
-                  ${isActive ? "border-navy bg-navy text-white" : ""}
+                  ${isActive ? "border-green bg-green text-white" : ""}
                   ${isDone && !isActive ? "border-trust bg-trust text-white" : ""}
                   ${!isActive && !isDone ? "border-line bg-white text-muted/40" : ""}
                 `}
@@ -50,7 +50,7 @@ export function FormProgress({ steps, current, completedSteps, onGoTo }: FormPro
               </div>
               <span
                 className={`hidden text-[10px] font-medium sm:block leading-tight max-w-[60px] ${
-                  isActive ? "text-navy" : isDone ? "text-trust" : "text-muted/40"
+                  isActive ? "text-ink" : isDone ? "text-green" : "text-muted/40"
                 }`}
               >
                 {label}

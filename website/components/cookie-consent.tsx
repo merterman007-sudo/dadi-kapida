@@ -42,11 +42,11 @@ export function CookieConsent() {
       <div className="mx-auto flex max-w-7xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-6 text-muted max-w-2xl">
           Sitemizde deneyiminizi iyileştirmek için çerezler kullanıyoruz. Devam ederek{" "}
-          <Link href="/cerez-politikasi" className="underline hover:text-navy">
+          <Link href="/cerez-politikasi" className="underline hover:text-green">
             Çerez Politikamızı
           </Link>{" "}
           ve{" "}
-          <Link href="/kvkk-aydinlatma-metni" className="underline hover:text-navy">
+          <Link href="/kvkk-aydinlatma-metni" className="underline hover:text-green">
             KVKK Aydınlatma Metnimizi
           </Link>{" "}
           kabul etmiş sayılırsınız.
@@ -55,14 +55,14 @@ export function CookieConsent() {
           <button
             type="button"
             onClick={reject}
-            className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-muted transition hover:border-navy hover:text-navy"
+            className="rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-muted transition hover:border-green hover:text-green"
           >
             Reddet
           </button>
           <button
             type="button"
             onClick={accept}
-            className="rounded-full bg-navy px-5 py-2 text-sm font-medium text-white transition hover:bg-trust"
+            className="rounded-full bg-green px-5 py-2 text-sm font-medium text-white transition hover:bg-[#BF1047]"
           >
             Kabul Et
           </button>

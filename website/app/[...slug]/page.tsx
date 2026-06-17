@@ -135,7 +135,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
             <div className="mt-8 space-y-4 rounded-[20px] border border-line bg-white p-8">
               {sections.map((section, index) => (
                 <section key={`${section.type ?? "section"}-${index}`} className="space-y-2">
-                  {section.title ? <h2 className="font-heading text-2xl font-semibold text-navy">{section.title}</h2> : null}
+                  {section.title ? <h2 className="font-heading text-2xl font-semibold text-ink">{section.title}</h2> : null}
                   {section.body ? <p className="text-sm leading-8 text-muted">{section.body}</p> : null}
                 </section>
               ))}
@@ -143,11 +143,11 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
           ) : null}
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/aile-basvurusu" className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust">
+            <Link href="/aile-basvurusu" className="btn-primary">
               Aile Başvurusu Yap
               <Arrow white />
             </Link>
-            <Link href="/" className="rounded-full border border-line bg-white px-6 py-3 text-sm font-medium text-navy transition hover:border-navy">
+            <Link href="/" className="btn-outline">
               Ana Sayfaya Dön
             </Link>
           </div>
@@ -162,14 +162,14 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="surface rounded-[34px] p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Hizmetlerimiz</p>
-              <h1 className="mt-3 text-4xl font-semibold text-navy">{service.title}</h1>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-green">Hizmetlerimiz</p>
+              <h1 className="mt-3 text-4xl font-semibold text-ink">{service.title}</h1>
               <p className="mt-4 text-sm leading-7 text-muted">{service.description}</p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/aile-basvurusu" className="rounded-full bg-navy px-5 py-3 text-sm font-medium text-white">
+                <Link href="/aile-basvurusu" className="btn-primary">
                   Aile Başvurusu Yap
                 </Link>
-                <Link href="/hizmetlerimiz" className="rounded-full border border-line bg-white px-5 py-3 text-sm font-medium text-navy">
+                <Link href="/hizmetlerimiz" className="btn-outline">
                   Hizmetlere dön
                 </Link>
               </div>
@@ -193,14 +193,14 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-6xl px-4 py-10 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div className="surface rounded-[34px] p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-trust">Türkiye Geneli Hizmet</p>
-              <h1 className="mt-3 text-4xl font-semibold text-navy">{location.title} dadı hizmetleri</h1>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-green">Türkiye Geneli Hizmet</p>
+              <h1 className="mt-3 text-4xl font-semibold text-ink">{location.title} dadı hizmetleri</h1>
               <p className="mt-4 text-sm leading-7 text-muted">{location.description}</p>
               <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/aile-basvurusu" className="rounded-full bg-navy px-5 py-3 text-sm font-medium text-white">
+                <Link href="/aile-basvurusu" className="btn-primary">
                   Aile Başvurusu Yap
                 </Link>
-                <Link href="/hizmet-bolgeleri" className="rounded-full border border-line bg-white px-5 py-3 text-sm font-medium text-navy">
+                <Link href="/hizmet-bolgeleri" className="btn-outline">
                   Bölgelere dön
                 </Link>
               </div>
@@ -228,19 +228,56 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
   const eyebrow = getEyebrow(key);
 
   const isLegalPage = ["kvkk-aydinlatma-metni","gizlilik-politikasi","cerez-politikasi","acik-riza-metni","kullanim-sartlari","basvuru-sartlari","aday-aydinlatma-metni","aile-aydinlatma-metni","veri-sahibi-basvuru-formu","yasal-bilgilendirme"].includes(key);
+  const heroImage =
+    key.includes("guven") || key === "neden-dadi-kapida"
+      ? siteImages.trust
+      : key.includes("nasil-calisir") || key.includes("surec")
+        ? siteImages.process
+        : siteImages.hero;
 
   return (
-    <div className={`mx-auto px-6 py-12 lg:px-8 ${key === "neden-dadi-kapida" ? "max-w-6xl" : "max-w-5xl"}`}>
-      {/* Hero card */}
-      <div className="relative overflow-hidden rounded-[24px] bg-[#8C5368] p-8">
-        <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/15" />
-        <div className="absolute -left-20 -bottom-20 h-60 w-60 rounded-full bg-white/8" />
-        <div className="flex items-center gap-2.5 mb-4">
-          <span className="h-px w-6 bg-gold/60" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold/80">{eyebrow}</span>
+    <div className={`mx-auto px-5 py-10 lg:px-8 lg:py-14 ${key === "neden-dadi-kapida" ? "max-w-6xl" : "max-w-5xl"}`}>
+      {/* Hero */}
+      <div className="relative overflow-hidden rounded-[34px] border border-line bg-white shadow-[0_28px_80px_rgba(7,27,58,0.10)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_12%,rgba(233,24,91,0.11),transparent_28%),linear-gradient(90deg,#ffffff_0%,#ffffff_58%,#fff3f7_100%)]" />
+        <div className="relative grid gap-8 p-6 md:p-8 lg:grid-cols-[1fr_0.82fr] lg:items-center lg:p-10">
+          <div>
+            <div className="mb-5 flex items-center gap-2.5">
+              <span className="h-px w-6 bg-green/65" />
+              <span className="text-[10px] font-extrabold uppercase tracking-[0.24em] text-green">{eyebrow}</span>
+            </div>
+            <h1 className="font-heading text-4xl font-semibold leading-[1.02] text-ink md:text-5xl">{item.title}</h1>
+            <p className="mt-4 max-w-2xl text-base leading-8 text-muted">{item.subtitle}</p>
+            {!isLegalPage ? (
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link href="/aile-basvurusu" className="btn-primary">
+                  Aile Başvurusu Yap
+                  <Arrow white />
+                </Link>
+                <Link href="/personel-basvurusu" className="btn-outline">
+                  Personel Başvurusu
+                </Link>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="relative min-h-[260px] overflow-hidden rounded-[28px] border border-white bg-white shadow-[0_22px_58px_rgba(233,24,91,0.14)]">
+            <Image
+              src={heroImage}
+              alt={item.title}
+              fill
+              sizes="(max-width: 1024px) 100vw, 38vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-white/92 via-white/18 to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/80 bg-white/92 p-4 backdrop-blur-md">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-green">Güven odaklı danışmanlık</p>
+              <p className="mt-1 font-heading text-xl font-semibold leading-tight text-ink">
+                Doğru insan, doğru aile, mutlu yaşam.
+              </p>
+            </div>
+          </div>
         </div>
-        <h1 className="relative font-heading text-3xl font-semibold text-white md:text-4xl">{item.title}</h1>
-        <p className="relative mt-3 text-sm leading-7 text-white/80">{item.subtitle}</p>
       </div>
 
       {/* Süreç sayfası için özel içerik */}
@@ -253,19 +290,20 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
             { n: "04", title: "Görüşme ve tanışma", desc: "Beğendiğiniz adayla tanışma görüşmesi planlanır. İstersen biz de bu sürece dahil oluruz." },
             { n: "05", title: "Yerleştirme ve takip", desc: "Yerleştirme sonrası ilk haftalarda sizi takip ederiz. Süreç sorunsuz ilerlene kadar yanınızdayız." }
           ].map((step) => (
-            <div key={step.n} className="flex gap-5 rounded-[18px] border border-line bg-white p-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#8C5368] font-heading text-sm font-bold text-white">{step.n}</div>
+            <div key={step.n} className="flex gap-5 rounded-[24px] border border-line bg-white p-5 shadow-[0_14px_36px_rgba(7,27,58,0.06)]">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-green font-heading text-sm font-bold text-white shadow-[0_12px_28px_rgba(233,24,91,0.20)]">{step.n}</div>
               <div>
-                <p className="font-heading text-base font-semibold text-navy">{step.title}</p>
+                <p className="font-heading text-lg font-semibold text-ink">{step.title}</p>
                 <p className="mt-1.5 text-sm leading-6 text-muted">{step.desc}</p>
               </div>
             </div>
           ))}
           <div className="mt-4 flex flex-wrap gap-3 pt-2">
-            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">
-              Başvuru Yap →
+            <Link href="/aile-basvurusu" className="btn-primary">
+              Başvuru Yap
+              <Arrow white />
             </Link>
-            <Link href="/iletisim" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-[#8C5368]">
+            <Link href="/iletisim" className="btn-outline">
               Önce Danışmanla Görüş
             </Link>
           </div>
@@ -284,7 +322,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
                 sizes="(max-width: 1024px) 100vw, 55vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#211117]/75 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#E9185B]/62 via-[#E9185B]/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0C969]">Aileye özel değerlendirme</p>
                 <p className="mt-3 max-w-xl font-heading text-2xl font-semibold leading-tight sm:text-3xl">
@@ -323,11 +361,11 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
             </div>
           </section>
 
-          <section className="overflow-hidden border border-[#744257] bg-[#6D3D51] shadow-[0_20px_55px_rgba(28,16,21,0.14)]">
-            <div className="border-b border-white/15 px-6 py-5 sm:px-8">
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0C969]">Dadı Kapıda yaklaşımı</p>
-              <h2 className="mt-2 font-heading text-2xl font-semibold text-white">Rakamlarla hizmet kapsamımız</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-7 text-white/75">
+          <section className="overflow-hidden rounded-[30px] border border-line bg-white shadow-[0_22px_62px_rgba(7,27,58,0.08)]">
+            <div className="border-b border-line bg-[#FFF3F7] px-6 py-5 sm:px-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-green">Dadı Kapıda yaklaşımı</p>
+              <h2 className="mt-2 font-heading text-2xl font-semibold text-ink">Rakamlarla hizmet kapsamımız</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-7 text-muted">
                 Farklı ihtiyaçları aynı danışmanlık standardı, kontrollü değerlendirme ve düzenli takip yaklaşımıyla karşılıyoruz.
               </p>
             </div>
@@ -339,10 +377,10 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
                 { value: "6", label: "Kontrol başlığı", detail: "Kimlikten referansa uzanan değerlendirme" },
                 { value: "1:1", label: "Danışman takibi", detail: "İhtiyaç analizinden yerleştirme sonrasına" }
               ].map((stat) => (
-                <div key={stat.label} className="border-b border-white/15 p-6 last:border-b-0 sm:border-r sm:[&:nth-child(2)]:border-r-0 lg:border-b-0 lg:[&:nth-child(2)]:border-r lg:last:border-r-0">
-                  <p className="font-heading text-4xl font-semibold text-[#F0C969]">{stat.value}</p>
-                  <p className="mt-2 text-sm font-bold text-white">{stat.label}</p>
-                  <p className="mt-2 text-xs leading-6 text-white/65">{stat.detail}</p>
+                <div key={stat.label} className="border-b border-line p-6 last:border-b-0 sm:border-r sm:[&:nth-child(2)]:border-r-0 lg:border-b-0 lg:[&:nth-child(2)]:border-r lg:last:border-r-0">
+                  <p className="font-heading text-4xl font-semibold text-green">{stat.value}</p>
+                  <p className="mt-2 text-sm font-bold text-ink">{stat.label}</p>
+                  <p className="mt-2 text-xs leading-6 text-muted">{stat.detail}</p>
                 </div>
               ))}
             </div>
@@ -358,9 +396,9 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
               { icon: "✓", title: "Türkiye geneli hizmet", desc: "İstanbul, Ankara, İzmir, Antalya ve tüm büyük şehirlerde aynı kalite ve standartla hizmet veriyoruz." }
             ].map((item) => (
               <div key={item.title} className="flex gap-4 rounded-[18px] border border-line bg-white p-5">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10 text-sm font-bold text-[#8C5368]">{item.icon}</div>
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green/10 text-sm font-bold text-green">{item.icon}</div>
                 <div>
-                  <p className="font-heading text-base font-semibold text-navy">{item.title}</p>
+                  <p className="font-heading text-base font-semibold text-ink">{item.title}</p>
                   <p className="mt-1.5 text-sm leading-6 text-muted">{item.desc}</p>
                 </div>
               </div>
@@ -368,8 +406,9 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <div className="flex flex-wrap gap-3 pt-2">
-            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">
-              Ücretsiz Danışmanlık Al →
+            <Link href="/aile-basvurusu" className="btn-primary">
+              Ücretsiz Danışmanlık Al
+              <Arrow white />
             </Link>
           </div>
         </div>
@@ -389,17 +428,20 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
             ].map(item => (
               <div key={item.title} className="rounded-[18px] border border-line bg-white p-6">
                 <div className="mb-3 text-2xl">{item.icon}</div>
-                <p className="font-heading text-base font-semibold text-navy">{item.title}</p>
+                <p className="font-heading text-base font-semibold text-ink">{item.title}</p>
                 <p className="mt-2 text-sm leading-6 text-muted">{item.desc}</p>
               </div>
             ))}
           </div>
           <div className="rounded-[18px] border border-[#EAD0D9] bg-[#FAF5F7] p-6">
-            <p className="font-heading text-base font-semibold text-navy">Neden bu süreç önemli?</p>
+            <p className="font-heading text-base font-semibold text-ink">Neden bu süreç önemli?</p>
             <p className="mt-2 text-sm leading-7 text-muted">Ev içinde çalışacak bir personele güven duymak, yalnızca referansa değil sistematik bir değerlendirme sürecine dayanmalıdır. Tüm bu adımları eksiksiz uyguluyoruz çünkü ailenizin güvenliği bizim sorumluluğumuzdur.</p>
           </div>
           <div className="flex flex-wrap gap-3 pt-2">
-            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">Başvuru Yap →</Link>
+            <Link href="/aile-basvurusu" className="btn-primary">
+              Başvuru Yap
+              <Arrow white />
+            </Link>
           </div>
         </div>
       ) : null}
@@ -408,7 +450,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
       {!requestFormKind && !isLegalPage && key === "hakkimizda" ? (
         <div className="mt-8 space-y-4">
           <div className="rounded-[18px] border border-line bg-white p-7">
-            <p className="font-heading text-lg font-semibold text-navy">Hikayemiz</p>
+            <p className="font-heading text-lg font-semibold text-ink">Hikayemiz</p>
             <p className="mt-3 text-sm leading-8 text-muted">Dadı Kapıda, ailelerin ev hizmetleri personeli bulma sürecindeki güven açığını kapatmak amacıyla kurulmuştur. Referans doğrulaması yapılmadan, yüz yüze görüşme gerçekleştirilmeden yapılan yerleştirmelerin yarattığı riskleri ortadan kaldırmak için sistematik bir değerlendirme modeli geliştirdik.</p>
             <p className="mt-3 text-sm leading-8 text-muted">Bugün dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlikçi, şoför ve ev yardımcısı kategorilerinde Türkiye genelinde hizmet veriyoruz. Her yerleştirme, bir danışman eşliğinde ve belirlenmiş kalite standartları çerçevesinde gerçekleştirilir.</p>
           </div>
@@ -419,14 +461,17 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
               { title: "Değerlerimiz", desc: "Güven, şeffaflık, gizlilik ve aile odaklı hizmet. Her adımda hem aileyi hem de personeli eşit özenle değerlendiririz." }
             ].map(item => (
               <div key={item.title} className="rounded-[18px] border border-line bg-white p-6">
-                <p className="font-heading text-base font-semibold text-[#8C5368]">{item.title}</p>
+                <p className="font-heading text-base font-semibold text-green">{item.title}</p>
                 <p className="mt-2 text-sm leading-7 text-muted">{item.desc}</p>
               </div>
             ))}
           </div>
           <div className="flex flex-wrap gap-3 pt-2">
-            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">Ücretsiz Görüşme Al →</Link>
-            <Link href="/iletisim" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-[#8C5368]">İletişime Geç</Link>
+            <Link href="/aile-basvurusu" className="btn-primary">
+              Ücretsiz Görüşme Al
+              <Arrow white />
+            </Link>
+            <Link href="/iletisim" className="btn-outline">İletişime Geç</Link>
           </div>
         </div>
       ) : null}
@@ -436,13 +481,16 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         <div className="mt-8 space-y-3">
           {faqs.map(faq => (
             <div key={faq.question} className="rounded-[18px] border border-line bg-white p-5">
-              <p className="font-heading text-base font-semibold text-navy">{faq.question}</p>
+              <p className="font-heading text-base font-semibold text-ink">{faq.question}</p>
               <p className="mt-2 text-sm leading-7 text-muted">{faq.answer}</p>
             </div>
           ))}
           <div className="flex flex-wrap gap-3 pt-2">
-            <Link href="/aile-basvurusu" className="rounded-full bg-[#8C5368] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#6D3D51]">Başvuru Yap →</Link>
-            <Link href="/iletisim" className="rounded-full border border-line px-6 py-3 text-sm font-medium text-navy transition hover:border-[#8C5368]">Sormak İstedikleriniz İçin</Link>
+            <Link href="/aile-basvurusu" className="btn-primary">
+              Başvuru Yap
+              <Arrow white />
+            </Link>
+            <Link href="/iletisim" className="btn-outline">Sormak İstedikleriniz İçin</Link>
           </div>
         </div>
       ) : null}
@@ -456,14 +504,14 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
               href={`/hizmetlerimiz/${service.slug}`}
               className="group rounded-[18px] border border-line bg-white p-5 transition hover:-translate-y-0.5 hover:border-gold/30 hover:shadow-[0_8px_24px_rgba(22,32,42,0.08)]"
             >
-              <p className="font-heading text-base font-semibold text-navy">{service.title}</p>
+              <p className="font-heading text-base font-semibold text-ink">{service.title}</p>
               <p className="mt-1.5 text-sm leading-6 text-muted">{service.description}</p>
               <p className="mt-3 text-xs font-semibold text-gold transition group-hover:translate-x-0.5">Detaylı bilgi →</p>
             </Link>
           ))}
           {faqs.slice(0, 4).map((faq) => (
             <div key={faq.question} className="rounded-[18px] border border-line bg-white p-5">
-              <p className="font-semibold text-navy">{faq.question}</p>
+            <p className="font-semibold text-ink">{faq.question}</p>
               <p className="mt-2 text-sm leading-7 text-muted">{faq.answer}</p>
             </div>
           ))}
@@ -478,7 +526,7 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
         <div className="mt-8 space-y-4">
           {legalContent[key]?.sections.map((section) => (
             <div key={section.heading} className="rounded-[20px] border border-line bg-white p-8">
-              <h2 className="mb-3 font-heading text-base font-semibold text-navy">{section.heading}</h2>
+              <h2 className="mb-3 font-heading text-base font-semibold text-ink">{section.heading}</h2>
               <p className="whitespace-pre-line text-sm leading-8 text-muted">{section.body}</p>
             </div>
           )) ?? (
@@ -492,8 +540,8 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
             <p className="text-xs text-muted/60 px-2">Son güncelleme: {legalContent[key].lastUpdated}</p>
           )}
           <div className="surface rounded-[20px] p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-trust mb-2">Sorularınız mı var?</p>
-            <Link href="/iletisim" className="inline-flex items-center gap-2 text-sm font-medium text-navy underline underline-offset-2 hover:text-trust">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-green mb-2">Sorularınız mı var?</p>
+            <Link href="/iletisim" className="inline-flex items-center gap-2 text-sm font-medium text-ink underline underline-offset-2 hover:text-green">
               Danışmanlarımızla iletişime geçin
               <Arrow />
             </Link>
@@ -503,11 +551,11 @@ export default async function GenericPage({ params }: { params: Promise<{ slug: 
 
       {/* Her sayfada CTA */}
       <div className="mt-8 flex flex-wrap gap-3">
-        <Link href="/aile-basvurusu" className="inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-trust">
+        <Link href="/aile-basvurusu" className="btn-primary">
           Aile Başvurusu Yap
           <Arrow white />
         </Link>
-        <Link href="/" className="rounded-full border border-line bg-white px-6 py-3 text-sm font-medium text-navy transition hover:border-navy">
+        <Link href="/" className="btn-outline">
           Ana Sayfaya Dön
         </Link>
       </div>

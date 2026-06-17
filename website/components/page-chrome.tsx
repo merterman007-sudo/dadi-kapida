@@ -44,9 +44,9 @@ export function Arrow({ white }: { white?: boolean }) {
 
 export function Check() {
   return (
-    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10">
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--rose)]/10">
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="#8C5368" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="var(--rose)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
   );

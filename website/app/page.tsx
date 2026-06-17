@@ -301,13 +301,6 @@ export default async function HomePage() {
                 <Link href="/personel-basvurusu" className="btn-outline">
                   Personel Başvurusu
                 </Link>
-                <a
-                  href={`tel:${phone.replace(/\D/g, "")}`}
-                  className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-5 py-3 text-sm font-bold text-ink transition hover:border-green hover:text-green"
-                >
-                  <span className="text-green">☎</span>
-                  Hemen Arayın
-                </a>
               </div>
 
               <div className="mt-10 grid max-w-xl gap-4 sm:grid-cols-3">
@@ -335,11 +328,11 @@ export default async function HomePage() {
                 </div>
 
                 <div className="relative bg-white p-5 sm:absolute sm:bottom-0 sm:right-0 sm:w-[72%] sm:bg-transparent sm:p-0">
-                  <div className="bg-ink p-6 text-white shadow-[0_24px_60px_rgba(7,27,58,0.24)] sm:rounded-tl-[26px]">
-                    <p className="font-heading text-2xl font-semibold leading-tight text-white">
+                  <div className="border border-white/80 bg-white/95 p-6 text-ink shadow-[0_24px_60px_rgba(233,24,91,0.16)] backdrop-blur-md sm:rounded-tl-[26px]">
+                    <p className="font-heading text-2xl font-semibold leading-tight text-ink">
                       Aileniz için en iyisini bizimle bulun.
                     </p>
-                    <p className="mt-3 text-sm leading-6 text-white/82">
+                    <p className="mt-3 text-sm font-medium leading-6 text-muted">
                       Profesyonel destek, mutlu yarınlar.
                     </p>
                   </div>
@@ -480,35 +473,34 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section-dark-deeper py-20 lg:py-28">
+      <section className="border-y border-line bg-[#FFF3F7] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <SectionTitle
               eyebrow="Nasıl Çalışır?"
               title="İlk görüşmeden yerleştirme sonrasına kadar yanınızdayız"
               subtitle="Her aşamanın sorumlusu, amacı ve sonraki adımı bellidir."
-              light
             />
             <Link
               href="/aileler-icin/aday-secim-sureci"
-              className="inline-flex self-start items-center gap-2 border-b border-white/55 pb-1 text-sm font-semibold text-white transition hover:border-white"
+              className="inline-flex self-start items-center gap-2 border-b border-green/45 pb-1 text-sm font-semibold text-green transition hover:border-green"
             >
-              Tüm süreci görün <Arrow white />
+              Tüm süreci görün <Arrow />
             </Link>
           </div>
 
-          <div className="mt-10 grid gap-px overflow-hidden border border-white/15 bg-white/15 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item) => (
-              <div key={item.step} className="group relative min-h-[270px] bg-[#071B3A] p-6 transition hover:bg-[#10284D]">
+              <div key={item.step} className="group relative min-h-[270px] rounded-[26px] border border-line bg-white p-6 shadow-[0_18px_48px_rgba(7,27,58,0.07)] transition hover:-translate-y-1 hover:border-green/35 hover:shadow-[0_24px_66px_rgba(233,24,91,0.12)]">
                 <div className="flex items-center justify-between">
-                  <span className="font-heading text-4xl font-semibold text-[#F0C969]">{item.step}</span>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition group-hover:bg-white group-hover:text-green">
+                  <span className="font-heading text-4xl font-semibold text-green">{item.step}</span>
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line text-green transition group-hover:border-green group-hover:bg-green group-hover:text-white">
                     <Arrow />
                   </span>
                 </div>
                 <div className="mt-14">
-                  <p className="font-heading text-xl font-semibold text-white">{item.title}</p>
-                  <p className="mt-3 text-sm leading-7 text-white/80">{item.description}</p>
+                  <p className="font-heading text-xl font-semibold text-ink">{item.title}</p>
+                  <p className="mt-3 text-sm leading-7 text-muted">{item.description}</p>
                 </div>
               </div>
             ))}
