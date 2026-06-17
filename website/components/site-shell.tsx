@@ -9,7 +9,7 @@ import { footerPages } from "../lib/content";
 
 type NavItem = { label: string; href: string };
 
-const BRAND_MARK_SRC = "/images/brand/dadi-kapida-mark.png";
+const BRAND_MARK_SRC = "/images/brand/dadi-kapida-logo-square.png";
 
 const footerServices: NavItem[] = [
   { label: "Dadı & Bebek Bakıcısı", href: "/hizmetlerimiz/yatili-dadi" },
@@ -108,11 +108,11 @@ export function SiteHeader({
   return (
     <>
       <header
-        className={`sticky top-0 z-40 w-full bg-white/95 backdrop-blur-xl transition-shadow duration-200 ${
-          scrolled ? "shadow-[0_1px_0_#EAD0D9,0_8px_24px_rgba(28,16,21,0.06)]" : "border-b border-line"
+        className={`sticky top-0 z-40 w-full bg-white/96 backdrop-blur-xl transition-shadow duration-200 ${
+          scrolled ? "shadow-[0_1px_0_#F0D8E2,0_10px_30px_rgba(7,27,58,0.07)]" : "border-b border-line"
         }`}
       >
-        <div className="border-b border-line bg-bg/95">
+        <div className="hidden border-b border-line bg-bg/95">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-2 text-[11px] text-muted lg:px-8">
             <span className="hidden tracking-[0.22em] text-ink/70 sm:block">
               PROFESYONEL EV HİZMETLERİ DANIŞMANLIĞI
@@ -143,32 +143,45 @@ export function SiteHeader({
           </div>
         </div>
 
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
+            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[18px] bg-white text-white font-heading text-sm font-semibold shrink-0 shadow-[0_10px_26px_rgba(233,24,91,0.14)]">
               <Image
                 src={BRAND_MARK_SRC}
                 alt={`${brandName} logosu`}
-                width={36}
-                height={36}
-                className="h-full w-full object-contain p-1.5"
+                width={48}
+                height={48}
+                className="h-full w-full object-contain p-1"
                 priority
               />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-green leading-none">{brandName}</p>
-              <p className="text-[11px] text-muted leading-none mt-0.5">{tagline}</p>
+              <p className="text-xl font-extrabold tracking-[0.02em] text-ink leading-none">
+                dadı <span className="text-green">kapıda</span>
+              </p>
+              <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.36em] text-muted leading-none">
+                Danışmanlık Hizmetleri
+              </p>
             </div>
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
+            <Link
+              href="/"
+              className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
+                isActive("/") ? "text-green" : "text-body hover:text-green"
+              }`}
+            >
+              Ana Sayfa
+            </Link>
+
             <div className="group relative">
               <Link
                 href="/hizmetlerimiz"
                 className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
                   isActive("/hizmetlerimiz")
-                    ? "bg-[#FAF5F7] font-semibold text-green"
-                    : "text-body hover:bg-[#FAF5F7] hover:text-green"
+                    ? "font-semibold text-green"
+                    : "text-body hover:text-green"
                 }`}
               >
                 Hizmetlerimiz
@@ -189,7 +202,7 @@ export function SiteHeader({
                   <Link
                     key={sub.href}
                     href={sub.href}
-                    className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FAF5F7] hover:text-green"
+                    className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FFF3F7] hover:text-green"
                   >
                     {sub.label}
                   </Link>
@@ -198,7 +211,7 @@ export function SiteHeader({
             </div>
 
             {normalizedNavigation
-              .filter((item) => item.href !== "/hizmetlerimiz" && item.href !== "/hizmet-bolgeleri")
+              .filter((item) => item.href !== "/" && item.href !== "/hizmetlerimiz" && item.href !== "/hizmet-bolgeleri")
               .map((item) =>
                 item.href === "/aileler-icin" ? (
                   <div key={item.href} className="group relative">
@@ -206,8 +219,8 @@ export function SiteHeader({
                       href={item.href}
                       className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
                         isActive(item.href)
-                          ? "bg-[#FAF5F7] font-semibold text-green"
-                          : "text-body hover:bg-[#FAF5F7] hover:text-green"
+                          ? "font-semibold text-green"
+                          : "text-body hover:text-green"
                       }`}
                     >
                       {item.label}
@@ -220,7 +233,7 @@ export function SiteHeader({
                         <Link
                           key={sub.href}
                           href={sub.href}
-                          className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FAF5F7] hover:text-green"
+                          className="block whitespace-nowrap rounded-xl px-3 py-2 text-sm text-body transition hover:bg-[#FFF3F7] hover:text-green"
                         >
                           {sub.label}
                         </Link>
@@ -233,8 +246,8 @@ export function SiteHeader({
                     href={item.href}
                     className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
                       isActive(item.href)
-                        ? "bg-[#FAF5F7] font-semibold text-green"
-                        : "text-body hover:bg-[#FAF5F7] hover:text-green"
+                        ? "font-semibold text-green"
+                        : "text-body hover:text-green"
                     }`}
                   >
                     {item.label}
@@ -246,8 +259,8 @@ export function SiteHeader({
               href="/hizmet-bolgeleri"
               className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm transition-colors ${
                 isActive("/hizmet-bolgeleri")
-                  ? "bg-[#FAF5F7] font-semibold text-green"
-                  : "text-body hover:bg-[#FAF5F7] hover:text-green"
+                  ? "font-semibold text-green"
+                  : "text-body hover:text-green"
               }`}
             >
               Türkiye Geneli
@@ -255,12 +268,15 @@ export function SiteHeader({
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/personel-basvurusu" className="btn-outline py-2 px-4 text-xs">
-              Personel Başvurusu
-            </Link>
-            <Link href="/aile-basvurusu" className="btn-primary py-2 px-5 text-xs">
-              Aile Başvurusu
-            </Link>
+            {phone ? (
+              <a
+                href={`tel:${normalizePhoneLink(phone)}`}
+                className="group inline-flex min-w-max items-center gap-2 whitespace-nowrap rounded-full border border-green px-6 py-3 text-sm font-extrabold text-ink transition hover:bg-green hover:text-white"
+              >
+                <span className="text-green transition group-hover:text-white">☎</span>
+                {phone}
+              </a>
+            ) : null}
           </div>
 
           <button
@@ -289,8 +305,14 @@ export function SiteHeader({
         <div className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden">
           <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
             <Link href="/" className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-green text-white font-heading text-sm font-semibold">
-                DK
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] bg-white shadow-[0_10px_26px_rgba(233,24,91,0.14)]">
+                <Image
+                  src={BRAND_MARK_SRC}
+                  alt={`${brandName} logosu`}
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-green">Dadı Kapıda</p>
             </Link>
@@ -358,13 +380,13 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
         <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-green text-white font-heading text-sm font-semibold shrink-0">
+              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-[14px] bg-white text-white font-heading text-sm font-semibold shrink-0 shadow-[0_10px_26px_rgba(233,24,91,0.12)]">
                 <Image
                   src={BRAND_MARK_SRC}
                   alt={`${brandName} logosu`}
                   width={40}
                   height={40}
-                  className="h-full w-full object-contain p-2"
+                  className="h-full w-full object-contain"
                 />
               </div>
               <div>

@@ -111,6 +111,95 @@ const testimonials = [
   }
 ];
 
+const heroServiceCards = [
+  { title: "Bebek ve Çocuk Bakımı", href: "/hizmetlerimiz/bebek-bakicisi", icon: "baby" },
+  { title: "Yaşlı Bakımı", href: "/hizmetlerimiz/yasli-bakicisi", icon: "elder" },
+  { title: "Hasta Bakımı", href: "/hizmetlerimiz/hasta-bakicisi", icon: "care" },
+  { title: "Temizlik Hizmetleri", href: "/hizmetlerimiz/gunluk-temizlik", icon: "clean" },
+  { title: "Özel Şoför", href: "/hizmetlerimiz/ozel-sofor", icon: "driver" },
+  { title: "Yemek ve Ev Destek Hizmetleri", href: "/hizmetlerimiz/asci", icon: "home" }
+];
+
+const heroTrustItems = [
+  { title: "Güvenilir Hizmet", icon: "shield" },
+  { title: "Deneyimli ve Referanslı Personel", icon: "people" },
+  { title: "Danışman Takibi", icon: "support" }
+];
+
+function LineIcon({ name, className = "h-8 w-8" }: { name: string; className?: string }) {
+  const common = {
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    fill: "none"
+  };
+
+  return (
+    <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
+      {name === "shield" ? (
+        <>
+          <path {...common} d="M24 5l15 6v11c0 9.5-6.4 16.8-15 21-8.6-4.2-15-11.5-15-21V11l15-6z" />
+          <path {...common} d="M17 24l5 5 10-11" />
+        </>
+      ) : null}
+      {name === "people" ? (
+        <>
+          <circle {...common} cx="18" cy="18" r="5" />
+          <circle {...common} cx="31" cy="17" r="4" />
+          <path {...common} d="M8 38c1.8-7 7.3-10 10-10s8.2 3 10 10" />
+          <path {...common} d="M27 28c4.5.4 8.6 3.4 10 9" />
+        </>
+      ) : null}
+      {name === "support" ? (
+        <>
+          <path {...common} d="M11 26v-3a13 13 0 0 1 26 0v3" />
+          <path {...common} d="M11 26h6v11h-6a3 3 0 0 1-3-3v-5a3 3 0 0 1 3-3zM37 26h-6v11h6a3 3 0 0 0 3-3v-5a3 3 0 0 0-3-3z" />
+          <path {...common} d="M31 38c-1.6 3-4 4-7 4" />
+        </>
+      ) : null}
+      {name === "baby" ? (
+        <>
+          <circle {...common} cx="24" cy="24" r="13" />
+          <path {...common} d="M17 20h.1M31 20h.1M19 30c3 2.4 7 2.4 10 0M14 15l-4-4M34 15l4-4" />
+        </>
+      ) : null}
+      {name === "elder" ? (
+        <>
+          <circle {...common} cx="24" cy="14" r="7" />
+          <path {...common} d="M12 42c1.4-9 6-15 12-15s10.6 6 12 15M17 28c2 3 12 3 14 0M17 15c1.5-4 12.5-4 14 0" />
+        </>
+      ) : null}
+      {name === "care" ? (
+        <>
+          <path {...common} d="M24 40S8 30 8 18a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 12-16 22-16 22z" />
+          <path {...common} d="M18 24h12M24 18v12" />
+        </>
+      ) : null}
+      {name === "clean" ? (
+        <>
+          <path {...common} d="M30 6l12 12-5 5-12-12 5-5zM25 13L8 30l10 10 17-17" />
+          <path {...common} d="M10 38l-4 4M17 41l-2 4M6 31l-3 2" />
+        </>
+      ) : null}
+      {name === "driver" ? (
+        <>
+          <circle {...common} cx="24" cy="24" r="16" />
+          <circle {...common} cx="24" cy="24" r="5" />
+          <path {...common} d="M9 24h10M29 24h10M24 29v10" />
+        </>
+      ) : null}
+      {name === "home" ? (
+        <>
+          <path {...common} d="M10 23l14-13 14 13" />
+          <path {...common} d="M14 21v19h20V21" />
+          <path {...common} d="M20 40V28h8v12" />
+        </>
+      ) : null}
+    </svg>
+  );
+}
+
 function SectionLabel({ children }: { children: string }) {
   return (
     <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-gold flex items-center gap-2">
@@ -154,9 +243,9 @@ function Arrow({ white }: { white?: boolean }) {
 
 function Check() {
   return (
-    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#8C5368]/10">
+    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--rose)]/10">
       <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="#8C5368" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M2 6.5l2.5 2.5 5.5-5" stroke="var(--rose)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
   );
@@ -177,131 +266,115 @@ export default async function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden bg-white">
-        <div className="absolute inset-y-0 right-0 hidden w-[42%] lg:block">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_15%,rgba(233,24,91,0.12),transparent_28%),linear-gradient(90deg,#ffffff_0%,#ffffff_45%,#fff5f8_100%)]" />
+        <div className="absolute inset-y-0 right-0 hidden w-[48%] lg:block">
           <Image
             src={siteImages.hero}
             alt="Profesyonel ev hizmetleri danışmanlığı"
             fill
             priority
-            sizes="42vw"
+            sizes="48vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/18 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/35 to-transparent" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-14 lg:px-8 lg:pb-16 lg:pt-20">
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="relative mx-auto max-w-7xl px-5 pb-8 pt-12 lg:px-8 lg:pb-10 lg:pt-16">
+          <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
             <div className="max-w-2xl">
-              <SectionLabel>Dadı Kapıda · Profesyonel Ev Hizmetleri</SectionLabel>
-              <h1 className="mt-5 max-w-xl font-heading text-4xl font-semibold leading-[1.05] text-ink sm:text-5xl lg:text-[3.9rem]">
-                Eviniz için güvenilir ve profesyonel personel desteği
+              <p className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-green">
+                <span className="text-lg leading-none">♥</span>
+                Sevdikleriniz bize emanet
+              </p>
+              <h1 className="mt-6 max-w-2xl font-heading text-5xl font-semibold leading-[0.98] text-ink sm:text-6xl lg:text-[5.45rem]">
+                Doğru Destek,
+                <span className="block text-green">Huzurlu Yaşam.</span>
               </h1>
-              <p className="mt-5 max-w-xl text-[1rem] leading-8 text-muted">
-                Dadı, bebek bakıcısı, yaşlı bakıcısı, hasta bakıcısı, temizlik, şoför, aşçı ve ev yardımcısı ihtiyaçlarında;
-                aileye özel değerlendirme, referans kontrolü ve danışman eşliğinde ilerleyen bir eşleştirme süreci sunuyoruz.
+              <p className="mt-6 max-w-xl text-lg leading-8 text-body">
+                Deneyimli, referanslı ve güvenilir personellerimizle ihtiyaçlarınıza özel çözümler sunuyoruz.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-2.5">
-                {trustPills.map((pill) => (
-                  <span
-                    key={pill}
-                    className="flex items-center gap-2 rounded-full border border-line bg-bg px-3 py-1.5 text-[11px] font-medium text-muted"
-                  >
-                    <Check />
-                    {pill}
-                  </span>
-                ))}
-              </div>
-
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link href="/aile-basvurusu" className="btn-primary">
-                  Aile Başvurusu Yap <Arrow white />
+                <a href={`tel:${phone.replace(/\D/g, "")}`} className="btn-primary">
+                  <span className="text-base">☎</span>
+                  Hemen Arayın
+                </a>
+                <Link href="/hizmetlerimiz" className="btn-outline">
+                  Hizmetlerimizi İnceleyin <Arrow />
                 </Link>
-                <Link href="/iletisim" className="btn-outline">
-                  Danışmanla Görüş
-                </Link>
-                {whatsapp ? (
-                  <a
-                    href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-6 py-3 text-sm font-semibold text-green transition hover:bg-[#FAF5F7]"
-                  >
-                    WhatsApp&apos;tan Yaz <Arrow />
-                  </a>
-                ) : null}
               </div>
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {[
-                  "Referans doğrulama",
-                  "Aileye özel eşleştirme",
-                  "Gizlilik ve KVKK",
-                  "Yerleştirme sonrası takip"
-                ].map((item) => (
-                  <div key={item} className="surface flex items-start gap-3 rounded-[18px] p-4">
-                    <Check />
-                    <p className="text-sm font-medium leading-6 text-ink">{item}</p>
+              <div className="mt-10 grid max-w-xl gap-4 sm:grid-cols-3">
+                {heroTrustItems.map((item) => (
+                  <div key={item.title} className="flex items-center gap-3 border-r border-line pr-4 last:border-r-0">
+                    <LineIcon name={item.icon} className="h-9 w-9 shrink-0 text-green" />
+                    <p className="text-sm font-bold leading-5 text-ink">{item.title}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative">
-              <div className="relative overflow-hidden rounded-[28px] border border-line bg-white shadow-lg sm:rounded-[32px]">
-                <div className="relative h-[290px] sm:min-h-[420px]">
+            <div className="relative lg:min-h-[560px]">
+              <div className="relative ml-auto overflow-hidden rounded-[32px] border border-white bg-white shadow-[0_28px_80px_rgba(7,27,58,0.14)] sm:rounded-[42px] lg:w-[92%]">
+                <div className="relative h-[310px] sm:min-h-[500px]">
                   <Image
                     src={siteImages.hero}
-                    alt="Aileyle danışman görüşmesi"
+                    alt="Aile ve ev hizmetleri danışmanlığı"
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 45vw"
                     className="object-cover object-center"
                   />
-                  <div className="absolute inset-0 hidden bg-gradient-to-t from-[#1C1015]/55 via-transparent to-transparent sm:block" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#071B3A]/28 via-transparent to-transparent" />
                 </div>
 
-                <div className="relative bg-white p-5 sm:absolute sm:inset-x-0 sm:bottom-0 sm:bg-transparent sm:p-6">
-                  <div className="rounded-[22px] border border-line/90 bg-white/95 p-4 shadow-[0_16px_40px_rgba(28,16,21,0.10)] backdrop-blur-md sm:rounded-[24px] sm:p-5">
-                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-green sm:text-[11px] sm:tracking-[0.18em]">
-                      <span className="rounded-full bg-bg px-3 py-1.5">Kurumsal yapı</span>
-                      <span className="rounded-full bg-bg px-3 py-1.5">Aile odaklı süreç</span>
-                    </div>
-                    <p className="mt-4 font-heading text-[1.45rem] font-semibold leading-tight text-ink sm:text-[1.55rem]">
-                      Doğru aday, doğru hizmet, kontrollü süreç
+                <div className="relative bg-white p-5 sm:absolute sm:bottom-0 sm:right-0 sm:w-[72%] sm:bg-transparent sm:p-0">
+                  <div className="bg-ink p-6 text-white shadow-[0_24px_60px_rgba(7,27,58,0.24)] sm:rounded-tl-[26px]">
+                    <p className="font-heading text-2xl font-semibold leading-tight text-white">
+                      Aileniz için en iyisini bizimle bulun.
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-muted">
-                      Danışman ekibimiz ailelerin ihtiyacını netleştirir, güvenli ve profesyonel bir eşleştirme akışı yürütür.
+                    <p className="mt-3 text-sm leading-6 text-white/82">
+                      Profesyonel destek, mutlu yarınlar.
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                {[
-                  { value: "Türkiye geneli", label: "Talep alımı" },
-                  { value: "Ücretsiz", label: "İlk görüşme" },
-                  { value: "1:1", label: "Danışman takibi" },
-                  { value: "Takip", label: "Yerleştirme sonrası" }
-                ].map((item) => (
-                  <div key={item.label} className="surface min-w-0 rounded-[18px] p-3.5 sm:p-4">
-                    <p className="font-heading text-lg font-semibold leading-tight text-green sm:text-[1.45rem]">{item.value}</p>
-                    <p className="mt-1 text-[9px] font-medium uppercase leading-4 tracking-[0.14em] text-muted sm:text-[11px] sm:tracking-[0.18em]">
-                      {item.label}
-                    </p>
-                  </div>
-                ))}
+              <div className="absolute -left-3 bottom-10 hidden rounded-full border border-line bg-white px-5 py-3 shadow-[0_16px_42px_rgba(7,27,58,0.10)] lg:block">
+                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-green">Güven odaklı yerleştirme</p>
               </div>
             </div>
+          </div>
+
+          <div className="relative z-10 mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+            {heroServiceCards.map((service) => (
+              <Link
+                key={service.href}
+                href={service.href}
+                className="group min-h-[150px] rounded-[20px] border border-line bg-white p-5 shadow-[0_18px_50px_rgba(7,27,58,0.08)] transition hover:-translate-y-1 hover:border-green/45 hover:shadow-[0_24px_70px_rgba(7,27,58,0.13)]"
+              >
+                <LineIcon name={service.icon} className="h-11 w-11 text-green" />
+                <p className="mt-5 min-h-[44px] text-base font-extrabold leading-snug text-ink">{service.title}</p>
+                <span className="mt-4 inline-flex text-2xl leading-none text-green transition group-hover:translate-x-1">→</span>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-11 flex items-center justify-center gap-6 text-center">
+            <span className="hidden h-px w-48 bg-green/35 sm:block" />
+            <p className="font-heading text-3xl font-semibold text-ink">
+              Doğru insan, doğru aile, <span className="text-green">mutlu yaşam.</span>
+            </p>
+            <span className="hidden h-px w-48 bg-green/35 sm:block" />
           </div>
         </div>
       </section>
 
-      <section className="border-y border-line bg-[#F3E7EC]">
+      <section className="border-y border-line bg-[#FFF3F7]">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid grid-cols-1 gap-4 py-6 sm:grid-cols-2 lg:grid-cols-4">
             {trustPills.map((item, index) => (
-              <div key={item} className="flex items-center gap-3 border-l-2 border-[#8C5368] bg-white px-4 py-3 shadow-sm">
+              <div key={item} className="flex items-center gap-3 border-l-2 border-green bg-white px-4 py-3 shadow-sm">
                 <span className="font-heading text-xl font-semibold text-gold">0{index + 1}</span>
                 <p className="text-sm font-semibold text-ink">{item}</p>
               </div>
@@ -328,13 +401,13 @@ export default async function HomePage() {
               <Link
                 key={service.slug}
                 href={`/hizmetlerimiz/${service.slug}`}
-                className="group block overflow-hidden rounded-[24px] border border-line bg-white shadow-[0_8px_28px_rgba(28,16,21,0.06)] transition hover:-translate-y-1 hover:border-[#C893A5] hover:shadow-[0_22px_52px_rgba(28,16,21,0.13)]"
+                className="group block overflow-hidden rounded-[24px] border border-line bg-white shadow-[0_8px_28px_rgba(7,27,58,0.06)] transition hover:-translate-y-1 hover:border-green/45 hover:shadow-[0_22px_52px_rgba(7,27,58,0.13)]"
               >
                 <ServiceVisual slug={service.slug} title={service.title} framed={false} className="min-h-[310px] rounded-none sm:min-h-[340px]" />
                 <div className="border-t border-line p-5">
                   <div className="flex items-center justify-between gap-3">
                     <p className="font-heading text-[1.15rem] font-semibold text-ink">{service.title}</p>
-                    <span className="rounded-full bg-[#FAF5F7] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-green">
+                    <span className="rounded-full bg-[#FFF3F7] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-green">
                       Premium
                     </span>
                   </div>
@@ -352,7 +425,7 @@ export default async function HomePage() {
       <section className="overflow-hidden bg-bg py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] shadow-[0_28px_70px_rgba(28,16,21,0.16)]">
+            <div className="relative min-h-[430px] overflow-hidden rounded-[28px] shadow-[0_28px_70px_rgba(7,27,58,0.16)]">
               <Image
                 src={siteImages.trust}
                 alt="Güvenli ve düzenli ev hizmetleri danışmanlığı"
@@ -360,7 +433,7 @@ export default async function HomePage() {
                 sizes="(max-width: 1024px) 100vw, 52vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#27151C]/80 via-[#27151C]/18 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#071B3A]/80 via-[#071B3A]/18 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#F0C969]">Kontrollü değerlendirme</p>
                 <p className="mt-3 max-w-lg font-heading text-2xl font-semibold leading-tight sm:text-3xl">
@@ -420,10 +493,10 @@ export default async function HomePage() {
 
           <div className="mt-10 grid gap-px overflow-hidden border border-white/15 bg-white/15 md:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item) => (
-              <div key={item.step} className="group relative min-h-[270px] bg-[#75445A] p-6 transition hover:bg-[#815066]">
+              <div key={item.step} className="group relative min-h-[270px] bg-[#071B3A] p-6 transition hover:bg-[#10284D]">
                 <div className="flex items-center justify-between">
                   <span className="font-heading text-4xl font-semibold text-[#F0C969]">{item.step}</span>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition group-hover:bg-white group-hover:text-[#6D3D51]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/25 text-white transition group-hover:bg-white group-hover:text-green">
                     <Arrow />
                   </span>
                 </div>
@@ -449,7 +522,7 @@ export default async function HomePage() {
                   sizes="(max-width: 1024px) 100vw, 45vw"
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#8C5368]/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#E9185B]/50 to-transparent" />
                 <div className="absolute left-5 top-5 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-green backdrop-blur-sm">
                   Güven odaklı süreç
                 </div>
@@ -494,7 +567,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-line bg-[#F3E7EC] py-20 lg:py-28">
+      <section className="border-y border-line bg-[#FFF3F7] py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <SectionTitle
@@ -516,12 +589,12 @@ export default async function HomePage() {
 
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {testimonials.map((item) => (
-              <blockquote key={item.author} className="flex min-h-[320px] flex-col border-t-4 border-[#8C5368] bg-white p-6 shadow-[0_14px_38px_rgba(28,16,21,0.08)]">
-                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#F3E7EC]">
+              <blockquote key={item.author} className="flex min-h-[320px] flex-col border-t-4 border-green bg-white p-6 shadow-[0_14px_38px_rgba(7,27,58,0.08)]">
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-[#FFF3F7]">
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
                     <path
                       d="M0 12V7.2C0 5.04 0.56 3.28 1.68 1.92 2.8 0.64 4.32 0 6.24 0v2.4C5.28 2.4 4.56 2.72 4.08 3.36 3.6 3.92 3.36 4.72 3.36 5.76H6.24V12H0ZM9.76 12V7.2C9.76 5.04 10.32 3.28 11.44 1.92 12.56 0.64 14.08 0 16 0v2.4C15.04 2.4 14.32 2.72 13.84 3.36 13.36 3.92 13.12 4.72 13.12 5.76H16V12H9.76Z"
-                      fill="#8C5368"
+                      fill="#E9185B"
                       fillOpacity="0.25"
                     />
                   </svg>
@@ -530,7 +603,7 @@ export default async function HomePage() {
                 <p className="flex-1 font-heading text-[1.05rem] leading-[1.75] text-ink italic">&ldquo;{item.quote}&rdquo;</p>
 
                 <footer className="mt-6 flex items-center gap-3 border-t border-line pt-5">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#8C5368] font-heading text-sm font-bold text-white">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green font-heading text-sm font-bold text-white">
                     {item.author[0]}
                   </div>
                   <div>
