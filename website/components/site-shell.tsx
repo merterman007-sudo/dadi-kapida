@@ -271,7 +271,7 @@ export function SiteHeader({
             {phone ? (
               <a
                 href={`tel:${normalizePhoneLink(phone)}`}
-                className="group hidden min-w-max items-center gap-2 whitespace-nowrap rounded-full border border-green px-5 py-2.5 text-sm font-extrabold text-ink transition hover:bg-green hover:text-white xl:inline-flex"
+                className="group hidden min-w-max items-center gap-2 whitespace-nowrap rounded-full border border-green px-5 py-2.5 text-sm font-extrabold text-ink transition hover:bg-green hover:text-white 2xl:inline-flex"
               >
                 <span className="text-green transition group-hover:text-white">☎</span>
                 {phone}
