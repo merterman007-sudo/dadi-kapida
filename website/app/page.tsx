@@ -295,13 +295,19 @@ export default async function HomePage() {
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={`tel:${phone.replace(/\D/g, "")}`} className="btn-primary">
-                  <span className="text-base">☎</span>
+                <Link href="/aile-basvurusu" className="btn-primary">
+                  Aile Başvurusu Yap <Arrow white />
+                </Link>
+                <Link href="/personel-basvurusu" className="btn-outline">
+                  Personel Başvurusu
+                </Link>
+                <a
+                  href={`tel:${phone.replace(/\D/g, "")}`}
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-5 py-3 text-sm font-bold text-ink transition hover:border-green hover:text-green"
+                >
+                  <span className="text-green">☎</span>
                   Hemen Arayın
                 </a>
-                <Link href="/hizmetlerimiz" className="btn-outline">
-                  Hizmetlerimizi İnceleyin <Arrow />
-                </Link>
               </div>
 
               <div className="mt-10 grid max-w-xl gap-4 sm:grid-cols-3">

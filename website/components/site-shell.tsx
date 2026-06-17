@@ -271,12 +271,18 @@ export function SiteHeader({
             {phone ? (
               <a
                 href={`tel:${normalizePhoneLink(phone)}`}
-                className="group inline-flex min-w-max items-center gap-2 whitespace-nowrap rounded-full border border-green px-6 py-3 text-sm font-extrabold text-ink transition hover:bg-green hover:text-white"
+                className="group hidden min-w-max items-center gap-2 whitespace-nowrap rounded-full border border-green px-5 py-2.5 text-sm font-extrabold text-ink transition hover:bg-green hover:text-white xl:inline-flex"
               >
                 <span className="text-green transition group-hover:text-white">☎</span>
                 {phone}
               </a>
             ) : null}
+            <Link href="/personel-basvurusu" className="btn-outline px-4 py-2.5 text-xs">
+              Personel Başvurusu
+            </Link>
+            <Link href="/aile-basvurusu" className="btn-primary px-5 py-2.5 text-xs">
+              Aile Başvurusu
+            </Link>
           </div>
 
           <button
