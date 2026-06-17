@@ -74,14 +74,14 @@ function BrandLockup({
   return (
     <span className="flex items-center">
       <Image
-        src="/images/brand/dadi-kapida-logo.svg"
+        src="/images/brand/dadi-kapida-logo-header.png"
         alt={`${brandName} logosu`}
-        width={compact ? 205 : 230}
-        height={compact ? 55 : 61}
+        width={463}
+        height={164}
         priority={!compact}
         unoptimized
         className={`block w-auto object-contain transition-transform duration-200 group-hover:scale-[1.015] ${
-          compact ? "h-11 max-w-[205px]" : "h-14 max-w-[230px]"
+          compact ? "h-14 max-w-[190px]" : "h-[4.25rem] max-w-[215px]"
         }`}
       />
     </span>
