@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="112" viewBox="0 0 420 112" fill="none">
+  <title>Dadı Kapıda Danışmanlık Hizmetleri</title>
+  <rect width="420" height="112" fill="none"/>
+  <g transform="translate(9 11)">
+    <path d="M8 37.8 45 7l37 30.8V84a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V37.8Z" stroke="#E9185B" stroke-width="5.2" stroke-linejoin="round"/>
+    <path d="M45 75.2S22.6 61.4 22.6 46.6A13.2 13.2 0 0 1 45 37.2a13.2 13.2 0 0 1 22.4 9.4C67.4 61.4 45 75.2 45 75.2Z" fill="#E9185B"/>
+  </g>
+  <text x="111" y="55" fill="#071B3A" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing=".4">dadı</text>
+  <text x="205" y="55" fill="#E9185B" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing=".4">kapıda</text>
+  <text x="114" y="86" fill="#071B3A" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="8">DANIŞMANLIK HİZMETLERİ</text>
+</svg>

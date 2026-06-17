@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -63,50 +64,30 @@ function normalizePhoneLink(value?: string) {
   return value?.replace(/\D/g, "") ?? "";
 }
 
-function BrandSymbol({ compact = false }: { compact?: boolean }) {
-  return (
-    <span
-      className={`relative flex shrink-0 items-center justify-center rounded-[18px] border-2 border-green bg-white text-green shadow-[0_12px_28px_rgba(233,24,91,0.14)] ${
-        compact ? "h-10 w-10" : "h-11 w-11"
-      }`}
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 48 48" className={compact ? "h-7 w-7" : "h-8 w-8"} fill="none">
-        <path
-          d="M10 22.5 24 10l14 12.5V39a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2V22.5Z"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M24 34s-9-5.7-9-11.2A5.2 5.2 0 0 1 24 19a5.2 5.2 0 0 1 9 3.8C33 28.3 24 34 24 34Z"
-          fill="currentColor"
-        />
-      </svg>
-    </span>
-  );
-}
+function BrandLockup({
+  brandName,
+  logoUrl,
+  compact = false
+}: {
+  brandName: string;
+  logoUrl?: string | undefined;
+  compact?: boolean;
+}) {
+  const source = logoUrl?.trim() || "/images/brand/dadi-kapida-logo.svg";
 
-function BrandLockup({ compact = false }: { compact?: boolean }) {
   return (
-    <span className="flex items-center gap-3">
-      <BrandSymbol compact={compact} />
-      <span className="min-w-0">
-        <span
-          className={`block whitespace-nowrap font-extrabold leading-none tracking-[0.01em] text-ink ${
-            compact ? "text-lg" : "text-xl"
-          }`}
-        >
-          dadı <span className="text-green">kapıda</span>
-        </span>
-        <span
-          className={`mt-1 block whitespace-nowrap font-bold uppercase leading-none tracking-[0.28em] text-muted ${
-            compact ? "text-[9px]" : "text-[9px]"
-          }`}
-        >
-          Danışmanlık Hizmetleri
-        </span>
-      </span>
+    <span className="flex items-center">
+      <Image
+        src={source}
+        alt={`${brandName} logosu`}
+        width={compact ? 205 : 230}
+        height={compact ? 55 : 61}
+        priority={!compact}
+        unoptimized
+        className={`block w-auto object-contain transition-transform duration-200 group-hover:scale-[1.015] ${
+          compact ? "h-11 max-w-[205px]" : "h-14 max-w-[230px]"
+        }`}
+      />
     </span>
   );
 }
@@ -127,7 +108,7 @@ export function SiteHeader({
   const email = contact.supportEmail?.trim() || defaultContact.supportEmail;
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
-  const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
+  const logoUrl = brand.logoUrl?.trim();
   const supportHours = "Pzt-Cmt 09:00-19:00";
   const coverage = "Türkiye geneli";
 
@@ -192,10 +173,10 @@ export function SiteHeader({
 
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <Link href="/" className="group shrink-0" aria-label={`${brandName} ana sayfa`}>
-            <BrandLockup />
+            <BrandLockup brandName={brandName} logoUrl={logoUrl} />
           </Link>
 
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-1 xl:flex">
             <Link
               href="/"
               className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
@@ -255,7 +236,7 @@ export function SiteHeader({
             ))}
           </nav>
 
-          <div className="hidden items-center gap-2 lg:flex">
+          <div className="hidden items-center gap-2 xl:flex">
             <Link href="/personel-basvurusu" className="btn-outline px-3.5 py-2.5 text-[11px]">
               Personel Başvurusu
             </Link>
@@ -268,7 +249,7 @@ export function SiteHeader({
             type="button"
             onClick={() => setOpen((current) => !current)}
             aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-body transition hover:border-green hover:text-green lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-line text-body transition hover:border-green hover:text-green xl:hidden"
           >
             {open ? (
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -287,10 +268,10 @@ export function SiteHeader({
       </header>
 
       {open ? (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden">
+        <div className="fixed inset-0 z-50 flex flex-col bg-white xl:hidden">
           <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
             <Link href="/" className="flex items-center gap-3" aria-label={`${brandName} ana sayfa`}>
-              <BrandLockup compact />
+              <BrandLockup brandName={brandName} logoUrl={logoUrl} compact />
             </Link>
             <button
               type="button"
@@ -339,7 +320,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
   const whatsapp = contact.whatsapp?.trim() || defaultContact.whatsapp;
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
-  const tagline = brand.tagline?.trim() || "Güven odaklı yerleştirme";
+  const logoUrl = brand.logoUrl?.trim();
   const trustItems = siteSettings["homepage.trust"]?.items ?? [
     "Referans Kontrolü",
     "Aileye Özel Eşleştirme",
@@ -356,7 +337,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
         <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <BrandLockup compact />
+              <BrandLockup brandName={brandName} logoUrl={logoUrl} compact />
             </div>
             <p className="max-w-xs text-sm leading-7 text-muted">
               Aileler için güvenilir, referanslı ve aileye özel dadı yerleştirme danışmanlığı. Türkiye genelinde hizmet.
