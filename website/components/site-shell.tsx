@@ -66,19 +66,15 @@ function normalizePhoneLink(value?: string) {
 
 function BrandLockup({
   brandName,
-  logoUrl,
   compact = false
 }: {
   brandName: string;
-  logoUrl?: string | undefined;
   compact?: boolean;
 }) {
-  const source = logoUrl?.trim() || "/images/brand/dadi-kapida-logo.svg";
-
   return (
     <span className="flex items-center">
       <Image
-        src={source}
+        src="/images/brand/dadi-kapida-logo.svg"
         alt={`${brandName} logosu`}
         width={compact ? 205 : 230}
         height={compact ? 55 : 61}
@@ -108,7 +104,6 @@ export function SiteHeader({
   const email = contact.supportEmail?.trim() || defaultContact.supportEmail;
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
-  const logoUrl = brand.logoUrl?.trim();
   const supportHours = "Pzt-Cmt 09:00-19:00";
   const coverage = "Türkiye geneli";
 
@@ -173,7 +168,7 @@ export function SiteHeader({
 
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <Link href="/" className="group shrink-0" aria-label={`${brandName} ana sayfa`}>
-            <BrandLockup brandName={brandName} logoUrl={logoUrl} />
+            <BrandLockup brandName={brandName} />
           </Link>
 
           <nav className="hidden items-center gap-1 xl:flex">
@@ -271,7 +266,7 @@ export function SiteHeader({
         <div className="fixed inset-0 z-50 flex flex-col bg-white xl:hidden">
           <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
             <Link href="/" className="flex items-center gap-3" aria-label={`${brandName} ana sayfa`}>
-              <BrandLockup brandName={brandName} logoUrl={logoUrl} compact />
+              <BrandLockup brandName={brandName} compact />
             </Link>
             <button
               type="button"
@@ -320,7 +315,6 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
   const whatsapp = contact.whatsapp?.trim() || defaultContact.whatsapp;
   const brand = siteSettings["website.brand"] ?? {};
   const brandName = brand.brandName?.trim() || "Dadı Kapıda";
-  const logoUrl = brand.logoUrl?.trim();
   const trustItems = siteSettings["homepage.trust"]?.items ?? [
     "Referans Kontrolü",
     "Aileye Özel Eşleştirme",
@@ -337,7 +331,7 @@ export function SiteFooter({ siteSettings }: { siteSettings: SiteSettings }) {
         <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <BrandLockup brandName={brandName} logoUrl={logoUrl} compact />
+              <BrandLockup brandName={brandName} compact />
             </div>
             <p className="max-w-xs text-sm leading-7 text-muted">
               Aileler için güvenilir, referanslı ve aileye özel dadı yerleştirme danışmanlığı. Türkiye genelinde hizmet.
