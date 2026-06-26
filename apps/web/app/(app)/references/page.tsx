@@ -68,7 +68,7 @@ export default function ReferencesPage() {
     void apiFetch<CandidateOption[]>("/candidates?page=1&limit=500")
       .then(setCandidates)
       .catch((err) =>
-        setError(err instanceof Error ? err.message : "Personel listesi alinamadi.")
+        setError(err instanceof Error ? err.message : "Personel listesi alınamadı.")
       )
       .finally(() => setLoading(false));
   }, []);
@@ -79,13 +79,13 @@ export default function ReferencesPage() {
       setError(null);
       await loadRefs(id);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Referanslar alinamadi.");
+      setError(err instanceof Error ? err.message : "Referanslar alınamadı.");
     }
   };
 
   const addRef = async () => {
     if (!candidateId || !name.trim()) {
-      setError("Personel ve referans adi zorunludur.");
+      setError("Personel ve referans adı zorunludur.");
       return;
     }
 
@@ -117,13 +117,13 @@ export default function ReferencesPage() {
       );
       setChecks(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Kontroller alinamadi.");
+      setError(err instanceof Error ? err.message : "Kontroller alınamadı.");
     }
   };
 
   const addCheck = async () => {
     if (!selectedReferenceId) {
-      setError("Once bir referans secin.");
+      setError("Önce bir referans seçin.");
       return;
     }
 
@@ -170,9 +170,10 @@ export default function ReferencesPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-2xl font-bold">Referanslar</h2>
+        <p className="text-xs uppercase tracking-[0.16em] text-[var(--muted)]">Referans Yönetimi</p>
+        <h2 className="mt-2 text-2xl font-bold">Referanslar</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Personeli ad soyad ile secin, referanslarini ve kontrol gecmisini goruntuleyin.
+          Personeli ad soyad ile seçin, referanslarını ve kontrol geçmişini görüntüleyin.
         </p>
       </div>
 
@@ -184,7 +185,7 @@ export default function ReferencesPage() {
           disabled={loading}
           className="w-full rounded-lg border border-slate-300 px-3 py-2"
         >
-          <option value="">{loading ? "Yukleniyor..." : "Personel secin"}</option>
+          <option value="">{loading ? "Yükleniyor..." : "Personel seçin"}</option>
           {candidates.map((candidate) => (
             <option key={candidate.id} value={candidate.id}>
               {candidate.first_name} {candidate.last_name} - {candidate.candidate_code}
@@ -195,7 +196,7 @@ export default function ReferencesPage() {
 
       {selectedCandidate ? (
         <p className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700">
-          Secili personel: <strong>{selectedCandidate.first_name} {selectedCandidate.last_name}</strong>
+          Seçili personel: <strong>{selectedCandidate.first_name} {selectedCandidate.last_name}</strong>
           {" - "}{selectedCandidate.phone}
         </p>
       ) : null}
@@ -219,13 +220,13 @@ export default function ReferencesPage() {
           <input
             value={relation}
             onChange={(event) => setRelation(event.target.value)}
-            placeholder="Yakinlik / iliski"
+            placeholder="Yakınlık / ilişki"
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
         </div>
         <button
           type="button"
-          onClick={addRef}
+          onClick={() => void addRef()}
           className="mt-3 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-medium text-white"
         >
           Referans Ekle
@@ -241,7 +242,7 @@ export default function ReferencesPage() {
               <tr>
                 <th className="px-4 py-3">Ad Soyad</th>
                 <th className="px-4 py-3">Telefon</th>
-                <th className="px-4 py-3">Yakinlik</th>
+                <th className="px-4 py-3">Yakınlık</th>
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">İşlem</th>
               </tr>
@@ -278,7 +279,7 @@ export default function ReferencesPage() {
               {items.length === 0 ? (
                 <tr>
                   <td className="px-4 py-5 text-slate-500" colSpan={5}>
-                    {candidateId ? "Bu personelin referans kaydi yok." : "Once bir personel secin."}
+                    {candidateId ? "Bu personelin referans kaydı yok." : "Önce bir personel seçin."}
                   </td>
                 </tr>
               ) : null}
@@ -316,16 +317,16 @@ export default function ReferencesPage() {
             rows={3}
             value={checkNotes}
             onChange={(event) => setCheckNotes(event.target.value)}
-            placeholder="Gorusme notu"
+            placeholder="Görüşme notu"
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
           <button
             type="button"
-            onClick={addCheck}
+            onClick={() => void addCheck()}
             disabled={!selectedReferenceId}
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm disabled:opacity-50"
           >
-            Kontrol Kaydi Ekle
+            Kontrol Kaydı Ekle
           </button>
 
           {checks.map((check) => (
@@ -340,7 +341,7 @@ export default function ReferencesPage() {
               </p>
               <button
                 type="button"
-                onClick={() => removeCheck(check.id)}
+                onClick={() => void removeCheck(check.id)}
                 className="mt-2 rounded border border-red-200 px-2 py-1 text-xs text-red-600"
               >
                 Sil
@@ -349,7 +350,7 @@ export default function ReferencesPage() {
           ))}
           {checks.length === 0 ? (
             <p className="text-sm text-slate-500">
-              {selectedReferenceId ? "Kontrol kaydi yok." : "Kontroller icin bir referans secin."}
+              {selectedReferenceId ? "Kontrol kaydı yok." : "Kontroller için bir referans seçin."}
             </p>
           ) : null}
         </section>

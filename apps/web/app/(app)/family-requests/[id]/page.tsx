@@ -132,7 +132,10 @@ export default function FamilyRequestDetailPage() {
 
       <div className="grid gap-4 rounded-xl border border-slate-200 bg-white p-4 md:grid-cols-2">
         <p className="text-sm md:col-span-2">
-          <strong>Aile ID:</strong> {item.family_id}
+          <strong>Aile:</strong>{" "}
+          <Link href={`/families/${item.family_id}`} className="text-[var(--brand)] underline-offset-2 hover:underline">
+            Aile sayfasına git
+          </Link>
         </p>
 
         <label className="space-y-1 text-sm md:col-span-2">

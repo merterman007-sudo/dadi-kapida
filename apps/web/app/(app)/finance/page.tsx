@@ -61,6 +61,25 @@ const money = new Intl.NumberFormat("tr-TR", {
   maximumFractionDigits: 2
 });
 
+const invoiceStatusLabels: Record<string, string> = {
+  UNPAID: "Ödenmedi",
+  PAID: "Ödendi",
+  OVERDUE: "Vadesi Geçti",
+  CANCELLED: "İptal"
+};
+
+const paymentStatusLabels: Record<string, string> = {
+  PAID: "Ödendi",
+  REFUNDED: "İade Edildi",
+  PENDING: "Beklemede"
+};
+
+const expenseStatusLabels: Record<string, string> = {
+  PENDING: "Beklemede",
+  PAID: "Ödendi",
+  CANCELLED: "İptal"
+};
+
 function toNumber(value: string): number {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -136,7 +155,7 @@ export default function Page() {
         }
       } catch (err) {
         if (mounted) {
-          setError(err instanceof Error ? err.message : "Finans verisi alinamadi.");
+          setError(err instanceof Error ? err.message : "Finans verisi alınamadı.");
         }
       } finally {
         if (mounted) {
@@ -157,7 +176,7 @@ export default function Page() {
       setInfo(null);
       const amount = toNumber(invoiceAmount);
       if (amount <= 0) {
-        setError("Fatura tutari sifirdan buyuk olmali.");
+        setError("Fatura tutarı sıfırdan büyük olmalı.");
         return;
       }
       await apiFetch("/finance/invoices", {
@@ -170,9 +189,9 @@ export default function Page() {
       setInvoiceAmount("");
       setInvoiceDueDate("");
       await load();
-      setInfo("Fatura olusturuldu.");
+      setInfo("Fatura oluşturuldu.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Fatura olusturulamadi.");
+      setError(err instanceof Error ? err.message : "Fatura oluşturulamadı.");
     }
   };
 
@@ -181,9 +200,9 @@ export default function Page() {
       setInfo(null);
       await apiFetch(`/finance/invoices/${id}/mark-paid`, { method: "POST" });
       await load();
-      setInfo("Fatura odendi olarak isaretlendi.");
+      setInfo("Fatura ödendi olarak işaretlendi.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Fatura guncellenemedi.");
+      setError(err instanceof Error ? err.message : "Fatura güncellenemedi.");
     }
   };
 
@@ -197,12 +216,12 @@ export default function Page() {
       );
       await load();
       if (result.reminded) {
-        setInfo("Hatirlatma gonderildi ve takip gorevi olusturuldu.");
+        setInfo("Hatırlatma gönderildi ve takip görevi oluşturuldu.");
       } else {
-        setInfo("Bu fatura gecikmede degil; hatirlatma gonderilmedi.");
+        setInfo("Bu fatura gecikmede değil; hatırlatma gönderilmedi.");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Hatirlatma gonderilemedi.");
+      setError(err instanceof Error ? err.message : "Hatırlatma gönderilemedi.");
     } finally {
       setRemindingInvoiceId(null);
     }
@@ -214,7 +233,7 @@ export default function Page() {
       setInfo(null);
       const amount = toNumber(paymentAmount);
       if (amount <= 0) {
-        setError("Odeme tutari sifirdan buyuk olmali.");
+        setError("Ödeme tutarı sıfırdan büyük olmalı.");
         return;
       }
       await apiFetch("/finance/payments", {
@@ -230,9 +249,9 @@ export default function Page() {
       setPaymentCurrency("TRY");
       setPaymentMethod("BANK_TRANSFER");
       await load();
-      setInfo("Odeme kaydi olusturuldu.");
+      setInfo("Ödeme kaydı oluşturuldu.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Odeme olusturulamadi.");
+      setError(err instanceof Error ? err.message : "Ödeme oluşturulamadı.");
     }
   };
 
@@ -242,7 +261,7 @@ export default function Page() {
       setInfo(null);
       const amount = toNumber(expenseAmount);
       if (amount <= 0) {
-        setError("Gider tutari sifirdan buyuk olmali.");
+        setError("Gider tutarı sıfırdan büyük olmalı.");
         return;
       }
       await apiFetch("/finance/expenses", {
@@ -268,9 +287,9 @@ export default function Page() {
       setExpenseMethod("BANK_TRANSFER");
       setExpenseNotes("");
       await load();
-      setInfo("Gider kaydi olusturuldu.");
+      setInfo("Gider kaydı oluşturuldu.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Gider olusturulamadi.");
+      setError(err instanceof Error ? err.message : "Gider oluşturulamadı.");
     }
   };
 
@@ -279,9 +298,9 @@ export default function Page() {
       setInfo(null);
       await apiFetch(`/finance/payments/${id}/refund`, { method: "POST" });
       await load();
-      setInfo("Odeme iade edildi.");
+      setInfo("Ödeme iade edildi.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Odeme guncellenemedi.");
+      setError(err instanceof Error ? err.message : "Ödeme güncellenemedi.");
     }
   };
 
@@ -290,9 +309,9 @@ export default function Page() {
       setInfo(null);
       await apiFetch(`/finance/expenses/${id}/mark-paid`, { method: "POST" });
       await load();
-      setInfo("Gider odendi olarak isaretlendi.");
+      setInfo("Gider ödendi olarak işaretlendi.");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Gider guncellenemedi.");
+      setError(err instanceof Error ? err.message : "Gider güncellenemedi.");
     }
   };
 
@@ -346,7 +365,7 @@ export default function Page() {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">Finans</h2>
-      {loading ? <p className="text-sm text-slate-600">Yukleniyor...</p> : null}
+      {loading ? <p className="text-sm text-slate-600">Yükleniyor...</p> : null}
       {error ? <p className="rounded-lg border border-red-200 bg-red-50 p-2 text-sm text-red-700">{error}</p> : null}
       {info ? <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-2 text-sm text-emerald-700">{info}</p> : null}
 
@@ -360,7 +379,7 @@ export default function Page() {
           <p className="mt-1 text-xl font-semibold text-amber-700">{money.format(invoiceTotals.unpaid)}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
-          <p className="text-xs uppercase tracking-[0.15em] text-slate-500">Vadesi Gecen</p>
+          <p className="text-xs uppercase tracking-[0.15em] text-slate-500">Vadesi Geçen</p>
           <p className="mt-1 text-xl font-semibold text-rose-700">{invoiceTotals.overdueCount}</p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-4">
@@ -384,8 +403,8 @@ export default function Page() {
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-4">
-        <p className="text-sm font-semibold">14 Gunluk Tahsilat Trendi</p>
-        <p className="mb-3 mt-1 text-xs text-slate-500">Tahsilat, iade ve net akis ayni grafikte.</p>
+        <p className="text-sm font-semibold">14 Günlük Tahsilat Trendi</p>
+        <p className="mb-3 mt-1 text-xs text-slate-500">Tahsilat, iade ve net akış aynı grafikte.</p>
         <div className="h-56 rounded-xl bg-[linear-gradient(180deg,#f9fcff_0%,#eef6ff_100%)] p-3">
           {chartReady ? (
             <ResponsiveContainer width="100%" height="100%">
@@ -417,7 +436,7 @@ export default function Page() {
             type="number"
             value={invoiceAmount}
             onChange={(event) => setInvoiceAmount(event.target.value)}
-            placeholder="Yeni fatura tutari"
+            placeholder="Yeni fatura tutarı"
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
           <input
@@ -428,7 +447,7 @@ export default function Page() {
           />
           <button
             type="button"
-            onClick={createInvoice}
+            onClick={() => void createInvoice()}
             className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white"
           >
             Ekle
@@ -452,7 +471,7 @@ export default function Page() {
                   <tr key={item.id} className="border-t border-slate-100">
                     <td className="px-4 py-3">{item.id.slice(0, 8)}</td>
                     <td className="px-4 py-3">{money.format(toNumber(item.amount))}</td>
-                    <td className="px-4 py-3">{item.status}</td>
+                    <td className="px-4 py-3">{invoiceStatusLabels[item.status] ?? item.status}</td>
                     <td className="px-4 py-3">
                       {item.due_date ? new Date(item.due_date).toLocaleDateString("tr-TR") : "-"}
                     </td>
@@ -461,23 +480,23 @@ export default function Page() {
                         <button
                           type="button"
                           className="rounded border border-slate-300 px-2 py-1 text-xs"
-                          onClick={() => markPaid(item.id)}
+                          onClick={() => void markPaid(item.id)}
                           disabled={item.status === "PAID"}
                         >
-                          Odendi Isaretle
+                          Ödendi İşaretle
                         </button>
                         <button
                           type="button"
                           className="rounded border border-amber-300 bg-amber-50 px-2 py-1 text-xs text-amber-800 disabled:opacity-50"
-                          onClick={() => sendReminder(item.id)}
+                          onClick={() => void sendReminder(item.id)}
                           disabled={!overdue || remindingInvoiceId === item.id}
                         >
-                          {remindingInvoiceId === item.id ? "Gonderiliyor..." : "Hatirlat"}
+                          {remindingInvoiceId === item.id ? "Gönderiliyor..." : "Hatırlat"}
                         </button>
                         <button
                           type="button"
                           className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
-                          onClick={() => removeFinanceRecord("invoices", item.id, "Fatura")}
+                          onClick={() => void removeFinanceRecord("invoices", item.id, "Fatura")}
                         >
                           Sil
                         </button>
@@ -508,7 +527,7 @@ export default function Page() {
               onChange={(event) => setExpenseCandidateId(event.target.value)}
               className="min-w-56 rounded-lg border border-slate-300 px-3 py-2 text-sm"
             >
-              <option value="">Aday sec</option>
+              <option value="">Aday seç</option>
               {candidates.map((candidate) => (
                 <option key={candidate.id} value={candidate.id}>
                   {candidate.candidate_code} - {candidate.first_name} {candidate.last_name}
@@ -520,7 +539,7 @@ export default function Page() {
             type="text"
             value={expenseTitle}
             onChange={(event) => setExpenseTitle(event.target.value)}
-            placeholder={expenseType === "CANDIDATE_PAYMENT" ? "Odeme aciklamasi" : "Gider basligi"}
+            placeholder={expenseType === "CANDIDATE_PAYMENT" ? "Ödeme açıklaması" : "Gider başlığı"}
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
           <input
@@ -534,7 +553,7 @@ export default function Page() {
             type="number"
             value={expenseAmount}
             onChange={(event) => setExpenseAmount(event.target.value)}
-            placeholder="Gider tutari"
+            placeholder="Gider tutarı"
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
           <select
@@ -552,7 +571,7 @@ export default function Page() {
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           >
             <option value="BANK_TRANSFER">Banka Havalesi</option>
-            <option value="CREDIT_CARD">Kredi Karti</option>
+            <option value="CREDIT_CARD">Kredi Kartı</option>
             <option value="CASH">Nakit</option>
           </select>
           <input
@@ -564,7 +583,7 @@ export default function Page() {
           />
           <button
             type="button"
-            onClick={createExpense}
+            onClick={() => void createExpense()}
             className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white"
           >
             Ekle
@@ -575,9 +594,9 @@ export default function Page() {
             <thead className="bg-slate-50 text-slate-700">
               <tr>
                 <th className="px-4 py-3">ID</th>
-                <th className="px-4 py-3">Tur</th>
+                <th className="px-4 py-3">Tür</th>
                 <th className="px-4 py-3">Aday</th>
-                <th className="px-4 py-3">Baslik</th>
+                <th className="px-4 py-3">Başlık</th>
                 <th className="px-4 py-3">Tutar</th>
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">Aksiyon</th>
@@ -603,21 +622,21 @@ export default function Page() {
                     {money.format(toNumber(item.amount))}
                     <div className="text-xs text-slate-500">{item.currency}</div>
                   </td>
-                  <td className="px-4 py-3">{item.status}</td>
+                  <td className="px-4 py-3">{expenseStatusLabels[item.status] ?? item.status}</td>
                   <td className="px-4 py-3">
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"
                         className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-50"
-                        onClick={() => markExpensePaid(item.id)}
+                        onClick={() => void markExpensePaid(item.id)}
                         disabled={item.status === "PAID"}
                       >
-                        Odendi Isaretle
+                        Ödendi İşaretle
                       </button>
                       <button
                         type="button"
                         className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
-                        onClick={() => removeFinanceRecord("expenses", item.id, "Gider")}
+                        onClick={() => void removeFinanceRecord("expenses", item.id, "Gider")}
                       >
                         Sil
                       </button>
@@ -632,12 +651,12 @@ export default function Page() {
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-semibold">Odemeler</h3>
+          <h3 className="font-semibold">Ödemeler</h3>
           <input
             type="number"
             value={paymentAmount}
             onChange={(event) => setPaymentAmount(event.target.value)}
-            placeholder="Yeni odeme tutari"
+            placeholder="Yeni ödeme tutarı"
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
           <select
@@ -655,12 +674,12 @@ export default function Page() {
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           >
             <option value="BANK_TRANSFER">Banka Havalesi</option>
-            <option value="CREDIT_CARD">Kredi Karti</option>
+            <option value="CREDIT_CARD">Kredi Kartı</option>
             <option value="CASH">Nakit</option>
           </select>
           <button
             type="button"
-            onClick={createPayment}
+            onClick={() => void createPayment()}
             className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-medium text-white"
           >
             Ekle
@@ -674,7 +693,7 @@ export default function Page() {
                 <th className="px-4 py-3">Tutar</th>
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">Para Birimi</th>
-                <th className="px-4 py-3">Yontem</th>
+                <th className="px-4 py-3">Yöntem</th>
                 <th className="px-4 py-3">Aksiyon</th>
               </tr>
             </thead>
@@ -683,7 +702,7 @@ export default function Page() {
                 <tr key={item.id} className="border-t border-slate-100">
                   <td className="px-4 py-3">{item.id.slice(0, 8)}</td>
                   <td className="px-4 py-3">{money.format(toNumber(item.amount))}</td>
-                  <td className="px-4 py-3">{item.status}</td>
+                  <td className="px-4 py-3">{paymentStatusLabels[item.status] ?? item.status}</td>
                   <td className="px-4 py-3">{item.currency}</td>
                   <td className="px-4 py-3">{item.method ?? "-"}</td>
                   <td className="px-4 py-3">
@@ -691,7 +710,7 @@ export default function Page() {
                       <button
                         type="button"
                         className="rounded border border-slate-300 px-2 py-1 text-xs"
-                        onClick={() => refund(item.id)}
+                        onClick={() => void refund(item.id)}
                         disabled={item.status === "REFUNDED"}
                       >
                         Iade Et
@@ -699,7 +718,7 @@ export default function Page() {
                       <button
                         type="button"
                         className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
-                        onClick={() => removeFinanceRecord("payments", item.id, "Ödeme")}
+                        onClick={() => void removeFinanceRecord("payments", item.id, "Ödeme")}
                       >
                         Sil
                       </button>

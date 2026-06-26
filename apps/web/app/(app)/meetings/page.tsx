@@ -39,14 +39,14 @@ export default function MeetingsPage() {
   useEffect(() => {
     void load()
       .catch((err) =>
-        setError(err instanceof Error ? err.message : "Gorusmeler alinamadi.")
+        setError(err instanceof Error ? err.message : "Görüşmeler alınamadı.")
       )
       .finally(() => setLoading(false));
   }, []);
 
   const create = async () => {
     if (!title.trim() || !startsAt) {
-      setError("Baslik ve gorusme tarihi zorunludur.");
+      setError("Başlık ve görüşme tarihi zorunludur.");
       return;
     }
 
@@ -67,7 +67,7 @@ export default function MeetingsPage() {
       setStartsAt("");
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Gorusme olusturulamadi.");
+      setError(err instanceof Error ? err.message : "Görüşme oluşturulamadı.");
     } finally {
       setSaving(false);
     }
@@ -79,7 +79,7 @@ export default function MeetingsPage() {
       await apiFetch(`/meetings/${id}/complete`, { method: "POST" });
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Gorusme guncellenemedi.");
+      setError(err instanceof Error ? err.message : "Görüşme güncellenemedi.");
     }
   };
 
@@ -97,25 +97,26 @@ export default function MeetingsPage() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-2xl font-bold">Gorusmeler</h2>
+        <p className="text-xs uppercase tracking-[0.16em] text-[var(--muted)]">Takvim</p>
+        <h2 className="mt-2 text-2xl font-bold">Görüşmeler</h2>
         <p className="mt-1 text-sm text-slate-500">
-          Planlanan arama ve gorusmeleri iletisim numarasiyla birlikte kaydedin.
+          Planlanan arama ve görüşmeleri iletişim numarasıyla birlikte kaydedin.
         </p>
       </div>
 
       <section className="rounded-xl border border-slate-200 bg-white p-4">
         <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           <label className="space-y-1 text-sm">
-            <span>Baslik</span>
+            <span>Başlık</span>
             <input
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="Orn. Aile ile ilk gorusme"
+              placeholder="Örn. Aile ile ilk görüşme"
               className="w-full rounded-lg border border-slate-300 px-3 py-2"
             />
           </label>
           <label className="space-y-1 text-sm">
-            <span>Iletisim Numarasi</span>
+            <span>İletişim Numarası</span>
             <input
               type="tel"
               value={phone}
@@ -125,7 +126,7 @@ export default function MeetingsPage() {
             />
           </label>
           <label className="space-y-1 text-sm">
-            <span>Gorusme Turu</span>
+            <span>Görüşme Türü</span>
             <select
               value={type}
               onChange={(event) => setType(event.target.value as (typeof meetingTypes)[number])}
@@ -150,28 +151,28 @@ export default function MeetingsPage() {
         </div>
         <button
           type="button"
-          onClick={create}
+          onClick={() => void create()}
           disabled={saving}
           className="mt-4 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
         >
-          {saving ? "Kaydediliyor..." : "Gorusme Ekle"}
+          {saving ? "Kaydediliyor..." : "Görüşme Ekle"}
         </button>
       </section>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
-      {loading ? <p className="text-sm text-slate-600">Yukleniyor...</p> : null}
+      {loading ? <p className="text-sm text-slate-600">Yükleniyor...</p> : null}
 
       {!loading ? (
         <div className="overflow-hidden rounded-xl border border-slate-200">
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-50 text-slate-700">
               <tr>
-                <th className="px-4 py-3">Baslik</th>
-                <th className="px-4 py-3">Iletisim</th>
-                <th className="px-4 py-3">Tur</th>
+                <th className="px-4 py-3">Başlık</th>
+                <th className="px-4 py-3">İletişim</th>
+                <th className="px-4 py-3">Tür</th>
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">Tarih</th>
-                <th className="px-4 py-3">Islem</th>
+                <th className="px-4 py-3">İşlem</th>
               </tr>
             </thead>
             <tbody>
@@ -189,7 +190,7 @@ export default function MeetingsPage() {
                       <button
                         type="button"
                         className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-50"
-                        onClick={() => complete(item.id)}
+                        onClick={() => void complete(item.id)}
                         disabled={item.status === "COMPLETED"}
                       >
                         Tamamla
@@ -197,7 +198,7 @@ export default function MeetingsPage() {
                       <button
                         type="button"
                         className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
-                        onClick={() => remove(item.id)}
+                        onClick={() => void remove(item.id)}
                       >
                         Sil
                       </button>
@@ -208,7 +209,7 @@ export default function MeetingsPage() {
               {items.length === 0 ? (
                 <tr>
                   <td className="px-4 py-5 text-slate-500" colSpan={6}>
-                    Kayitli gorusme yok.
+                    Kayıtlı görüşme yok.
                   </td>
                 </tr>
               ) : null}

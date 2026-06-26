@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api-client";
@@ -118,13 +119,24 @@ export default function Page() {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Yerleştirme Detayı</h2>
       <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm space-y-2">
-        <p><strong>ID:</strong> {item.id}</p>
-        <p><strong>Aile Talebi:</strong> {item.family_request_id}</p>
-        <p><strong>Aile:</strong> {item.family_id}</p>
-        <p><strong>Personel:</strong> {item.candidate_id}</p>
+        <p><strong>Aile Talebi:</strong>{" "}
+          <Link href={`/family-requests/${item.family_request_id}`} className="text-[var(--brand)] hover:underline underline-offset-2">
+            Talep sayfasına git
+          </Link>
+        </p>
+        <p><strong>Aile:</strong>{" "}
+          <Link href={`/families/${item.family_id}`} className="text-[var(--brand)] hover:underline underline-offset-2">
+            Aile sayfasına git
+          </Link>
+        </p>
+        <p><strong>Personel:</strong>{" "}
+          <Link href={`/candidates/${item.candidate_id}`} className="text-[var(--brand)] hover:underline underline-offset-2">
+            Personel sayfasına git
+          </Link>
+        </p>
         <p><strong>Başlangıç:</strong> {new Date(item.start_date).toLocaleDateString("tr-TR")}</p>
         <p><strong>Maaş:</strong> {item.agreed_salary}</p>
-        <p><strong>Durum:</strong> {item.status}</p>
+        <p><strong>Durum:</strong> {statusLabels[item.status as (typeof statuses)[number]] ?? item.status}</p>
       </div>
       <div className="grid gap-2 md:grid-cols-3">
         <select

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { apiFetch } from "@/lib/api-client";
+import { familyRequestStatusLabels } from "@/lib/status-map";
 
 type Family = {
   id: string;
@@ -135,7 +136,7 @@ export default function FamilyRequestCreatePage() {
           <select name="status" defaultValue="DRAFT" className="w-full rounded-lg border border-slate-300 px-3 py-2">
             {statuses.map((item) => (
               <option key={item} value={item}>
-                {item}
+                {familyRequestStatusLabels[item] ?? item}
               </option>
             ))}
           </select>

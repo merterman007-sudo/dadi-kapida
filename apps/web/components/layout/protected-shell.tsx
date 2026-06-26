@@ -96,14 +96,15 @@ const menu: readonly MenuItem[] = [
   { href: "/finance", label: "Finans", icon: "finance" },
   { href: "/reports", label: "Raporlar", icon: "reports" },
   { href: "/audit-logs", label: "Denetim Kaydı", icon: "audit" },
-  { href: "/settings/users", label: "Ayarlar", icon: "settings" },
-  { href: "/settings/website", label: "Site", icon: "website" }
+  { href: "/settings/users", label: "Kullanıcı Ayarları", icon: "settings" },
+  { href: "/settings/website", label: "Site Yönetimi", icon: "website" }
 ] as const;
 
-function resolveCreateHref(pathname: string): string {
+function resolveCreateHref(pathname: string): string | null {
   if (pathname.startsWith("/family-requests")) return "/family-requests/new";
   if (pathname.startsWith("/families")) return "/families/new";
-  return "/candidates/new";
+  if (pathname.startsWith("/candidates")) return "/candidates/new";
+  return null;
 }
 
 function normalizeSearch(value: string): string {
@@ -299,7 +300,7 @@ export function ProtectedShell({ children }: { children: React.ReactNode }) {
           apiFetch<CandidateSearchRow[]>(`/candidates?page=1&limit=5&q=${encodeURIComponent(query)}`),
           apiFetch<FamilySearchRow[]>(`/families?page=1&limit=5&q=${encodeURIComponent(query)}`),
           apiFetch<FamilyRequestSearchRow[]>(`/family-requests?page=1&limit=5&q=${encodeURIComponent(query)}`),
-          apiFetch<ApplicationSearchRow[]>("/applications?page=1&limit=20")
+          apiFetch<ApplicationSearchRow[]>(`/applications?page=1&limit=20&q=${encodeURIComponent(query)}`)
         ]);
 
         if (cancelled) return;
@@ -343,20 +344,12 @@ export function ProtectedShell({ children }: { children: React.ReactNode }) {
 
         if (applicationResult.status === "fulfilled") {
           next.push(
-            ...applicationResult.value
-              .filter((application) =>
-                includesSearch(
-                  `${application.first_name} ${application.last_name} ${application.phone} ${application.email ?? ""}`,
-                  query
-                )
-              )
-              .slice(0, 5)
-              .map((application) => ({
-                href: `/applications/${application.id}`,
-                eyebrow: "Başvuru",
-                title: `${application.first_name} ${application.last_name}`,
-                description: `${application.phone} · ${application.status}`
-              }))
+            ...applicationResult.value.slice(0, 5).map((application) => ({
+              href: `/applications/${application.id}`,
+              eyebrow: "Başvuru",
+              title: `${application.first_name} ${application.last_name}`,
+              description: `${application.phone} · ${application.status}`
+            }))
           );
         }
 
@@ -465,9 +458,11 @@ export function ProtectedShell({ children }: { children: React.ReactNode }) {
               <Link href="/meetings" className="btn-ghost rounded-xl px-3 py-2 text-sm font-medium">
                 Görüşme
               </Link>
-              <Link href={createHref} className="btn-primary rounded-xl px-3 py-2 text-sm font-semibold">
-                Yeni Oluştur
-              </Link>
+              {createHref ? (
+                <Link href={createHref} className="btn-primary rounded-xl px-3 py-2 text-sm font-semibold">
+                  Yeni Oluştur
+                </Link>
+              ) : null}
               <button
                 className="btn-ghost rounded-xl px-3 py-2 text-sm font-medium"
                 onClick={() => {

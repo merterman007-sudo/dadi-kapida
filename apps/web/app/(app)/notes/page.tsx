@@ -86,23 +86,31 @@ export default function NotesPage() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Notlar</h2>
+      <div>
+        <p className="text-xs uppercase tracking-[0.16em] text-[var(--muted)]">İletişim Notları</p>
+        <h2 className="mt-2 text-2xl font-bold">Notlar</h2>
+      </div>
       <div className="grid gap-2 md:grid-cols-3">
-        <input
+        <select
           value={entityType}
           onChange={(event) => setEntityType(event.target.value)}
-          placeholder="Varlık Tipi"
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
-        />
+        >
+          <option value="CANDIDATE">Personel</option>
+          <option value="FAMILY">Aile</option>
+          <option value="FAMILY_REQUEST">Talep</option>
+          <option value="APPLICATION">Başvuru</option>
+          <option value="PLACEMENT">Yerleştirme</option>
+        </select>
         <input
           value={entityId}
           onChange={(event) => setEntityId(event.target.value)}
-          placeholder="Varlık ID"
+          placeholder="Varlık ID (UUID)"
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
         />
         <button
           type="button"
-          onClick={load}
+          onClick={() => void load().catch((err) => setError(err instanceof Error ? err.message : "Notlar yenilenemedi."))}
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
         >
           Filtrele

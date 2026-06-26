@@ -220,9 +220,7 @@ function createProfileDraft(candidate: Candidate): ProfileDraft {
     district: candidate.district ?? "",
     address: candidate.address ?? "",
     preferred_cities: candidate.preferred_cities ?? "",
-    applied_position: candidate.applied_position
-      ? positionLabels[candidate.applied_position] ?? candidate.applied_position
-      : "",
+    applied_position: candidate.applied_position ?? "",
     education_level: candidate.education_level ?? "",
     years_of_experience: candidate.years_of_experience?.toString() ?? "",
     expected_salary_min: candidate.expected_salary_min ?? "",

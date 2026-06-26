@@ -38,7 +38,13 @@ export default function AuditLogsPage() {
       <div className="grid gap-2 md:grid-cols-3">
         <input value={action} onChange={(e) => setAction(e.target.value)} placeholder="Aksiyon filtresi" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
         <input value={entityType} onChange={(e) => setEntityType(e.target.value)} placeholder="Varlık tipi filtresi" className="rounded-lg border border-slate-300 px-3 py-2 text-sm" />
-        <button type="button" onClick={load} className="rounded-lg border border-slate-300 px-3 py-2 text-sm">Filtrele</button>
+        <button
+          type="button"
+          onClick={() => void load().catch((err) => setError(err instanceof Error ? err.message : "Kayıtlar yenilenemedi."))}
+          className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
+        >
+          Filtrele
+        </button>
       </div>
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
       <div className="overflow-hidden rounded-xl border border-slate-200">
