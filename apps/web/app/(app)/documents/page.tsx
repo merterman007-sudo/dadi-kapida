@@ -72,7 +72,7 @@ export default function DocumentsPage() {
   };
 
   const reject = async (id: string) => {
-    const reason = rejectReason.trim() || window.prompt("Red nedeni girin:") ?? "";
+    const reason = rejectReason.trim() || (window.prompt("Red nedeni girin:") ?? "");
     if (!reason) return;
     try {
       await apiFetch(`/candidate-documents/${id}/reject`, {

@@ -26,9 +26,21 @@ type Application = {
   notes: string | null;
   raw_payload: Record<string, unknown> | null;
   status: string;
+  created_at: string;
 };
 
 const statuses = ["NEW", "CONTACTED", "CONVERTED_TO_CANDIDATE", "REJECTED", "DUPLICATE"] as const;
+
+const dateTimeFormatter = new Intl.DateTimeFormat("tr-TR", {
+  dateStyle: "short",
+  timeStyle: "short",
+  timeZone: "Europe/Istanbul"
+});
+
+function formatApplicationDate(value: string) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "-" : dateTimeFormatter.format(date);
+}
 
 function payloadValue(payload: Record<string, unknown>, path: string[]): string | null {
   let current: unknown = payload;
@@ -152,6 +164,9 @@ export default function ApplicationDetailPage() {
         </p>
         <p className="text-sm">
           <strong>İlçe:</strong> {item.district ?? "-"}
+        </p>
+        <p className="text-sm md:col-span-2">
+          <strong>Başvuru Tarihi:</strong> {formatApplicationDate(item.created_at)}
         </p>
         <p className="text-sm md:col-span-2">
           <strong>Başvurduğu Pozisyon:</strong>{" "}

@@ -34,6 +34,17 @@ type FamilyLead = {
   created_at: string;
 };
 
+const dateTimeFormatter = new Intl.DateTimeFormat("tr-TR", {
+  dateStyle: "short",
+  timeStyle: "short",
+  timeZone: "Europe/Istanbul"
+});
+
+function formatApplicationDate(value: string) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? "-" : dateTimeFormatter.format(date);
+}
+
 export default function ApplicationsPage() {
   const [tab, setTab] = useState<"nanny" | "family">("nanny");
 
@@ -186,6 +197,7 @@ export default function ApplicationsPage() {
                 <th className="px-4 py-3">Telefon</th>
                 <th className="px-4 py-3">Pozisyon</th>
                 <th className="px-4 py-3">E-posta</th>
+                <th className="px-4 py-3">Başvuru Tarihi</th>
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">İşlemler</th>
               </tr>
@@ -205,6 +217,7 @@ export default function ApplicationsPage() {
                       : "-"}
                   </td>
                   <td className="px-4 py-3">{item.email ?? "-"}</td>
+                  <td className="whitespace-nowrap px-4 py-3">{formatApplicationDate(item.created_at)}</td>
                   <td className="px-4 py-3">
                     <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs">
                       {statusLabels[item.status] ?? item.status}
@@ -229,7 +242,7 @@ export default function ApplicationsPage() {
                 </tr>
               ))}
               {filteredNanny.length === 0 ? (
-                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Kayit bulunamadi.</td></tr>
+                <tr><td className="px-4 py-5 text-slate-500" colSpan={7}>Kayit bulunamadi.</td></tr>
               ) : null}
             </tbody>
           </table>
@@ -245,6 +258,7 @@ export default function ApplicationsPage() {
                 <th className="px-4 py-3">İletişim</th>
                 <th className="px-4 py-3">Telefon</th>
                 <th className="px-4 py-3">Şehir</th>
+                <th className="px-4 py-3">Başvuru Tarihi</th>
                 <th className="px-4 py-3">Durum</th>
                 <th className="px-4 py-3">İşlemler</th>
               </tr>
@@ -256,6 +270,7 @@ export default function ApplicationsPage() {
                   <td className="px-4 py-3">{item.primary_contact_name}</td>
                   <td className="px-4 py-3">{item.primary_contact_phone}</td>
                   <td className="px-4 py-3">{item.city ?? "-"}</td>
+                  <td className="whitespace-nowrap px-4 py-3">{formatApplicationDate(item.created_at)}</td>
                   <td className="px-4 py-3">
                     <span className="rounded-full bg-orange-100 px-2 py-0.5 text-xs text-orange-700">
                       {familyStatusLabels[item.status] ?? item.status}
@@ -269,7 +284,7 @@ export default function ApplicationsPage() {
                 </tr>
               ))}
               {filteredFamily.length === 0 ? (
-                <tr><td className="px-4 py-5 text-slate-500" colSpan={6}>Yeni aile başvurusu yok.</td></tr>
+                <tr><td className="px-4 py-5 text-slate-500" colSpan={7}>Yeni aile başvurusu yok.</td></tr>
               ) : null}
             </tbody>
           </table>
